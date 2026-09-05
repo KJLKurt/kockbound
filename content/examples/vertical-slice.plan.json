@@ -1,0 +1,15 @@
+{
+  "documentType": "design-plan",
+  "runtimeDefinition": false,
+  "status": "proposed",
+  "milestone": "M3",
+  "map": "map.sky_ring",
+  "character": "character.base_creature",
+  "mode": "mode.arena",
+  "hazard": "hazard.disappearing_edge",
+  "notes": [
+    "Logical IDs reserve design intent only; no runtime definitions/assets exist.",
+    "Sprout is a historical concept label, not a final species commitment.",
+    "Implement one mutation before expanding Sky Ring hazards."
+  ]
+}

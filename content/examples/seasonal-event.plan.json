@@ -1,0 +1,19 @@
+{
+  "documentType": "design-plan",
+  "runtimeDefinition": false,
+  "status": "proposed",
+  "milestone": "M7",
+  "event": "event.new_year",
+  "theme": "theme.new_year",
+  "rewardCandidates": [
+    "badge.new_year_participant",
+    "accessory.new_year_crown"
+  ],
+  "requirements": [
+    "Explicit server-UTC start inclusive/end exclusive.",
+    "Pin started match eligibility.",
+    "Disable new event entry after expiry.",
+    "Keep previously earned cosmetics displayable.",
+    "Never accept offline clock or client claim as proof of participation."
+  ]
+}

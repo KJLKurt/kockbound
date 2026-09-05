@@ -1,0 +1,120 @@
+{
+  "schemaVersion": 1,
+  "sourceConversation": "https://chatgpt.com/c/6a9c044c-94d4-83ea-ab27-4033c4278de0",
+  "retrievedOn": "2026-09-05",
+  "expectedGalleryImages": 10,
+  "scope": "All ten unique images exposed by the branch media viewer at retrieval",
+  "modifications": "None; historical originals copied unchanged",
+  "assets": [
+    {
+      "file": "branch-boss-battle.png",
+      "bytes": 2549655,
+      "width": 1672,
+      "height": 941,
+      "sha256": "4b2421f6bcff51fba77ec14dcde17185c3cfe35b5c11ff16bdd9d5487c64cd34",
+      "title": "Cooperative boss encounter",
+      "sourceFileId": "file_00000000979c81f59deb0498fb73f8f3",
+      "status": "historical_exploratory_reference",
+      "visuallyReviewed": true
+    },
+    {
+      "file": "branch-cloud-king.png",
+      "bytes": 2161756,
+      "width": 1448,
+      "height": 1086,
+      "sha256": "ccfe2080c2b3d48c53c5b50a214662f85c7facc4e4acefab67e4b79d20a88e88",
+      "title": "Cloud King character and attacks",
+      "sourceFileId": "file_000000004b2c81f5a778032a4847e237",
+      "status": "historical_exploratory_reference",
+      "visuallyReviewed": true
+    },
+    {
+      "file": "branch-crown-chase.png",
+      "bytes": 2433443,
+      "width": 1672,
+      "height": 941,
+      "sha256": "7d22da9574b50c0bfc0fcc4af968d03c43fb567705cc07ba4df7f5d4a258476a",
+      "title": "Crown Chase",
+      "sourceFileId": "file_0000000080fc81f58abe74b08b0b876f",
+      "status": "historical_exploratory_reference",
+      "visuallyReviewed": true
+    },
+    {
+      "file": "branch-king-of-the-hill.png",
+      "bytes": 2531884,
+      "width": 1672,
+      "height": 941,
+      "sha256": "5fe9dc77aa76922f7beac2ad7804ad8db58b6b0d4d4848312fd585a499afd9c7",
+      "title": "King of the Hill",
+      "sourceFileId": "file_00000000720881f59ef67557fdf95f37",
+      "status": "historical_exploratory_reference",
+      "visuallyReviewed": true
+    },
+    {
+      "file": "branch-lumi-character.png",
+      "bytes": 1951175,
+      "width": 1448,
+      "height": 1086,
+      "sha256": "fc8ac24ae3090b83b763f7a96a6fe67618c973b200987f0835a3ed6126e0ca39",
+      "title": "Lumi character",
+      "sourceFileId": "file_00000000f8d081f5bb31c8f1ff53d477",
+      "status": "historical_exploratory_reference",
+      "visuallyReviewed": true
+    },
+    {
+      "file": "branch-mobile-ui.png",
+      "bytes": 2184462,
+      "width": 941,
+      "height": 1672,
+      "sha256": "bf77c029d5bcf32daac4aae07b251a68b97e2a553e0364f82a9f144fca00e3c9",
+      "title": "Mobile home, shop and match HUD",
+      "sourceFileId": "file_00000000f8c081f5890bf3483b2c7d04",
+      "status": "historical_exploratory_reference",
+      "visuallyReviewed": true
+    },
+    {
+      "file": "branch-sky-ring.png",
+      "bytes": 2286206,
+      "width": 1672,
+      "height": 941,
+      "sha256": "b1785280c40499b316f826f31f3bc292cfa3d98f50968d43097f84638d04ac4e",
+      "title": "Expanded Sky Ring",
+      "sourceFileId": "file_0000000028e081f5a205875c96d60ae2",
+      "status": "historical_exploratory_reference",
+      "visuallyReviewed": true
+    },
+    {
+      "file": "branch-social-lobby.png",
+      "bytes": 2616787,
+      "width": 1672,
+      "height": 941,
+      "sha256": "112e725a0de34648ce0373ae8953b034c071cf9237a4bf4711966acb91c8d6bc",
+      "title": "Social lobby",
+      "sourceFileId": "file_000000002cf081f5b934ad1951429ff7",
+      "status": "historical_exploratory_reference",
+      "visuallyReviewed": true
+    },
+    {
+      "file": "concept-01.png",
+      "bytes": 2153241,
+      "width": 1672,
+      "height": 941,
+      "sha256": "34bf320164f3bb6b92dccc4f90cd45173c515f251de0aeea8e8d620d68fd5431",
+      "title": "Original Sky Ring",
+      "sourceFileId": "file_000000009cb081f593aa6faab7f81c69",
+      "status": "historical_exploratory_reference",
+      "visuallyReviewed": true
+    },
+    {
+      "file": "concept-02.png",
+      "bytes": 2048404,
+      "width": 1448,
+      "height": 1086,
+      "sha256": "62ba21b19d04e6b110232131812c19b7e27c5c6ba4c97d46acda537f589c187f",
+      "title": "Sprout character",
+      "sourceFileId": "file_00000000540081f59eb06f96e2d9fbf1",
+      "status": "historical_exploratory_reference",
+      "visuallyReviewed": true
+    }
+  ]
+}

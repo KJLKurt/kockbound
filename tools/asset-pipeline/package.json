@@ -1,0 +1,9 @@
+{
+  "name": "knockbound-asset-pipeline",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@11.19.0",
+  "engines": {"node": "24.19.0"},
+  "scripts": {"preview": "node preview-server.mjs", "validate": "node validate-glb.mjs"},
+  "dependencies": {"three": "0.180.0", "gltf-validator": "2.0.0-dev.3.10"}
+}

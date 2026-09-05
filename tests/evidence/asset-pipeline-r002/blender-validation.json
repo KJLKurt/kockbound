@@ -1,0 +1,22 @@
+{
+  "status": "PASS",
+  "blender": "5.2.1 LTS",
+  "checks": [
+    "missing socket rejected",
+    "missing/unexpected clip rejected",
+    "negative scale rejected",
+    "fresh Blender GLB reimport: all six rest bounds match metadata"
+  ],
+  "reimport_bounds_blender": [
+    [
+      -0.7155651450157166,
+      -0.3413703441619873,
+      -3.8746600239392137e-07
+    ],
+    [
+      0.7155651450157166,
+      0.7192239165306091,
+      1.9591102600097656
+    ]
+  ]
+}

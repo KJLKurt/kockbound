@@ -9,7 +9,7 @@ Use [the branch addendum](BRANCH_DESIGN_ADDENDUM.md) for attack/weak-point detai
 ## Character and shape language
 
 Start with one distinctive creature whose clothing reads clearly. Large head, compact torso, oversized expressive hands/feet, readable face and silhouette. Avoid anonymous blob avatars, realistic anatomy and unrelated asset-pack characters.
-New production default: roughly 3.5 heads tall, two dominant body masses, broad rounded forms with a few purposeful angular costume accents. Final silhouette, face and palette require concept comparison and in-game scale review at M3; these proportions may change.
+The original 3.5-head numerical default is superseded for the current prototype by the recovered concept proportions: about 2.6 head heights excluding fins, two dominant masses, broad rounded forms and purposeful angular fin accents. See [the provisional selection and asset contract](CHARACTER_ASSET_CONTRACT.md). Final production identity, face and palette still require M3 review in the actual game.
 
 Use one humanoid rig and standardized sockets. Skin hue and clothing are expression, not team recognition alone. Player number/name marker, ground ring and shape/icon reinforce identification. Rare effects cannot conceal attacks or increase apparent hit range. All outfits preserve collision fairness.
 

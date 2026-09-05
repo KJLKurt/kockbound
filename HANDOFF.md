@@ -6,6 +6,8 @@ Before visual production or M4 mode/co-op work, review [the full concept gallery
 
 ## First implementation assignment (ready to copy into the next task)
 
+Asset pipeline follow-up (2026-09-05): one explicitly authorized preproduction character now exists independently of gameplay milestones. For any asset work, start with [the character contract](docs/CHARACTER_ASSET_CONTRACT.md), [repeatable commands and next-character instructions](tools/asset-pipeline/README.md), and [actual evidence/limitations](tests/evidence/asset-pipeline/README.md). Do not rebuild over manual source edits or infer authorization for a catalog. The M1 assignment below is still unimplemented.
+
 Implement M1 only from docs/MILESTONES.md: a local Knockbound physics prototype with one keyboard player and CPU opponents, simple arena, movement, dash, collisions, knockback, ring-out, winner and restart. Use the shared simulation and mode boundaries from docs/TECHNICAL_ARCHITECTURE.md. Use the documented tunable defaults, run the M1 acceptance scenarios, and make the prototype playable locally. Record tuning observations and evidence. Stop after M1 with a clear handoff; do not implement M2 or the mature game automatically.
 
 Before coding, inspect the machine, choose and pin compatible TypeScript/build/test tooling, document commands, and create only dependencies needed for M1. No cloud credentials are needed for M1.

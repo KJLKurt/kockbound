@@ -1,0 +1,22 @@
+{
+  "status": "PASS",
+  "blender": "5.2.1 LTS",
+  "checks": [
+    "missing socket rejected",
+    "missing/unexpected clip rejected",
+    "negative scale rejected",
+    "fresh Blender GLB reimport with skin and 1.965 m height"
+  ],
+  "reimport_bounds_blender": [
+    [
+      -0.6999999284744263,
+      -0.37700000405311584,
+      8.11366476227704e-08
+    ],
+    [
+      0.6999999284744263,
+      0.7255768775939941,
+      1.964999794960022
+    ]
+  ]
+}

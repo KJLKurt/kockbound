@@ -1,5 +1,5 @@
 # assets/runtime
 
-Reviewed exports only. Empty at bootstrap; historical concepts are not runtime assets.
+One validated pipeline candidate is available: [Sprout GLB](character.sprout-prototype/r001/sprout-prototype.glb) and [metadata](character.sprout-prototype/r001/asset.json). Historical concepts are not runtime assets.
 
-Status: ownership scaffold only; no runtime implementation. See repository HANDOFF.md and active milestone before adding code.
+Status: locally reviewed prototype, not a published production release. See [contract](../../docs/CHARACTER_ASSET_CONTRACT.md) and [evidence](../../tests/evidence/asset-pipeline/README.md).

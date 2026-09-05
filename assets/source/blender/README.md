@@ -1,5 +1,5 @@
 # assets/source/blender
 
-Editable Blender masters grouped by stable asset ID; pin rig/export versions in M3.
+Editable Blender masters grouped by stable asset ID. One [Sprout pipeline prototype](character.sprout-prototype/sprout-prototype.blend) is available, with topology, palette, rig, clips and review studio.
 
-Status: ownership scaffold only; no runtime implementation. See repository HANDOFF.md and active milestone before adding code.
+Status: prototype only. Follow [the contract](../../../docs/CHARACTER_ASSET_CONTRACT.md) and [pipeline commands](../../../tools/asset-pipeline/README.md); no production asset approval.

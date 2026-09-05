@@ -1,6 +1,6 @@
 # Blender production pipeline
 
-Target workflow, not an installed exporter. Exact Blender/exporter versions and compatible options must be verified and pinned in M3 before producing assets. Editable masters remain .blend; runtime uses GLB/glTF. Three.js documents glTF as a runtime delivery format; correct origins and scale must be authored deliberately. [Three.js loading guide](https://threejs.org/manual/en/load-gltf.html).
+The initial workflow is now implemented and proved for one explicitly authorized prototype. Use [character contract v0.1](CHARACTER_ASSET_CONTRACT.md), [runnable tooling/handoff](../tools/asset-pipeline/README.md), and [validation evidence](../tests/evidence/asset-pipeline/README.md). Blender 5.2.1 LTS / exporter v5.2.40 and Three.js 0.180.0 are pinned. Broader production gates below remain future work. Editable masters remain .blend; runtime uses GLB/glTF. [Three.js loading guide](https://threejs.org/manual/en/load-gltf.html).
 
 ## Directory and naming contract
 

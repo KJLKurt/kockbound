@@ -1,6 +1,6 @@
 # Milestone plan
 
-M0 is this bootstrap. Everything else is unimplemented. Acceptance IDs refer to ACCEPTANCE_CRITERIA.md. Later milestones require a new implementation assignment; this document is not permission to execute all of them.
+M0 is the bootstrap. An explicitly authorized preproduction exception now proves one character and Blender asset pipeline; see STATUS. M1–M9 remain unimplemented as complete milestones. Acceptance IDs refer to ACCEPTANCE_CRITERIA.md. Later milestones require a new implementation assignment; this document is not permission to execute all of them.
 
 | Milestone | Depends on | Deliverable | Exit gate |
 |---|---|---|---|

@@ -58,6 +58,8 @@ Hybrid local-online seats, full service-worker offline reload, a social 3D hub, 
 
 ## Change log
 
+2026-09-05 asset pipeline session: explicit user scope authorizes one character and Blender pipeline ahead of M1, without broad game/art production. DEFAULT D21: Sprout-derived prototype after Sprout/Lumi comparison; recovered compact proportions supersede 3.5-head default for this proof only. DEFAULT D22: character-contract-v0.1 / rig.knockbound_v1_prototype, 1.965 m height, 10,738 triangles, two vertex-color materials, 20 deform bones plus root/13 sockets. DEFAULT D23: direct Blender 5.2.1 Python and glTF exporter v5.2.40; isolated Three.js 0.180.0 preview, Node 24.19.0/pnpm 11.19.0, Khronos validator 2.0.0-dev.3.10. No image generation or external production assets. Three proof clips only; final rig and seven other production clips remain pending. Full contract and rationale: [CHARACTER_ASSET_CONTRACT](CHARACTER_ASSET_CONTRACT.md).
+
 2026-09-05: recovered all 89 foundation topics and later amendments; established rename; created M0 package; added explicitly labeled prototype/pipeline defaults and acceptance gates. No tuning or gameplay validation has occurred.
 
 2026-09-05 branch recovery follow-up: added eight original PNGs to complete the observed ten-image gallery. Added [detailed branch consolidation](BRANCH_DESIGN_ADDENDUM.md). Preserved Lumi alongside Sprout; retained named Cloud King attacks, alternate boss treatment, crown transfer illustration, team Hill meter, social hub and portrait UI. Image-only dual currency/jump/three-phase/ranked details remain candidates; no silent economy, input or milestone expansion. Previous image-retrieval limitation is resolved for all ten images exposed by the branch viewer.

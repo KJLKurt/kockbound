@@ -35,7 +35,7 @@ Implement these as small TypeScript interfaces and pure functions when M1 begins
 | Vulnerability recovery | 0.1/s after 2 seconds without a hit |
 | Impulse speed cap | 22 units/s |
 | Input timeout | 250 ms before neutral movement |
-| Standard round / sudden death | 180 s / last 30 s |
+| Standard round / sudden death | 180 s / last 30 s; local M1 preset now 90 s / last 30 s (D25) |
 | Reconnect grace | 10 s (recovered example) |
 
 Normalize diagonal movement. Store voluntary movement velocity separately from external impulse so steering cannot instantly erase a hit. Approach desired movement velocity with bounded acceleration; decay impulse with a documented damping parameter (start 4/s). Dash uses last nonzero move direction, or facing when standing; no automatic invulnerability.
@@ -58,7 +58,7 @@ M1 bots perceive current public world state and output ordinary controls. Start 
 
 ## Host and input policy
 
-The [branch addendum](BRANCH_DESIGN_ADDENDUM.md) retains the original candidate host-option ranges and mobile mockup details. These are not extra M1 controls. Jump/pad-launch and crown-transfer behavior require explicit typed rules when selected; two-currency UI, three boss phases and portrait mockups do not silently replace the written prototype defaults. M4 mobile exploration should compare the recovered portrait layout with the landscape default and record readability findings.
+The [branch addendum](BRANCH_DESIGN_ADDENDUM.md) retains the original candidate host-option ranges and mobile mockup details. These are not extra M1 controls. Jump/pad-launch and crown-transfer behavior require explicit typed rules when selected; two-currency UI, three boss phases and portrait mockups do not silently replace the written prototype defaults. The explicit phone priority D38 brings portrait/landscape touch controls and real-device readability checks into the current slice; compare the recovered mobile layout without changing authoritative rules.
 
 Public Arena preset: up to 12 total participants, FFA, one life, respawns disabled, standard knockback; target initial tests with four.
 M4 local: 1–4 humans, bots fill up to configured capacity. Device joins bind stable seats; disconnect pauses local session and prompts reassignment, never steals another seat.
@@ -76,3 +76,4 @@ No fake shop balances or fabricated backend success. Offline prototype results a
 SQL migrations must establish unique entitlement and reward receipt keys; wallet balance and ledger changes are atomic. Minimum ledger fields: transactionId, userId, signed amount, type, source ID, createdAt, reversalOf when applicable. Result processing stores eligibility, rule version and immutable source evidence.
 Global daily challenges derive from server UTC date and seeded rotation; approximately three templates, purchase-free and feasible in eligible modes. Claim is idempotent; late processing uses recorded event period.
 Exact provider/schema indexes, guest merge policy and production retention are implementation decisions before those services ship, not M1 dependencies.
+

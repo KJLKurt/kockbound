@@ -1,6 +1,10 @@
 # Initial character asset contract · v0.1
 
-Status: validated pipeline prototype, 2026-09-05. This is a reversible preproduction contract, not publication of the final rig.knockbound_v1 or approval of M3. Session scope explicitly authorized one character and pipeline work ahead of gameplay milestones. See [pipeline commands](../tools/asset-pipeline/README.md), [evidence](../tests/evidence/asset-pipeline/README.md), and [machine-readable rest rig/export metadata](../assets/runtime/character.sprout-prototype/r001/asset.json).
+Status: validated pipeline prototype, 2026-09-05. This is a reversible preproduction contract, not publication of the final rig.knockbound_v1 or approval of M3. Session scope explicitly authorized one character and pipeline work ahead of gameplay milestones. See [pipeline commands](../tools/asset-pipeline/README.md), [r002 evidence](../tests/evidence/asset-pipeline-r002/README.md), and [machine-readable rest rig/export metadata](../assets/runtime/character.sprout-prototype/r002/asset.json).
+
+## Current animation candidate (2026-09-07)
+
+Sprout r003 and Lumi r002 now export all ten clip names with the same rig and geometry. Separate sprout-animated.blend/lumi-animated.blend sources preserve prior masters. See M3-animation-sprout and M3-animation-lumi evidence for actual pose review, unchanged root/skin checks and remaining facial/deformation limits. Earlier three-clip statements below describe the original proof and are superseded for these new candidates; they remain true of r002 Sprout/r001 Lumi. No finished-character approval is implied.
 
 ## Visual selection
 
@@ -16,11 +20,17 @@ The simulation remains planar X/Z with the existing radius 0.45 m circle from IM
 
 ## Mesh, material and texture limits
 
-Target ≤12,000 triangles, ≤4 material primitives, ≤64 deform bones, ≤4 normalized bone weights/vertex, ≤1 MiB uncompressed prototype GLB. Current export: 10,738 triangles, 5,491 exported vertices, two material primitives, 20 deform bones and 34 total joints including root/sockets; 445,344 bytes. No mesh compression or decoder dependency is needed at this size. Budgets are unprofiled initial ceilings.
+Target ≤12,000 triangles, ≤4 material primitives, ≤64 deform bones, ≤4 normalized bone weights/vertex, ≤1 MiB uncompressed prototype GLB. Current r002 export: 11,415 triangles, two material primitives, 20 deform bones and 34 total joints including root/sockets; 483,004 bytes. No mesh compression or decoder dependency is needed at this size. Budgets are unprofiled initial ceilings.
 
 One editable joined mesh contains disconnected modeled body/garment/face parts. `Color` is a BYTE_COLOR/CORNER attribute authored in sRGB, exported as glTF COLOR_0 with linear interpretation handled by Blender. Two Principled-compatible materials: matte roughness 0.68 and eyes roughness 0.25, metallic 0, opaque, no transmission. Palette: cream FFE4BB, blue 2879CD, cyan 59D5EA, coral F37F9B, navy 162D50, warm white FFF7E8. These are provisional art swatches, not team rules.
 
 There are no external textures or required UVs in this profile. Future textured characters may use a packed 1K atlas with base color sRGB and normal/ORM linear; any such change needs a texture-aware validator and loader review before adoption. Studio light rigs, ground and cameras remain in `STUDIO_DO_NOT_EXPORT` and are excluded from GLB.
+
+## Modular authoring
+
+The r002 source keeps reusable authoring pieces in hidden `AUTHORING_MODULES/BODY`, `AUTHORING_MODULES/OUTFIT`, and `AUTHORING_MODULES/SHOES` collections. The visible `RUNTIME` collection is the assembled export representation: one joined skinned mesh plus the shared armature. Edit or replace a module, then run `assemble_character.py`; it rebuilds only the visible assembly and re-exports the same revision. Keep covered body geometry in BODY marked `covered_by_default_outfit` so it remains available for future outfit variants without adding triangles to the default GLB.
+
+Accessories should be separate small GLBs or source objects parented to the published `socket.*` bones. Use sockets for hats, badges, backpacks, held props and trails; keep fitted clothing and shoes weighted to the shared deform bones. Cosmetic geometry never changes the gameplay circle or authoritative collision.
 
 ## Skeleton and bind pose
 
@@ -73,3 +83,8 @@ Run the pinned exporter from a saved source in a fresh Blender process. Export o
 Validate source → export → Khronos validator → independent Three.js load → fresh Blender reimport → browser visual review. Asset scripts have no simulation, server, economy or networking dependency. In a future client, use GLTFLoader and AnimationMixer as the preview demonstrates, transform the entire loaded scene under a participant render container, and attach cosmetics to the loaded skeleton. For repeated participants, clone using SkeletonUtils.clone; ordinary Object3D.clone does not establish independent skin bindings. That multiplayer path has not been implemented or tested.
 
 Reference behavior: [Blender glTF manual](https://docs.blender.org/manual/en/3.6/addons/import_export/scene_gltf2.html), [Three.js GLTFLoader](https://threejs.org/docs/pages/GLTFLoader.html), [Three.js animation system](https://threejs.org/manual/en/animation-system.html). Exact settings were verified against the installed Blender 5.2.1 exporter RNA/source; generic documentation is not a substitute for the pinned profile.
+
+
+## Roster expansion 2026-09-08
+
+Separate Pebble/Wisp r001 sources and full animation GLBs now share this bind rig. See ROSTER_CONTRACT.md and M3-roster evidence. Classic/Sunset/Mint/Violet palette variants never alter collision or stats. Local picker works and persists; online selected cosmetics and remaining production-quality gates are still pending.

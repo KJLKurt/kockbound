@@ -1,0 +1,5 @@
+import * as THREE from 'three';
+import {SKINS,type Skin} from '../../shared/content/characters.ts';
+/** Recolors cool accent vertices only, retaining cream, dark outlines and highlights. */
+export function applySkin(model:THREE.Object3D,skin:Skin){const hue=SKINS[skin].hue;if(hue===null)return;const c=new THREE.Color(),hsl={h:0,s:0,l:0};model.traverse(object=>{if(!(object instanceof THREE.Mesh)||!object.geometry.getAttribute('color'))return;object.geometry=object.geometry.clone();object.userData.ownedPaletteGeometry=true;const colors=object.geometry.getAttribute('color');for(let i=0;i<colors.count;i++){c.fromBufferAttribute(colors,i).convertLinearToSRGB();c.getHSL(hsl);if(hsl.h>.45&&hsl.h<.76&&hsl.s>.22&&hsl.l>.17){c.setHSL(hue,hsl.s,hsl.l).convertSRGBToLinear();colors.setXYZ(i,c.r,c.g,c.b);}}colors.needsUpdate=true;});}
+export function disposeSkin(model:THREE.Object3D){model.traverse(object=>{if(object instanceof THREE.Mesh&&object.userData.ownedPaletteGeometry)object.geometry.dispose();});}

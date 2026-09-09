@@ -7,18 +7,25 @@ import * as THREE from 'three';
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
 import assert from 'node:assert/strict';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../..');
-const revision=process.argv[2]??'r001'; assert.ok(['r001','r002'].includes(revision));
-const evidence=path.join(root,'tests/evidence',revision==='r001'?'asset-pipeline':'asset-pipeline-r002');
+const revision=process.argv[2]??'r001'; assert.ok(['r001','r002','r003'].includes(revision));
+const assetId=process.argv[3]??'character.sprout-prototype';
+const evidenceName=process.argv[4]??(assetId==='character.sprout-prototype'?(revision==='r001'?'asset-pipeline':'asset-pipeline-r002'):'asset-pipeline-'+assetId.replaceAll('.','-'));
+const evidence=path.join(root,'tests/evidence',evidenceName);
 fs.mkdirSync(evidence,{recursive:true});
-const dir=path.join(root,'assets/runtime/character.sprout-prototype',revision);
+const dir=path.join(root,'assets/runtime',assetId,revision);
 const bytes=fs.readFileSync(path.join(dir,'sprout-prototype.glb'));
 const meta=JSON.parse(fs.readFileSync(path.join(dir,'asset.json')));
+if((assetId==='character.sprout-prototype'&&revision==='r003')||(assetId==='character.lumi-prototype'&&revision==='r002'))assert.deepEqual(meta.clips,['dash','eliminated','emote_01','emote_02','falling','hit','idle','run','stunned','victory'],'Animation candidate requires the complete library');
 const hash=b=>createHash('sha256').update(b).digest('hex');
 assert.equal(hash(bytes),meta.glb_sha256,'Stale GLB metadata');
 assert.equal(hash(fs.readFileSync(path.join(root,meta.source))),meta.source_sha256,'Source changed since export');
-if(revision==='r002') {
+if(assetId==='character.sprout-prototype' && ['r002','r003'].includes(revision)) {
   const prior=JSON.parse(fs.readFileSync(path.join(root,'assets/runtime/character.sprout-prototype/r001/asset.json')));
   assert.deepEqual(meta.bones,prior.bones,'Refinement changed shared bind rig');
+}
+if(assetId==='character.lumi-prototype') {
+  const prior=JSON.parse(fs.readFileSync(path.join(root,'assets/runtime/character.sprout-prototype/r002/asset.json')));
+  assert.deepEqual(meta.bones,prior.bones,'Lumi variant changed shared bind rig');
 }
 const report=await validator.validateBytes(new Uint8Array(bytes),{uri:'sprout-prototype.glb',maxIssues:100});
 fs.writeFileSync(path.join(evidence,'khronos-validation.json'),JSON.stringify(report,null,2)+'\n');
@@ -42,6 +49,7 @@ for(const b of meta.bones) assert.ok(gltf.scene.getObjectByName(b.name.replaceAl
 const mixer=new THREE.AnimationMixer(gltf.scene);
 const animationEvidence=[];
 const restRoot=rootBone.position.clone();
+const restRotation=rootBone.quaternion.clone(),restScale=rootBone.scale.clone();
 for(const clip of gltf.animations) {
   mixer.stopAllAction(); const action=mixer.clipAction(clip).play();
   const poses=[];
@@ -50,6 +58,7 @@ for(const clip of gltf.animations) {
     const bound=new THREE.Box3().setFromObject(gltf.scene,true);
     assert.ok([...bound.min,...bound.max].every(Number.isFinite),'Nonfinite animated bounds');
     assert.ok(rootBone.position.distanceTo(restRoot)<1e-6,'Authoritative root motion');
+    assert.ok(rootBone.quaternion.angleTo(restRotation)<1e-6&&rootBone.scale.distanceTo(restScale)<1e-6,'Root rotation/scale changed');
     const arm=gltf.scene.getObjectByName('upper_armL');
     poses.push({t,bounds:[bound.min.toArray(),bound.max.toArray()],armQuaternion:arm.quaternion.toArray()});
   }

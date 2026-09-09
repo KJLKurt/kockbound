@@ -1,0 +1,176 @@
+{
+  "id": "audio.sky-ring",
+  "revision": "r001",
+  "bpm": 120,
+  "bars": 32,
+  "loopSeconds": 64,
+  "sampleRate": 22050,
+  "channels": 1,
+  "source": "assets/source/audio/sky-ring/score.mjs",
+  "rights": "Original repository-authored composition and synthesis; no external samples",
+  "status": "mix-review-pending",
+  "records": [
+    {
+      "name": "harmony",
+      "seconds": 64,
+      "bytes": 2822444,
+      "peak": 0.2169734537601471,
+      "rms": 0.044220727835004824,
+      "seamDelta": 0.0018021450378000736,
+      "sha256": "06f0fb9be976843582ef35af6a86eba1c6f1b6fd63573ab60a6461223cce57ba"
+    },
+    {
+      "name": "rhythm",
+      "seconds": 64,
+      "bytes": 2822444,
+      "peak": 0.2475706785917282,
+      "rms": 0.05157149310499748,
+      "seamDelta": 0,
+      "sha256": "fc7e8d5cf7c4a28d1a14f84bca31956621d8b1c1bc2b06325daed24b3715a9ef"
+    },
+    {
+      "name": "spark",
+      "seconds": 64,
+      "bytes": 2822444,
+      "peak": 0.13536910712718964,
+      "rms": 0.016326077885482338,
+      "seamDelta": 0.0031404602341353893,
+      "sha256": "061205ca5eb606aa17f6309322f40e22e3f0e9e36179c4db4c7382e075080e3b"
+    },
+    {
+      "name": "dash-0",
+      "seconds": 0.32,
+      "bytes": 14156,
+      "peak": 0.2572669982910156,
+      "rms": 0.0788137866653305,
+      "seamDelta": 0,
+      "sha256": "96ef8476664c8cd9bb6f9770ee396ad110d8778aaa464c6e319872e4848f9e42"
+    },
+    {
+      "name": "dash-1",
+      "seconds": 0.32,
+      "bytes": 14156,
+      "peak": 0.2612132728099823,
+      "rms": 0.0796387717947356,
+      "seamDelta": 0,
+      "sha256": "cccc8721165f15e96ee23ae5c2ca1fe83b338a22515b56ff0afbac85c3651919"
+    },
+    {
+      "name": "dash-2",
+      "seconds": 0.32,
+      "bytes": 14156,
+      "peak": 0.2579514682292938,
+      "rms": 0.08019549874958284,
+      "seamDelta": 0,
+      "sha256": "1ecbaedc26e88435bdc9a9f8ecb5a78adca0a068b84421165a6df18e43bfc6e4"
+    },
+    {
+      "name": "hit-0",
+      "seconds": 0.2800453514739229,
+      "bytes": 12394,
+      "peak": 0.595924973487854,
+      "rms": 0.11909343564598891,
+      "seamDelta": 0,
+      "sha256": "30b7f1d2c50cc72e0ef1acbd956893fc452ae75d4e0179a2a43a7d34d8a3d3f3"
+    },
+    {
+      "name": "hit-1",
+      "seconds": 0.2800453514739229,
+      "bytes": 12394,
+      "peak": 0.6306270956993103,
+      "rms": 0.1196391834886401,
+      "seamDelta": 0,
+      "sha256": "de4248f0dcf837efaa7b6fdd175c28fd149ea6097cd1c8f5a56e34b640ea611b"
+    },
+    {
+      "name": "hit-2",
+      "seconds": 0.2800453514739229,
+      "bytes": 12394,
+      "peak": 0.624311089515686,
+      "rms": 0.11939398511773579,
+      "seamDelta": 0,
+      "sha256": "b727187af6b50f148247425a504bea37affc31b5d100947e2cfd8359b19a68b6"
+    },
+    {
+      "name": "ringout-0",
+      "seconds": 0.7,
+      "bytes": 30914,
+      "peak": 0.15748366713523865,
+      "rms": 0.06428321793012151,
+      "seamDelta": 0,
+      "sha256": "b7d00867ae56f7de4b9993261c4daea572d505c927c18f44befcb909fedb9a0e"
+    },
+    {
+      "name": "ringout-1",
+      "seconds": 0.7,
+      "bytes": 30914,
+      "peak": 0.15757223963737488,
+      "rms": 0.06439143392273733,
+      "seamDelta": 0,
+      "sha256": "9df931faea4f78cd4bad656714a929a65df51f32b887838d66a10d7e3c22b13f"
+    },
+    {
+      "name": "ringout-2",
+      "seconds": 0.7,
+      "bytes": 30914,
+      "peak": 0.15728946030139923,
+      "rms": 0.06437896271097956,
+      "seamDelta": 0,
+      "sha256": "9eb7745e790bcbb89f6b1edacb2982e7c27156900087517405d7d555217259cf"
+    },
+    {
+      "name": "warning-0",
+      "seconds": 0.9,
+      "bytes": 39734,
+      "peak": 0.2904999554157257,
+      "rms": 0.10656568659814238,
+      "seamDelta": 0,
+      "sha256": "ab57d28b275edf256c2adbd005a82c31b8ec00040eeed0ab52137185094583b7"
+    },
+    {
+      "name": "countdown-0",
+      "seconds": 0.2,
+      "bytes": 8864,
+      "peak": 0.2693447172641754,
+      "rms": 0.11595122326259823,
+      "seamDelta": 0,
+      "sha256": "b80a9034e565539349bd17f10a41be942c14d9b536d7ac36a5d05af9356376f3"
+    },
+    {
+      "name": "go-0",
+      "seconds": 0.5500226757369614,
+      "bytes": 24300,
+      "peak": 0.49000468850135803,
+      "rms": 0.11826719582780909,
+      "seamDelta": 0,
+      "sha256": "763cccb27c566f98fe6e166ee382fcf7539831ebd3a760bd564e15f49f8a4a50"
+    },
+    {
+      "name": "victory-0",
+      "seconds": 1.9,
+      "bytes": 83834,
+      "peak": 0.3021657168865204,
+      "rms": 0.07999707197136854,
+      "seamDelta": 0,
+      "sha256": "b5036bd83600712334644e1257acbf57475460909d3342e708163c0889facac6"
+    },
+    {
+      "name": "defeat-0",
+      "seconds": 1.3,
+      "bytes": 57374,
+      "peak": 0.25485390424728394,
+      "rms": 0.07061658172261319,
+      "seamDelta": 0,
+      "sha256": "a85051793f20a16d9b3adaf05a6f71378bc195f816d77858df2b2a1318af1c93"
+    },
+    {
+      "name": "ui-0",
+      "seconds": 0.15002267573696146,
+      "bytes": 6660,
+      "peak": 0.1719796061515808,
+      "rms": 0.08090923517858017,
+      "seamDelta": 0,
+      "sha256": "24d55b21c1c298674abcde3229551ee7d48146e80bfc7debc099045041205676"
+    }
+  ]
+}

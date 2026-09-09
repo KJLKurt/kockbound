@@ -1,6 +1,6 @@
 # Art direction
 
-Established direction: polished colorful stylized 3D, expressive small humanoid creatures, elevated arena view, playful nonviolent chaos. The historical concepts are exploratory references, not locked character topology or exact UI. Do not interpret a request for a phone mockup as a mobile-first platform change.
+Established direction: polished colorful stylized 3D, expressive small humanoid creatures, elevated arena view, playful nonviolent chaos. The historical concepts are exploratory references, not locked character topology or exact UI. The current user explicitly requires phone play (D38); design and verify small-screen readability and thumb controls now. Historical mockups alone did not authorize that platform change.
 
 Recovered references now include [all ten sheets](CONCEPT_ART_GALLERY.md): the original Sky Ring/Sprout concepts plus Lumi, expanded Sky Ring, Hill, Crown Chase, Cloud King, boss encounter, social lobby and mobile UI. Sprout's cream body/blue-pink fins and Lumi's blue long-eared silhouette/orange scarf are distinct explorations; compare both at gameplay scale before selecting the production base. Preserve their expressiveness, clothing-friendly anatomy and coherent blue/gold sky-world language. The sheets' proportions take visual precedence over an untested numerical proportion default. Historical logo text must be replaced with Knockbound in new production assets.
 

@@ -1,0 +1,15 @@
+# Sprout expanded animation candidate
+
+Criteria: partial V01/V02/V03. Revision: character.sprout-prototype/r003, 607,140 bytes; 11,415 triangles, two primitives, unchanged 34-bone bind rig and 0.45 m gameplay collider. Date/tester: 2026-09-07, Codex; Blender 5.2.1, Three r180, Node 24.19.0, Windows.
+
+Saved original `sprout-refined.blend` remains intact. New editable candidate: `assets/source/blender/character.sprout-prototype/sprout-animated.blend`. Seven new authored actions expand idle/run/dash to all ten required names: hit, stunned, falling, eliminated, victory, emote_01 (wave), emote_02 (dance). Original geometry, bind rig and proof actions were retained. No outside mesh/animation asset or new species was introduced.
+
+Actual validation: exporter/source checks pass; [Khronos validation](khronos-validation.json) zero errors/warnings; [Three loader/clip samples](loader-validation.json) pass with stationary root position/rotation/scale and independent coordinate fixture; [fresh Blender reimport](blender-reimport.json) finds ten actions and matching rest bounds. Complete clip-name set is enforced for this revision.
+
+Rendered actual source poses for all ten clips. Visual review found the initial arm rotations brought hands toward the chest rather than clearly upward. Updated wave/victory/falling using actual bind-bone directions, re-exported/revalidated both characters, and rendered affected poses again. Examples: [victory](victory.png), [wave](emote_01.png), [falling](falling.png), [hit](hit.png). The correction improves pose readability; it does not establish flawless continuous motion or deformation.
+
+Game integration: non-looping action states, hit recoil with restrained squash, brief dash recovery, impulse stagger, falling/eliminated poses and winner celebration; Wave hello/Happy dance buttons in lobby. Sprout's corrected wave and Lumi's dance were inspected in the actual narrow 639×642 browser panel. One Lumi solo round reached a 63-second result; a following round accepted a dash and displayed its cooldown. No browser recording or outside playtest is claimed.
+
+Commands run: `expand_animations.py` through pinned background Blender, then `--refresh-generated` to revise only this session's generated clips; `review_animations.py` (all poses, then `--affected-only`); `validate-glb.mjs r003 character.sprout-prototype M3-animation-sprout`; corresponding Lumi validation; strict TypeScript; static build; full Node game suite. Full-suite output is recorded in [full-tests.txt](full-tests.txt).
+
+Status: **animation candidate, not finished V01 approval**. Source retains rigid/disconnected-part prototype weighting and fixed facial expressions. Shoulder/wrist continuity, facial responses, foot contacts, continuous transitions, crowd/wider-camera and effect-heavy recordings still need review/refinement. Pose renders are static samples. These files complete the named animation library, not every production-quality gate. Continue animation/deformation/VFX polish and outstanding audio/telegraph/performance checks.

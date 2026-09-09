@@ -34,7 +34,7 @@ def export_character():
     assert {'socket.'+s for s in expected_sockets}<={b.name for b in rig.data.bones}, 'Missing socket'
     source=Path(bpy.data.filepath); assert source.is_file(), 'Save source before exporting'
     asset=rig['asset_id']; revision=rig.get('revision','r001')
-    assert revision in ('r001','r002'), 'Unknown candidate revision'
+    assert revision in ('r001','r002','r003'), 'Unknown candidate revision'
     out=ROOT/'assets/runtime'/asset/revision; out.mkdir(parents=True,exist_ok=True)
     oldaction=rig.animation_data.action; oldframe=bpy.context.scene.frame_current
     rig.animation_data.action=None

@@ -1,0 +1,77 @@
+✔ sound recovers from a failed download and resumes interruptions without duplicate music layers (80.8346ms)
+✔ Audio preferences survive malformed storage without NaN or out-of-range gains (1.3395ms)
+✔ Exported music stems align exactly; effects have faded boundaries and all PCM retains headroom (140.0221ms)
+✔ N02/N05: strict schema excludes forged state/rewards, malformed and incompatible packets (56.5648ms)
+✔ N02: dash spam is rejected during cooldown and message queues remain bounded (4.2245ms)
+✔ N01 local fixture: four independent peers observe identical outcomes in ten matches, matching local authority (378.198ms)
+✔ N04: reconnect restores seat, old socket loses control, neutral state and next sequence are explicit (1.5792ms)
+✔ N04/N05: exact grace expiry eliminates once; late/mismatched admission cannot enter (51.3782ms)
+✔ N04: same-tick disconnected final seats draw, including grace expiry during countdown (2.0747ms)
+✔ N05: neutral message cancels pending action and acknowledges release; waiting room cannot simulate (1.6798ms)
+✔ N01/N06: 12-seat backlog is disconnected rather than queued; cancel is terminal and idempotent (18.8025ms)
+✔ camera-relative controls preserve input identity, speed and dash while rotating movement (2.8144ms)
+✔ graphics loss permits restoration and reports one transition per loss/recovery (2.7095ms)
+✔ crate ignores proximity and invalid dash; actual dash reveals exactly one enabled item (30.7088ms)
+✔ full slot does not consume crate reward; expiry and crate-only settings never enable excluded items (12.4955ms)
+✔ impact bursts stay bounded and release expired materials without removing world objects (10.1105ms)
+✔ shovel extends forward dash reach without widening ordinary body collisions (37.0639ms)
+✔ big mode reduces blast impulse and expires without resetting through a drop (2.6224ms)
+✔ helicopter rescues exactly one fall but cannot evade a server forfeit (6.1858ms)
+✔ one slot proximity pickup, drop grace and fuse preservation prevent reset exploits (7.0399ms)
+✔ throw detonates after twenty ticks, pushes/stuns and cannot be picked up in flight (3.9386ms)
+✔ held bombs expire, disabled catalog stays empty, seeded items replay identically (290.8734ms)
+✔ Client rejects malformed snapshots before rendering and accepts the real server envelope (23.9779ms)
+✔ Prediction moves only the local player and cannot invent a hit, elimination or result (4.504ms)
+✔ A jitter backlog cannot multiply the prediction horizon or lose its queued dash edge (1.0992ms)
+✔ Remote interpolation uses a bounded two-tick delay and does not extrapolate past the newest snapshot (5.9917ms)
+✔ Owner presentation moves between network ticks but snaps to authoritative elimination and large correction (0.7639ms)
+✔ OnlineSession controls its assigned seat, normalizes diagonal input, reconciles, and neutralizes queued dash (11.4098ms)
+✔ OnlineSession retries a dropped connection with the same seat and rejects malformed received state (456.9137ms)
+✔ A retired completed room preserves its result without a connection-error overlay (813.7948ms)
+{"profile":{"rtt":100,"jitter":20},"simulatedMs":81750,"maxQueuedMessages":3,"players":[{"id":"p1","inputToPredictedMovementMs":30,"targetAdjustmentsAbove15cm":748,"maxTargetAdjustmentMetres":3.458,"snapshotBytes":5946374,"winner":"p1"},{"id":"p3","inputToPredictedMovementMs":0,"targetAdjustmentsAbove15cm":757,"maxTargetAdjustmentMetres":3.449,"snapshotBytes":5946379,"winner":"p1"},{"id":"p4","inputToPredictedMovementMs":30,"targetAdjustmentsAbove15cm":670,"maxTargetAdjustmentMetres":3.453,"snapshotBytes":5946372,"winner":"p1"},{"id":"p2","inputToPredictedMovementMs":30,"targetAdjustmentsAbove15cm":759,"maxTargetAdjustmentMetres":3.464,"snapshotBytes":5946374,"winner":"p1"}]}
+{"profile":{"rtt":200,"jitter":50},"simulatedMs":81870,"maxQueuedMessages":7,"players":[{"id":"p1","inputToPredictedMovementMs":40,"targetAdjustmentsAbove15cm":1102,"maxTargetAdjustmentMetres":3.489,"snapshotBytes":5897351,"winner":"p2"},{"id":"p4","inputToPredictedMovementMs":30,"targetAdjustmentsAbove15cm":1084,"maxTargetAdjustmentMetres":3.482,"snapshotBytes":5897350,"winner":"p2"},{"id":"p3","inputToPredictedMovementMs":40,"targetAdjustmentsAbove15cm":1008,"maxTargetAdjustmentMetres":3.474,"snapshotBytes":5897356,"winner":"p2"},{"id":"p2","inputToPredictedMovementMs":0,"targetAdjustmentsAbove15cm":1013,"maxTargetAdjustmentMetres":3.499,"snapshotBytes":5897357,"winner":"p2"}]}
+✔ N03 four OnlineSessions: 100 ms RTT with ±20 ms one-way jitter (20530.41ms)
+✔ N03 four OnlineSessions: 200 ms RTT with ±50 ms one-way jitter (16989.4414ms)
+✔ blaster has five weak shots, cooldown and no charge reset on drop/transfer (38.5598ms)
+✔ wind crosses the board, pierces once per player and falls off toward dash strength (0.8544ms)
+✔ rolling rock flattens and stuns each player once; swept shots stop at thin walls (1.5171ms)
+✔ ranged aiming honors accepted turn input; stun and expiry prevent firing (0.5543ms)
+Knockbound playable at http://127.0.0.1:50033
+(node:18976) ExperimentalWarning: stripTypeScriptTypes is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ Local server serves playable modules and rejects encoded traversal outside public roots (1193.4524ms)
+P01 replay digest: c2e83c18eedfd1399e791a2069032d13a75438dd3aba8e035e6d6e30a877b3be
+P06 seeded round results: [{"seed":1,"ticks":1248,"outcome":"winner","winner":"p4","hits":65},{"seed":2,"ticks":397,"outcome":"winner","winner":"p2","hits":37},{"seed":3,"ticks":1246,"outcome":"winner","winner":"p2","hits":91},{"seed":4,"ticks":1307,"outcome":"winner","winner":"p4","hits":84},{"seed":5,"ticks":1361,"outcome":"winner","winner":"p3","hits":67},{"seed":6,"ticks":1144,"outcome":"winner","winner":"p1","hits":66},{"seed":7,"ticks":1327,"outcome":"winner","winner":"p2","hits":73},{"seed":8,"ticks":672,"outcome":"winner","winner":"p2","hits":45},{"seed":9,"ticks":1397,"outcome":"draw","winner":null,"hits":79},{"seed":10,"ticks":813,"outcome":"winner","winner":"p3","hits":46},{"seed":11,"ticks":1245,"outcome":"winner","winner":"p3","hits":60},{"seed":12,"ticks":1391,"outcome":"winner","winner":"p2","hits":83},{"seed":13,"ticks":217,"outcome":"winner","winner":"p1","hits":30},{"seed":14,"ticks":781,"outcome":"winner","winner":"p2","hits":42},{"seed":15,"ticks":1096,"outcome":"winner","winner":"p2","hits":58},{"seed":16,"ticks":915,"outcome":"winner","winner":"p4","hits":53},{"seed":17,"ticks":1109,"outcome":"winner","winner":"p1","hits":85},{"seed":18,"ticks":953,"outcome":"winner","winner":"p3","hits":78},{"seed":19,"ticks":791,"outcome":"winner","winner":"p4","hits":51},{"seed":20,"ticks":1309,"outcome":"winner","winner":"p2","hits":81}]
+✔ P01: 10,000 recorded ticks replay identically, including bot RNG/events and restored state (2691.1957ms)
+✔ P01: 30, 60 and 144 Hz presentation produce the same authority state (362.334ms)
+✔ P02: cardinal/diagonal speed, hostile numbers, duplicate sequence and stale controls (3.447ms)
+✔ P03: single-hit dash, cooldown and vulnerability recovery (3.9555ms)
+✔ P04: coincident centers settle; simultaneous head-on dashes hit both (1.558ms)
+✔ P03: later dash increases impulse from previous vulnerability; vulnerability is capped (1.4699ms)
+✔ P04: maximum supported impulse/dash cannot tunnel through a 2 cm wall (2.8547ms)
+✔ P05: simultaneous final falls draw, terminal events are once-only, restart is clean (1.2642ms)
+✔ P06: keyboard-like input + three normal-rule bots finish 20 seeded rounds (1339.9416ms)
+✔ Config rejects incompatible releases, unsupported capacities and unsafe physics (1.0585ms)
+✔ shrink warns complete outside blocks for one second, then support disappears (37.3678ms)
+✔ platform remover warns a forward tile and consumes once, never the protected core (1.8373ms)
+✔ removed support eliminates occupants; helicopter selects intact ground (1.782ms)
+✔ dashing through a narrow angular gap cannot skip lost support (1.0373ms)
+✔ touch movement uses bounded analog input and preserves the last direction for a released-stick dash (2.8049ms)
+✔ pointer ownership ignores a second finger and releases motion on cancellation or rotation (3.3985ms)
+Ten 4-client WebSocket rounds passed; snapshot bytes observed: 14503116
+✔ N01 real loopback WebSockets: four clients complete ten matches with identical results (39480.2919ms)
+✔ Transport rejects foreign origins, bad tickets, malformed settings and binary/oversize frames (76.2243ms)
+✔ N06 real transport restart: unfinished room is cancelled persistently, never silently restarted (55.2281ms)
+✔ N04 actual socket replacement restores the same participant and closes the old owner (82.1501ms)
+✔ The browser OnlineSession adapter completes a round through real WebSockets (14392.6673ms)
+✔ Worker restart cancels an unfinished persistent room exactly once and never recreates it (56.4016ms)
+✔ Worker restart preserves an existing terminal receipt without regranting or rewriting it (0.4148ms)
+✔ Worker routing fails closed before allocation for disabled rooms, foreign origins and hostile settings (11.9789ms)
+ℹ tests 61
+ℹ suites 0
+ℹ pass 61
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 60042.6065

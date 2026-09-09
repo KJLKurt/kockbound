@@ -1,6 +1,8 @@
 # Milestone plan
 
-M0 is the bootstrap. An explicitly authorized preproduction exception now proves one character and Blender asset pipeline; see STATUS. M1–M9 remain unimplemented as complete milestones. Acceptance IDs refer to ACCEPTANCE_CRITERIA.md. Later milestones require a new implementation assignment; this document is not permission to execute all of them.
+2026-09-07 user priority D38 moves phone control/layout work and the C06 real-device check into the current playable-slice effort. Phone V04 measurement is now current work, not deferred solely because M4 modes are unfinished. Other milestone dependencies remain; no completed phone gate is implied by responsive desktop emulation.
+
+M0 is the bootstrap. The 2026-09-06 user goal now authorizes continuing implementation toward a complete playable game with strong presentation and audio. Earlier per-assignment stop instructions are superseded by that goal; preserve milestone order and record incomplete gates honestly. See STATUS for implemented increments. Acceptance IDs refer to ACCEPTANCE_CRITERIA.md. Commerce and deployment/spending still need their separately specified authority.
 
 | Milestone | Depends on | Deliverable | Exit gate |
 |---|---|---|---|
@@ -34,6 +36,6 @@ M9: the historical release quantities are planning targets. Capacity, quality an
 4. Add normal-rule bots and local session adapter.
 5. Add debug presentation/input/HUD with visible tuning controls or config file.
 6. Execute P01–P07, record replayable seeds/input fixtures and subjective feel notes.
-7. Update STATUS and deliver local run instructions. Stop at M1.
+7. Update STATUS and deliver local run instructions. Under the active 2026-09-06 goal, continue to M2 after recording M1 evidence; do not claim later quality gates automatically.
 
 Future work packet estimates should follow measured implementation progress. No calendar deadlines or fabricated effort estimates are imposed here.

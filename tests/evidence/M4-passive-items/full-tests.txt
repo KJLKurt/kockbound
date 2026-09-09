@@ -1,0 +1,67 @@
+✔ sound recovers from a failed download and resumes interruptions without duplicate music layers (164.6114ms)
+✔ Audio preferences survive malformed storage without NaN or out-of-range gains (1.4965ms)
+✔ Exported music stems align exactly; effects have faded boundaries and all PCM retains headroom (1034.9206ms)
+✔ N02/N05: strict schema excludes forged state/rewards, malformed and incompatible packets (52.5226ms)
+✔ N02: dash spam is rejected during cooldown and message queues remain bounded (77.3447ms)
+✔ N01 local fixture: four independent peers observe identical outcomes in ten matches, matching local authority (797.1217ms)
+✔ N04: reconnect restores seat, old socket loses control, neutral state and next sequence are explicit (2.4347ms)
+✔ N04/N05: exact grace expiry eliminates once; late/mismatched admission cannot enter (138.5271ms)
+✔ N04: same-tick disconnected final seats draw, including grace expiry during countdown (9.8831ms)
+✔ N05: neutral message cancels pending action and acknowledges release; waiting room cannot simulate (4.4571ms)
+✔ N01/N06: 12-seat backlog is disconnected rather than queued; cancel is terminal and idempotent (82.2331ms)
+✔ camera-relative controls preserve input identity, speed and dash while rotating movement (15.8586ms)
+✔ graphics loss permits restoration and reports one transition per loss/recovery (6.0682ms)
+✔ impact bursts stay bounded and release expired materials without removing world objects (26.1343ms)
+✔ shovel extends forward dash reach without widening ordinary body collisions (53.7815ms)
+✔ big mode reduces blast impulse and expires without resetting through a drop (9.4781ms)
+✔ helicopter rescues exactly one fall but cannot evade a server forfeit (1.4392ms)
+✔ one slot proximity pickup, drop grace and fuse preservation prevent reset exploits (32.1782ms)
+✔ throw detonates after twenty ticks, pushes/stuns and cannot be picked up in flight (17.8117ms)
+✔ held bombs expire, disabled catalog stays empty, seeded items replay identically (430.068ms)
+✔ Client rejects malformed snapshots before rendering and accepts the real server envelope (81.8523ms)
+✔ Prediction moves only the local player and cannot invent a hit, elimination or result (16.334ms)
+✔ A jitter backlog cannot multiply the prediction horizon or lose its queued dash edge (0.9637ms)
+✔ Remote interpolation uses a bounded two-tick delay and does not extrapolate past the newest snapshot (14.0888ms)
+✔ Owner presentation moves between network ticks but snaps to authoritative elimination and large correction (1.2958ms)
+✔ OnlineSession controls its assigned seat, normalizes diagonal input, reconciles, and neutralizes queued dash (16.7251ms)
+✔ OnlineSession retries a dropped connection with the same seat and rejects malformed received state (492.2008ms)
+✔ A retired completed room preserves its result without a connection-error overlay (1075.3242ms)
+{"profile":{"rtt":100,"jitter":20},"simulatedMs":83440,"maxQueuedMessages":3,"players":[{"id":"p1","inputToPredictedMovementMs":30,"targetAdjustmentsAbove15cm":760,"maxTargetAdjustmentMetres":3.458,"snapshotBytes":5499707,"winner":null},{"id":"p3","inputToPredictedMovementMs":0,"targetAdjustmentsAbove15cm":775,"maxTargetAdjustmentMetres":3.449,"snapshotBytes":5499712,"winner":null},{"id":"p4","inputToPredictedMovementMs":30,"targetAdjustmentsAbove15cm":670,"maxTargetAdjustmentMetres":3.453,"snapshotBytes":5499705,"winner":null},{"id":"p2","inputToPredictedMovementMs":30,"targetAdjustmentsAbove15cm":776,"maxTargetAdjustmentMetres":3.464,"snapshotBytes":5499707,"winner":null}]}
+{"profile":{"rtt":200,"jitter":50},"simulatedMs":83720,"maxQueuedMessages":7,"players":[{"id":"p1","inputToPredictedMovementMs":40,"targetAdjustmentsAbove15cm":1153,"maxTargetAdjustmentMetres":3.489,"snapshotBytes":5467204,"winner":"p4"},{"id":"p4","inputToPredictedMovementMs":30,"targetAdjustmentsAbove15cm":1071,"maxTargetAdjustmentMetres":3.482,"snapshotBytes":5467203,"winner":"p4"},{"id":"p3","inputToPredictedMovementMs":40,"targetAdjustmentsAbove15cm":1074,"maxTargetAdjustmentMetres":3.474,"snapshotBytes":5467209,"winner":"p4"},{"id":"p2","inputToPredictedMovementMs":0,"targetAdjustmentsAbove15cm":958,"maxTargetAdjustmentMetres":3.499,"snapshotBytes":5467210,"winner":"p4"}]}
+✔ N03 four OnlineSessions: 100 ms RTT with ±20 ms one-way jitter (34715.1964ms)
+✔ N03 four OnlineSessions: 200 ms RTT with ±50 ms one-way jitter (39233.7119ms)
+Knockbound playable at http://127.0.0.1:54837
+(node:15000) ExperimentalWarning: stripTypeScriptTypes is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ Local server serves playable modules and rejects encoded traversal outside public roots (4275.6379ms)
+P01 replay digest: a3ecd4fd9f52a3c000a3417519e6eb72bd3fc3b4eec57b3ecdee57a7161fcbbe
+P06 seeded round results: [{"seed":1,"ticks":1370,"outcome":"winner","winner":"p4","hits":69},{"seed":2,"ticks":397,"outcome":"winner","winner":"p2","hits":37},{"seed":3,"ticks":1339,"outcome":"winner","winner":"p2","hits":94},{"seed":4,"ticks":1309,"outcome":"winner","winner":"p4","hits":84},{"seed":5,"ticks":1361,"outcome":"winner","winner":"p3","hits":67},{"seed":6,"ticks":1144,"outcome":"winner","winner":"p1","hits":66},{"seed":7,"ticks":1507,"outcome":"winner","winner":"p2","hits":79},{"seed":8,"ticks":672,"outcome":"winner","winner":"p2","hits":45},{"seed":9,"ticks":1399,"outcome":"winner","winner":"p1","hits":79},{"seed":10,"ticks":813,"outcome":"winner","winner":"p3","hits":46},{"seed":11,"ticks":1250,"outcome":"winner","winner":"p3","hits":60},{"seed":12,"ticks":1430,"outcome":"winner","winner":"p2","hits":84},{"seed":13,"ticks":217,"outcome":"winner","winner":"p1","hits":30},{"seed":14,"ticks":781,"outcome":"winner","winner":"p2","hits":42},{"seed":15,"ticks":1096,"outcome":"winner","winner":"p2","hits":58},{"seed":16,"ticks":915,"outcome":"winner","winner":"p4","hits":53},{"seed":17,"ticks":1109,"outcome":"winner","winner":"p1","hits":85},{"seed":18,"ticks":953,"outcome":"winner","winner":"p3","hits":78},{"seed":19,"ticks":791,"outcome":"winner","winner":"p4","hits":51},{"seed":20,"ticks":1430,"outcome":"winner","winner":"p2","hits":88}]
+✔ P01: 10,000 recorded ticks replay identically, including bot RNG/events and restored state (4315.5762ms)
+✔ P01: 30, 60 and 144 Hz presentation produce the same authority state (1135.2262ms)
+✔ P02: cardinal/diagonal speed, hostile numbers, duplicate sequence and stale controls (47.6755ms)
+✔ P03: single-hit dash, cooldown and vulnerability recovery (67.5041ms)
+✔ P04: coincident centers settle; simultaneous head-on dashes hit both (0.9062ms)
+✔ P03: later dash increases impulse from previous vulnerability; vulnerability is capped (2.2085ms)
+✔ P04: maximum supported impulse/dash cannot tunnel through a 2 cm wall (2.2997ms)
+✔ P05: simultaneous final falls draw, terminal events are once-only, restart is clean (1.2353ms)
+✔ P06: keyboard-like input + three normal-rule bots finish 20 seeded rounds (1914.9136ms)
+✔ Config rejects incompatible releases, unsupported capacities and unsafe physics (1.651ms)
+✔ touch movement uses bounded analog input and preserves the last direction for a released-stick dash (5.8532ms)
+✔ pointer ownership ignores a second finger and releases motion on cancellation or rotation (1.5248ms)
+Ten 4-client WebSocket rounds passed; snapshot bytes observed: 14451424
+✔ N01 real loopback WebSockets: four clients complete ten matches with identical results (60908.0011ms)
+✔ Transport rejects foreign origins, bad tickets, malformed settings and binary/oversize frames (106.7157ms)
+✔ N06 real transport restart: unfinished room is cancelled persistently, never silently restarted (115.7199ms)
+✔ N04 actual socket replacement restores the same participant and closes the old owner (113.0322ms)
+✔ The browser OnlineSession adapter completes a round through real WebSockets (14555.448ms)
+✔ Worker restart cancels an unfinished persistent room exactly once and never recreates it (148.3701ms)
+✔ Worker restart preserves an existing terminal receipt without regranting or rewriting it (0.4928ms)
+✔ Worker routing fails closed before allocation for disabled rooms, foreign origins and hostile settings (201.0673ms)
+ℹ tests 51
+ℹ suites 0
+ℹ pass 51
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 87880.9864

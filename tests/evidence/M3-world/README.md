@@ -1,0 +1,13 @@
+# M3 Sky Ring visual pass
+
+Criteria: partial V01/V02/V03; no full M3 gate claim. Revision: uncommitted 0.1.0, unchanged simulation/content release. Date/tester: 2026-09-07, Codex, Windows, Node 24.19.0 / TypeScript 5.9.3 / Three.js 0.180.0. In-app Chromium at native 639×642, loopback 4179, default high-quality graphics and sound bank loaded.
+
+Reviewed references: original Sky Ring concept-01.png and expanded branch-sky-ring.png in full; ART_DIRECTION and branch addendum. Retained: crown centerpiece motif, blue/gold stone language, segmented surface, floating architecture and waterfalls. This pass keeps the existing continuous support disk and shrinking rule; reference bumpers, gaps, launch pads and bridges are not falsely implied by decorative meshes.
+
+Implemented: original canvas-authored paved floor/crown inlay, dimensional blue/gold trim and rock underside, distant garden/arch islands, translucent fading waterfall ribbons, softer/lower-exposure lighting and instanced cloud batch. Visual code is in client/rendering/sky-ring.ts; no external texture or model was added. Isolated the danger-rim material to prevent warning color changes from recoloring unrelated gold. Added outer warning band with static opacity under reduced motion and disabled ambient cloud rotation with reduced motion.
+
+Browser findings: prior nearly square viewport selected a distant camera abruptly. Replaced the aspect threshold with continuous framing; arena grew from about 370 to 500 pixels wide at 639×642, making characters larger. Inspected lobby, all-four-standing gameplay and ensuing outcome state in the actual game. Floor/crown, open edge, markers and background were visually checked inline. No separate screenshot file is claimed. Latest browser warning/error log query returned an empty array.
+
+Checks: strict typecheck, static build and static-server smoke test. No simulation changes; no physics suite repeated for this visual-only increment. Browser rounds with refreshed art continued to terminal state (one standing, 27 seconds remaining). The new warning band was not captured during its two-second pre-shrink window in this pass, so full telegraph/reduced-motion visual verification remains pending.
+
+Status: **PARTIAL visual improvement**. Still required: full character animation library/deformation/expressions, dash trails/impact reaction polish, wider/reference-device and twelve-player visual/performance review, mutation telegraph capture, recorded play, audio listening/compression, outside playtest. No finished-art approval, 1080p performance result or human feel feedback is invented. Next improve the shared character animation library through the existing saved Blender sources and reproducible export contract.

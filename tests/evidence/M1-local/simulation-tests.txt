@@ -1,0 +1,20 @@
+P01 replay digest: 2da36a3690f5d703e5fa7d9c08fa958cbb5e99cbdefeb8e946e8d670988ce576
+P06 seeded round results: [{"seed":1,"ticks":1370,"outcome":"winner","winner":"p4","hits":69},{"seed":2,"ticks":397,"outcome":"winner","winner":"p2","hits":37},{"seed":3,"ticks":1339,"outcome":"winner","winner":"p2","hits":94},{"seed":4,"ticks":1309,"outcome":"winner","winner":"p4","hits":84},{"seed":5,"ticks":1361,"outcome":"winner","winner":"p3","hits":67},{"seed":6,"ticks":1144,"outcome":"winner","winner":"p1","hits":66},{"seed":7,"ticks":1507,"outcome":"winner","winner":"p2","hits":79},{"seed":8,"ticks":672,"outcome":"winner","winner":"p2","hits":45},{"seed":9,"ticks":1399,"outcome":"winner","winner":"p1","hits":79},{"seed":10,"ticks":813,"outcome":"winner","winner":"p3","hits":46},{"seed":11,"ticks":1250,"outcome":"winner","winner":"p3","hits":60},{"seed":12,"ticks":1430,"outcome":"winner","winner":"p2","hits":84},{"seed":13,"ticks":217,"outcome":"winner","winner":"p1","hits":30},{"seed":14,"ticks":781,"outcome":"winner","winner":"p2","hits":42},{"seed":15,"ticks":1096,"outcome":"winner","winner":"p2","hits":58},{"seed":16,"ticks":915,"outcome":"winner","winner":"p4","hits":53},{"seed":17,"ticks":1109,"outcome":"winner","winner":"p1","hits":85},{"seed":18,"ticks":953,"outcome":"winner","winner":"p3","hits":78},{"seed":19,"ticks":791,"outcome":"winner","winner":"p4","hits":51},{"seed":20,"ticks":1430,"outcome":"winner","winner":"p2","hits":88}]
+✔ P01: 10,000 recorded ticks replay identically, including bot RNG/events and restored state (5272.5443ms)
+✔ P01: 30, 60 and 144 Hz presentation produce the same authority state (1102.3994ms)
+✔ P02: cardinal/diagonal speed, hostile numbers, duplicate sequence and stale controls (5.0654ms)
+✔ P03: single-hit dash, cooldown and vulnerability recovery (4.3621ms)
+✔ P04: coincident centers settle; simultaneous head-on dashes hit both (1.101ms)
+✔ P03: later dash increases impulse from previous vulnerability; vulnerability is capped (108.8865ms)
+✔ P04: maximum supported impulse/dash cannot tunnel through a 2 cm wall (1.1886ms)
+✔ P05: simultaneous final falls draw, terminal events are once-only, restart is clean (5.6076ms)
+✔ P06: keyboard-like input + three normal-rule bots finish 20 seeded rounds (2410.9277ms)
+✔ Config rejects incompatible releases, unsupported capacities and unsafe physics (4.4838ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 10
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 10548.2871

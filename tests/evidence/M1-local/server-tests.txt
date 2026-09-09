@@ -1,0 +1,12 @@
+Knockbound playable at http://127.0.0.1:0
+(node:13988) ExperimentalWarning: stripTypeScriptTypes is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ Local server serves playable modules and rejects encoded traversal outside public roots (550.6473ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1047.0036

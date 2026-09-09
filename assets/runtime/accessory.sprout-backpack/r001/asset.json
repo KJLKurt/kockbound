@@ -1,0 +1,13 @@
+{
+  "asset_id": "accessory.sprout-backpack",
+  "revision": "r001",
+  "status": "pipeline_prototype_not_production_approved",
+  "source": "assets/source/blender/accessory.sprout-backpack/sprout-backpack.blend",
+  "runtime": "assets/runtime/accessory.sprout-backpack/r001/sprout-backpack.glb",
+  "attachment_socket": "socket.back",
+  "triangles": 540,
+  "materials": 3,
+  "bytes": 31132,
+  "scale_m": 1.0,
+  "notes": "Attach mesh root to the loaded socket.back bone at local identity; accessory does not affect gameplay collision."
+}

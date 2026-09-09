@@ -1,6 +1,6 @@
 # Technical architecture
 
-Canonical target, not implemented software. New engineering defaults are recorded in DECISIONS.md.
+Canonical target; implementation progress is tracked in STATUS.md. New engineering defaults are recorded in DECISIONS.md. M1 now implements the pure shared simulation, local session, normal-rule bots, versioned match data and Three.js presentation. Server/online/persistence sections remain targets until their evidence is recorded.
 
 ## Stack and dependency direction
 
@@ -23,6 +23,8 @@ OnlineSession sends inputs and presents predicted/interpolated state. A Worker a
 
 Both adapters construct the same MatchConfig, invoke the same step function and consume the same event types. Rendering and sound never mutate authoritative state. One local client can eventually carry multiple seats, but online multi-seat admission is deferred rather than assumed.
 
+M2 room-core increment: `server/game-room/authority.ts` now owns the authoritative lifecycle against injected transport peers and a server clock. `shared/protocol/messages.ts` validates client envelopes. Real Worker/WebSocket/admission/persistence adapters and the browser OnlineSession remain pending. The shared step API accepts an optional trusted forfeit list, collected with ring-outs before Arena outcome evaluation; no client packet can supply this list. See D29 and M2 authority evidence for actual tested limits.
+
 ## Clock, simulation and networking
 
 Start at 20 Hz fixed simulation and snapshot cadence with 60 FPS presentation target. Tune from measurements. Use elapsed monotonic time to accumulate fixed steps, with bounded catch-up (default five steps); record overruns. Never integrate an arbitrarily huge delta after a stalled tab or room. Local pause stops the session clock; an online client's focus loss does not pause the server.
@@ -31,7 +33,7 @@ Input messages include protocolVersion, session/participant association, monoton
 
 Prototype uses structured JSON. Input, dash and ability may share one ordered command envelope to avoid contradictory timing; historical message names remain listed in shared/protocol/README.md. Snapshot carries server tick, acknowledged input sequence, roster/entity state, phase, remaining ticks and content release ID. Events have unique IDs and authoritative tick to deduplicate VFX/SFX and results. Binary encoding is a later measured optimization.
 
-Predict only the local player's controllable movement; reconcile from acknowledged authoritative state and replay pending inputs. Interpolate remote snapshots with a small bounded buffer (initial 100 ms). Do not promise cross-engine bitwise lockstep: the server wins. Reject incompatible protocol/release combinations before countdown. Rendering interpolation cannot alter ring-out or hit decisions.
+Predict only the local player's controllable movement; reconcile from acknowledged authoritative state and replay pending inputs within a bounded horizon. Since the authority coalesces movement packets, packet count is not elapsed simulation time: the current development client predicts at most two 50 ms steps while preserving an outstanding dash edge. Owner positions blend with a 35 ms time constant, but elimination and adjustments above 2.5 m snap immediately. Interpolate remote snapshots with a small bounded buffer (initial 100 ms). Do not promise cross-engine bitwise lockstep: the server wins. Reject incompatible protocol/release combinations before countdown. Rendering interpolation cannot alter ring-out or hit decisions.
 
 Cap outbound queues. Slow consumers get a resync or disconnect, not unbounded memory use. Stale held input neutralizes after a configurable input timeout; actions never auto-repeat from replayed packets. Authoritative hit events correct speculative effects.
 

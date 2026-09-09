@@ -20,7 +20,7 @@ const required = [
 for (const p of required) if (!fs.existsSync(path.join(root, p))) errors.push('Missing: ' + p);
 function walk(dir) {
   return fs.readdirSync(dir, { withFileTypes: true }).flatMap(e => {
-    if (['.git', 'node_modules'].includes(e.name)) return [];
+    if (['.git', 'node_modules', 'dist', 'build', '.pnpm-store', 'output'].includes(e.name)) return [];
     const p = path.join(dir, e.name);
     return e.isDirectory() ? walk(p) : [p];
   });
@@ -76,4 +76,4 @@ try {
   if (diskImages.length !== seenFiles.size || diskImages.some(n => !seenFiles.has(n))) errors.push('Concept files and manifest differ');
 } catch (e) { errors.push('Concept archive validation failed: ' + e.message); }
 if (errors.length) { console.error(errors.join('\n')); process.exitCode = 1; }
-else console.log('Bootstrap PASS: ' + required.length + ' required artifacts; 89 source sections; ' + links + ' local links; ' + conceptCount + ' unique concept originals verified; JSON metadata valid. Gameplay tests NOT RUN.');
+else console.log('Bootstrap PASS: ' + required.length + ' required artifacts; 89 source sections; ' + links + ' local links; ' + conceptCount + ' unique concept originals verified; JSON metadata valid. Gameplay is verified separately with pnpm test.');

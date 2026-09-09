@@ -1,0 +1,7 @@
+# Spring pod contract
+
+Version 0.8.0 adds the tenth selectable item, Spring pod, as the additional interactive danger. Newly spawned/revealed pods are safe pickups for eight seconds, then begin arming if unclaimed. Pickup starts a twenty-second held lifetime; dropping preserves the remaining held timer. Plant consumes the held slot and begins a 0.75-second arming warning at 0.8 m ahead. Held expiry also plants the pod. Armed or arming pods cannot be picked up. Unsupported ground removes them through the same item/support rules.
+
+After arming, any live player within 1.1 m, including the planter, triggers one burst: radius 2.5 m, base push 8 with distance/vulnerability/mass adjustment and 0.3-second stun. External hits credit the planter; self-hits have no player credit. Dormant traps expire ten seconds after arming. Optional GroundItem.armedAt is validated, ground state is authoritative, and prediction continues to disable all item effects. Bots avoid deployed pods and plant held pods with ordinary inputs. A magenta footprint distinguishes the trap from bomb warnings; the pod uses an orange bulb with blue petals. Original geometry and original-bank cues only.
+
+This is a reversible gameplay default with automated/visual evidence, not physical phone, audio listening or subjective balance approval. More characters/colors and broader quality gates remain required before full goal completion.

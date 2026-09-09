@@ -2,4 +2,4 @@
 
 Application/session composition. Own LocalSession and OnlineSession selection; consume shared simulation. Do not duplicate game rules.
 
-Status: ownership scaffold only; no runtime implementation. See repository HANDOFF.md and active milestone before adding code.
+M1 implemented: `local-session.ts` owns the fixed clock and previous/current state; `main.ts` composes browser controls, view and UI. OnlineSession is the next M2 increment. See HANDOFF.md and current STATUS.md.

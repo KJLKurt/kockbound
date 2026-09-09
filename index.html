@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#102d46"><title>Knockbound · A little push. A big adventure.</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%23102d46'/%3E%3Cpath d='M12 18l12 11 8-17 8 17 12-11-6 31H18z' fill='%23ffd37d'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/client/ui/style.css">
+  <script type="importmap">{"imports":{"three":"/three/build/three.module.js","three/addons/":"/three/examples/jsm/"}}</script>
+</head>
+<body data-multiplayer="false">
+  <canvas id="game" aria-label="Knockbound 3D arena"></canvas>
+  <div id="labels" aria-hidden="true"></div>
+  <header class="topbar"><a class="wordmark" href="/" aria-label="Knockbound home"><span class="crown">♛</span> KNOCKBOUND<span class="edition">PLAYABLE DEV BUILD</span></a><button id="settings-open" class="icon-button" aria-label="Open settings">⚙</button></header>
+  <main id="lobby" class="lobby">
+    <div class="eyebrow"><span></span> SMALL CREATURES. BIG AIRTIME.</div>
+    <h1>A little push.<br>A <em>big</em> adventure.</h1>
+    <p class="intro">Find your footing in the clouds.<br>Dash into rivals. Stay on the island.<br>Be the last little legend standing.</p>
+    <div class="play-card">
+      <div class="mode-line"><span class="mode-icon">✦</span><div><strong>Sky Ring</strong><small>SOLO + 3 BOTS · LAST ONE STANDING</small></div><span class="mode-badge">LOCAL</span></div>
+      <button id="play" class="primary" disabled>Getting the island ready…</button>
+      <div class="quick-controls"><span><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> Move</span><span><kbd>SPACE</kbd> Dash</span></div>
+    </div>
+    <p class="local-note">No sign-in. No waiting. Just one more round.</p>
+    <button id="multiplayer-open" class="text-button" hidden>Room play · multiplayer preview →</button>
+  </main>
+  <aside id="character-picker" class="character-picker"><span class="eyebrow">YOUR LITTLE LEGEND</span><div><button class="character selected" data-character="sprout" aria-pressed="true">Sprout <span>✦</span></button><button class="character" data-character="lumi" aria-pressed="false">Lumi <span>✧</span></button><button class="character" data-character="pebble" aria-pressed="false">Pebble</button><button class="character" data-character="wisp" aria-pressed="false">Wisp</button></div><label class="palette-label">Colors <select id="skin-choice" aria-label="Character colors"></select></label><div class="emote-buttons"><button id="emote-wave" class="text-button" aria-label="Wave hello">Wave hello</button><button id="emote-dance" class="text-button" aria-label="Happy dance">Happy dance</button></div><small>Same moves. Different personality.</small></aside>
+  <div id="hud" class="hud" hidden>
+    <section class="match-strip"><div><small>SKY RING</small><strong id="alive">4 standing</strong></div><div class="timer" id="timer">1:30</div><button id="pause" class="icon-button" aria-label="Pause game">Ⅱ</button></section>
+    <div id="roster" class="roster"></div>
+    <div class="bottom-hud"><div class="movement-hint"><kbd>WASD</kbd> / <kbd>↑←↓→</kbd> move <span>·</span> <kbd>ESC</kbd> pause</div><div class="dash-hud"><div><strong id="dash-label">Dash ready</strong><small id="vulnerability">Keep your footing</small></div><button id="dash-button" aria-label="Dash"><span>↗</span><small>DASH</small><i id="dash-fill"></i></button></div></div>
+  </div>
+  <div id="item-hud" hidden><strong id="item-status"></strong><button id="item-use">Toss · E</button><button id="item-drop">Drop · Q</button></div><div id="announcement" class="announcement" aria-live="polite"></div>
+  <div id="touch-controls" hidden><div id="touch-stick" role="group" aria-label="Movement joystick" aria-description="Drag to move. Release to stop."><span id="touch-knob"></span><small>MOVE</small></div></div>
+  <div id="look-hint" hidden>Drag the arena to look · Move with the stick or WASD</div><div id="toast" class="toast" aria-live="polite"></div>
+  <div id="network-bar" hidden><span id="network-status" aria-live="polite"></span><a id="another-player" target="_blank" rel="noopener">Open another player tab ↗</a></div>
+  <section id="room-panel" class="modal-backdrop" hidden><div class="modal"><span class="eyebrow">PLAY TOGETHER</span><h2>Meet on the island.</h2><p>Connect browser tabs to the same match. This preview runs on this computer and assigns characters by seat.</p><label class="room-label">Human players<select id="human-count"><option value="1">1 + 3 bots</option><option value="2" selected>2 + 2 bots</option><option value="3">3 + 1 bot</option><option value="4">4 players</option></select></label><button id="create-room" class="primary">Create a room</button><div class="room-divider">or join a room</div><label class="room-label">Room code<input id="room-code" maxlength="6" autocomplete="off" spellcheck="false" placeholder="ABC123"></label><button id="join-room" class="primary">Join room</button><p id="room-message" aria-live="polite"></p><button id="room-close" class="text-button">Back to solo play</button></div></section>
+  <section id="result" class="modal-backdrop" hidden><div class="modal result-card"><div class="result-crown">♛</div><span class="eyebrow">ROUND COMPLETE</span><h2 id="result-title">A little legend!</h2><p id="result-copy"></p><div id="result-stats" class="result-stats"></div><button id="again" class="primary">One more round <span>→</span></button><button id="home" class="text-button">Back to the island</button><small id="result-note" class="practice-note">Local practice · no online rewards</small></div></section>
+  <section id="pause-panel" class="modal-backdrop" hidden><div class="modal"><span class="eyebrow">TAKE A BREATHER</span><h2>Cloud watching.</h2><p id="pause-copy">The local round is paused.</p><button id="resume" class="primary">Back to the action</button><button id="quit" class="text-button">Leave round</button></div></section>
+  <section id="settings" class="modal-backdrop" hidden><div class="modal"><span class="eyebrow">MAKE YOURSELF AT HOME</span><h2>Settings</h2><label class="toggle"><span>Optional items<small>Applies to your next solo round or hosted room</small></span><input id="items-enabled" type="checkbox" checked></label><div id="item-options"></div><p class="setting-note">Walk near to pick up. Use E / Fire to shoot or toss, and Q / Drop to swap. Shovel, big mode and hat work while held. Dash into crates to open them; crates need another item enabled. Plant a spring pod, then move away before it arms.</p><label class="toggle"><span>Optional hazards<small>Applies to your next solo round or hosted room</small></span><input id="hazards-enabled" type="checkbox" checked></label><div id="hazard-options"></div><label class="room-label">Camera view<select id="camera-view"><option value="arena">Full arena</option><option value="third">Third person</option><option value="first">First person</option></select></label><label class="toggle"><span>Reduced motion<small>Less camera and impact movement</small></span><input id="reduced-motion" type="checkbox"></label><label class="toggle"><span>High quality<small>Shadows and full resolution</small></span><input id="quality" type="checkbox" checked></label><label class="audio-slider">Master volume<input id="volume-master" type="range" min="0" max="100" step="1"></label><label class="audio-slider">Music<input id="volume-music" type="range" min="0" max="100" step="1"></label><label class="audio-slider">Sound effects<input id="volume-sfx" type="range" min="0" max="100" step="1"></label><label class="toggle audio-mute"><span>Mute all sound</span><input id="mute-audio" type="checkbox"></label><button id="retry-audio" class="text-button" hidden>Retry sound</button><p id="audio-status" class="audio-status" aria-live="polite">Sound starts with your first click</p><p class="setting-note">Drag the left joystick to move and tap Dash with your right thumb. Keyboard: WASD/arrows and Space. Dash follows your last movement direction. Repeated hits make you easier to launch. The island shrinks after one minute.</p><button id="settings-close" class="primary">All set</button></div></section>
+  <section id="error" class="modal-backdrop" hidden><div class="modal"><h2>The island needs a moment.</h2><p id="error-message"></p><button class="primary" onclick="location.reload()">Try again</button><button id="error-home" class="text-button">Back to the island</button></div></section>
+  <section id="graphics-panel" class="modal-backdrop" hidden><div class="modal"><h2>Taking a breather.</h2><p id="graphics-copy">Graphics are recovering.</p><p>If this screen stays here, reload to return to the island.</p><button id="graphics-reload" class="primary">Reload game</button></div></section>
+  <footer id="lobby-footer"><span>✧ MADE FOR ONE MORE ROUND</span><span>M1 · CHARACTER & WORLD ART IN DEVELOPMENT</span></footer>
+  <script type="module" src="/client/game/main.ts"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,11 @@
+# Ranged items evidence
+
+Milestone/criteria: expansion requirements 6/7/8, shared item contract and partial phone presentation.
+Build/content: workspace version 0.4.0. Date/tester: 2026-09-08, Codex, Windows, Node 24.19.0, Three 0.180.0, in-app Chromium.
+Scenario: five-charge weak blaster/cooldown/drop-transfer; piercing wind at near/far distances; rolling rock flatten/stun; swept thin-wall collision; current-command aiming; stunned/expired firing rejection. Expected outcomes match the user item identities and ITEM_CONTRACT.md defaults.
+Observed: all ten targeted item/ranged tests pass; full package test suite 55/55 passed in 83.829 seconds. Real OnlineSession/WebSocket round selects all seven registered items. That integration verifies admitted config and completion, not every item firing in that round. Node --test command output saved in full-tests.txt. Replay digest 87540ef8ee53c17287b0293addcf6006af17d09607dbcbcf5dffb30a6fc1055b; baseline twenty seed outcomes unchanged. Native Worker runtime not included.
+
+Commands actually run: pinned Node --test tests/items.test.ts tests/ranged.test.ts; complete package test command; TypeScript tsc --noEmit; node tools/build.mjs. Final typecheck/build after gust geometry edit exit 0. No new dependencies.
+Visual review: synthetic ranged scene at 390×844 showed bubble, gust, rolling stone, held blasters and flattened avatar. Replaced thin gust bars with curved torus arcs and re-inspected. Seven enabled choices verified in actual game Settings. Screenshots inspected inline, no saved image files. No performance measurement this increment.
+Status: PASS for listed automated checks and observed UI; human aiming, full pickup/fire/drop browser walkthrough, moving projectile readability in all camera modes, physical phone and audio listening NOT RUN. Wind arcs still appear narrow from an edge-on overview angle and merit further presentation polish. Original code geometry and original-bank cues only, no external assets.
+Next: mystery crate, platform remover/additional danger, shared tiles/hazards/shrink, character choices/colors, then broader playability/presentation evidence. Full goal remains active. Multiplayer preview deliberately restarted with 0.4.0 at 4179, session 40071. Solo LAN preview remains 4183/session 14345.

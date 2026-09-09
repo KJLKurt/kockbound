@@ -4,6 +4,7 @@ dist/
 build/
 coverage/
 .wrangler/
+.knockbound/
 .env
 .env.*
 !.env.example

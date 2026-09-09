@@ -6,7 +6,7 @@ Status: canonical consolidated design. Sources and decision status: SOURCE_COVER
 
 ## Vision and pillars
 
-A browser-first, desktop-first party-action game: stylized 3D humanoid creatures on readable arenas, primarily X/Z gameplay simulation, elevated camera, short rounds, environmental chaos and expressive cosmetics. Standard online matches target 4–12 participants and 2–4 minutes; total play/reward/replay cycle is about 3–5 minutes.
+A browser-first party-action game that must work on phones and desktop: stylized 3D humanoid creatures on readable arenas, primarily X/Z gameplay simulation, elevated camera, short rounds, environmental chaos and expressive cosmetics. Phone play is a current user priority (D38), superseding its former later-platform status. Standard online matches target 4–12 participants and 2–4 minutes; total play/reward/replay cycle is about 3–5 minutes.
 
 Pillars: easy to start; skill through timing, positioning and momentum; short replayable matches; recognizable personality; fair competition. The central feeling is playful competitive chaos. Characters fly away, vanish into clouds or fall comically; they do not die violently.
 
@@ -14,7 +14,7 @@ Later discussion expands the product into one shared competitive/cooperative/loc
 
 ## Controls and core loop
 
-Movement: WASD/arrows, gamepad stick, later touch joystick. Dash: Space or controller/touch action. One selectable ability, one temporary held item as later content. Emote/interact stays simple. No large inventory or stat-heavy equipment.
+Movement: touch joystick and WASD/arrows; gamepad stick remains planned. Dash: large touch action or Space, with controller support planned. Touch movement and dash must work simultaneously, with neutral input on cancellation, focus loss or orientation change. One selectable ability, one temporary held item as later content. Emote/interact stays simple. No large inventory or stat-heavy equipment.
 
 Guest-friendly flow: load → simple appearance/name → brief bot tutorial → round → results → play again/lobby. Later progression introduces first earned currency and inexpensive cosmetic within the first session. Never require registration before trying the game.
 

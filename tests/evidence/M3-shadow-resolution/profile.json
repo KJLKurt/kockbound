@@ -1,0 +1,1 @@
+{"shadowMapSize":1024,"viewport":[1920,1080],"drawingBuffer":[1920,1080],"sampleSeconds":30,"warmupSeconds":5,"frames":1706,"gpuSamples":1706,"frameP95":33.2,"renderCpuP95":6.4,"sceneCpuP95":1.6,"submitCpuP95":4.9,"matrixCpuP95":0.5,"fixtureCpuP95":0.9,"callbackCpuP95":7.2,"gpuP95":12.813385,"hidden":0,"discarded":0,"pending":0,"errors":0}

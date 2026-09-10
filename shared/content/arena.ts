@@ -3,9 +3,9 @@ import {validHazards} from './hazards.ts';
 import type { MatchConfig, Participant, Rules } from '../game-types/index.ts';
 import {validItems} from './items.ts';
 
-export const SIMULATION_VERSION = 'knockbound-sim-0.9.0';
-export const PROTOCOL_VERSION = 'knockbound-protocol-0.9.0';
-export const CONTENT_RELEASE = 'knockbound-local-0.9.0';
+export const SIMULATION_VERSION = 'knockbound-sim-0.12.6';
+export const PROTOCOL_VERSION = 'knockbound-protocol-0.12.6';
+export const CONTENT_RELEASE = 'knockbound-local-0.12.6';
 export const DEFAULT_RULES: Readonly<Rules> = Object.freeze({
   tickSeconds: 0.05, radius: 10, speed: 5, acceleration: 35, deceleration: 25,
   dashSpeed: 14, dashTicks: 3, cooldownTicks: 24, hitImpulse: 7, impulseCap: 22,
@@ -35,5 +35,7 @@ export function validateConfig(c: MatchConfig): void {
   for (const key of ['countdownTicks', 'durationTicks', 'suddenDeathTicks', 'dashTicks', 'cooldownTicks', 'inputTimeoutTicks', 'recoveryDelayTicks'] as const) if (!Number.isInteger(c.rules[key])) throw new Error('Tick rules must be integers.');
   if (c.obstacles.length > 32 || c.obstacles.some(o => ![o.x, o.z, o.halfX, o.halfZ].every(Number.isFinite) || o.halfX <= 0 || o.halfZ <= 0)) throw new Error('Invalid obstacles.');
 }
+
+
 
 

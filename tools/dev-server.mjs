@@ -8,6 +8,7 @@ const compress=promisify(gzip);
 import { stripTypeScriptTypes } from 'node:module';
 const isBuild = process.argv.includes('--dist');
 const visualQA = process.argv.includes('--qa') && !isBuild;
+const loadQA = process.argv.includes('--load-qa');
 const root = path.resolve(import.meta.dirname,isBuild ? '../dist' : '..');
 const port = Number(process.argv[2] || 4173);
 const lan=process.argv.includes('--lan');
@@ -17,6 +18,10 @@ export const server = http.createServer(async (req,res) => {
   try {
     if (transport && await transport.handleHttp(req,res)) return;
     const pathname = decodeURIComponent(new URL(req.url,'http://localhost').pathname);
+    if(loadQA&&pathname==='/qa-load.js'){
+      const code=await fs.readFile(path.join(import.meta.dirname,'load-qa.ts'),'utf8');
+      res.writeHead(200,{'Content-Type':'text/javascript','Cache-Control':'no-store'}).end(stripTypeScriptTypes(code,{mode:'strip'}));return;
+    }
     if(visualQA && ['/qa','/qa-runner.ts','/qa-context.ts'].includes(pathname)){
       const filename=pathname==='/qa'?'visual-qa.html':pathname==='/qa-context.ts'?'context-qa.ts':'visual-qa.ts';let data=await fs.readFile(path.join(root,'tools',filename),'utf8');
       if(filename.endsWith('.ts'))data=stripTypeScriptTypes(data,{mode:'strip'});
@@ -31,6 +36,7 @@ export const server = http.createServer(async (req,res) => {
     if (!/^(index\.html$|client\/|shared\/|assets\/runtime\/|node_modules\/three\/|three\/)/.test(canonical)) { res.writeHead(403).end(); return; }
     let data = await fs.readFile(file);
     if (canonical==='index.html' && transport) data=Buffer.from(data.toString().replace('data-multiplayer="false"','data-multiplayer="true"'));
+    if(canonical==='index.html'&&loadQA)data=Buffer.from(data.toString().replace('</body>','<script type="module" src="/qa-load.js"></script></body>'));
     if(canonical==='index.html'&&visualQA&&new URL(req.url,'http://localhost').searchParams.has('context-qa'))data=Buffer.from(data.toString().replace('</body>','<script type="module" src="/qa-context.ts"></script></body>'));
     if (file.endsWith('.ts')) data = Buffer.from(stripTypeScriptTypes(data.toString(),{ mode:'strip' }));
     const headers={'Content-Type':mime[path.extname(file)]??'application/octet-stream','Cache-Control':'no-store','X-Content-Type-Options':'nosniff','Vary':'Accept-Encoding'};
@@ -42,7 +48,8 @@ export const server = http.createServer(async (req,res) => {
 let transport = null;
 if(process.argv.includes('--multiplayer')) {
   const {LocalRoomTransport}=await import('../server/game-room/local-transport.ts');
-  transport=new LocalRoomTransport(server,{journalDirectory:path.resolve(import.meta.dirname,'../.knockbound/room-journal')});
+  const networkQA=process.argv.includes('--network-qa');
+  transport=new LocalRoomTransport(server,{journalDirectory:path.resolve(import.meta.dirname,networkQA?'../.knockbound/network-qa-journal':'../.knockbound/room-journal'),...(networkQA?{onDiagnostic:event=>console.log(JSON.stringify({time:Date.now(),...event}))}:{})});
   server.on('close',()=>void transport.close());
 }
 server.listen(port,lan?'0.0.0.0':'127.0.0.1',()=>{

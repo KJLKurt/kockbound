@@ -1,0 +1,13 @@
+✔ batched tile ranges fall and disappear independently without changing UVs or adjacent tiles (6.5646ms)
+✔ shrink warns complete outside blocks for one second, then support disappears (23.5276ms)
+✔ platform remover warns a forward tile and consumes once, never the protected core (1.967ms)
+✔ removed support eliminates occupants; helicopter selects intact ground (1.9304ms)
+✔ dashing through a narrow angular gap cannot skip lost support (1.0722ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 441.5665

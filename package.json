@@ -12,7 +12,8 @@
     "dev": "node tools/dev-server.mjs",
     "dev:online": "node tools/dev-server.mjs 4179 --multiplayer",
     "preview": "node tools/dev-server.mjs 4178 --dist",
-    "test": "node --test tests/simulation.test.ts tests/server.test.mjs tests/authority.test.ts tests/transport.test.ts tests/network-client.test.ts tests/network-latency.test.ts tests/worker-contract.test.ts tests/audio.test.ts tests/effects.test.ts tests/touch.test.ts tests/context-recovery.test.ts tests/camera.test.ts tests/items.test.ts tests/ranged.test.ts tests/tiles.test.ts tests/crates.test.ts tests/hazards.test.ts tests/pods.test.ts tests/characters.test.ts",
+    "test": "node --test tests/simulation.test.ts tests/server.test.mjs tests/authority.test.ts tests/transport.test.ts tests/network-client.test.ts tests/network-latency.test.ts tests/worker-contract.test.ts tests/audio.test.ts tests/effects.test.ts tests/touch.test.ts tests/context-recovery.test.ts tests/camera.test.ts tests/items.test.ts tests/ranged.test.ts tests/tiles.test.ts tests/crates.test.ts tests/hazards.test.ts tests/pods.test.ts tests/characters.test.ts tests/tile-rendering.test.ts tests/item-aim.test.ts tests/item-rendering.test.ts tests/item-pose.test.ts tests/hazard-rendering.test.ts tests/gpu-timer.test.ts tests/nearby-item.test.ts tests/journal.test.ts tests/remover-preview.test.ts",
+    "test:pickup": "node --test tests/nearby-item.test.ts",
     "typecheck": "tsc --noEmit",
     "build": "node tools/build.mjs",
     "check:bootstrap": "node tools/validate-bootstrap.mjs",
@@ -36,3 +37,6 @@
     "wrangler": "4.129.1"
   }
 }
+
+
+

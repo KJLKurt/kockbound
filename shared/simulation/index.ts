@@ -1,3 +1,4 @@
+import {validAim} from '../game-types/input.ts';
 import {stepHazards} from './hazards.ts';
 import {supported,shrinkTiles,rescuePoint} from '../content/tiles.ts';
 import {playerMass,playerRadius} from './item-effects.ts';
@@ -67,16 +68,20 @@ export function step(w: World, inputs: readonly Input[], forfeitedIds: readonly 
     return w;
   }
   w.activeTick++;
+  // Expired tools cannot affect this tick's hazard forces, collision or rescue.
+  // Bombs and pods retain their explicit explosion/arming expiry handlers.
+  for(const player of w.players){const item=player.heldItem;if(item&&w.activeTick>=item.expiresAt&&item.kind!=='bomb'&&item.kind!=='pod')player.heldItem=null;}
   const r = w.config.rules, dt = r.tickSeconds;
   if (w.activeTick === r.durationTicks-r.suddenDeathTicks-40) emit(w,'warning');
   const dashRequests = new Set<string>();
   const accepted:Input[]=[];
   for (const input of inputs) {
     if (!input || !Number.isSafeInteger(input.sequence) || input.sequence < 0 || !Number.isFinite(input.x) || !Number.isFinite(input.z) || typeof input.dash !== 'boolean') continue;
+    if(input.aim!==undefined&&!validAim(input.aim))continue;
     if((input.useItem!==undefined&&typeof input.useItem!=='boolean')||(input.dropItem!==undefined&&typeof input.dropItem!=='boolean'))continue;
     const p = w.players.find(p => p.id === input.participantId);
     if (!p?.alive || input.sequence <= p.lastSequence || input.sequence > p.lastSequence + 10000) continue;
-    p.lastSequence = input.sequence; p.lastInputTick = w.tick;
+    p.lastSequence = input.sequence; p.lastInputTick = w.tick;p.itemAim=input.aim?{...input.aim}:undefined;
     const prior=accepted.findIndex(c=>c.participantId===input.participantId);if(prior>=0)accepted[prior]={...input,useItem:input.useItem||accepted[prior].useItem,dropItem:input.dropItem||accepted[prior].dropItem};else accepted.push(input);
     [p.moveX,p.moveZ] = cap(input.x,input.z,1);
     if (input.dash) dashRequests.add(p.id);

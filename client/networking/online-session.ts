@@ -1,3 +1,4 @@
+import type {Appearance,Skin} from '../../shared/content/characters.ts';
 import type { Input, World } from '../../shared/game-types/index.ts';
 import { CONTENT_RELEASE, PROTOCOL_VERSION } from '../../shared/content/arena.ts';
 import { parseServerMessage } from '../../shared/protocol/messages.ts';
@@ -5,7 +6,7 @@ import type { Admission, RoomPhase } from '../../shared/protocol/messages.ts';
 import { predictLocal, RemoteBuffer, OwnerSmoother } from './prediction.ts';
 
 export type Socket=Pick<WebSocket,'onopen'|'onmessage'|'onclose'|'onerror'|'readyState'|'bufferedAmount'|'send'|'close'>;
-type Options={origin?:string;socketFactory?:(url:string)=>Socket;onStatus?:(status:string)=>void};
+type Options={appearance?:Appearance;skin?:Skin;origin?:string;socketFactory?:(url:string)=>Socket;onStatus?:(status:string)=>void};
 export class OnlineSession {
   world!:World;previous!:World;authoritative!:World;
   roomPhase:RoomPhase='waiting';paused=false;overruns=0;connected=false;failure:string|null=null;
@@ -29,7 +30,7 @@ export class OnlineSession {
   private open(){
     if(this.closed)return;
     const url=new URL('/api/socket',this.origin);url.protocol=url.protocol==='https:'?'wss:':'ws:';url.searchParams.set('room',this.roomId);url.searchParams.set('ticket',this.admission.ticket);
-    const socket=(this.options.socketFactory??(url=>new WebSocket(url)))(url.toString());this.socket=socket;let first=true;
+    const socket=(this.options.socketFactory??(url=>new WebSocket(url)))(url.toString());this.socket=socket;let first=true,readySent=false;
     socket.onopen=()=>{if(this.socket!==socket)return;this.connected=true;this.options.onStatus?.('Connected');};
     socket.onerror=()=>{}; // Close owns bounded retry and the user-facing error.
     socket.onmessage=event=>{
@@ -51,7 +52,7 @@ export class OnlineSession {
       this.world=predicted;this.previous=structuredClone(predicted);
       const events=structuredClone(message.world);events.events=events.events.filter(e=>Number(e.id.split(':').at(-1))>this.lastEventSerial);this.lastEventSerial=message.world.eventSerial;this.events.push(events);if(this.events.length>16)this.events.shift();
       if(!this.initialized){this.initialized=true;this.firstResolve();}
-      if(this.roomPhase==='waiting'){this.options.onStatus?.(`Room ${this.roomId} · waiting for players`);this.send({type:'ready',protocolVersion:PROTOCOL_VERSION,contentReleaseId:CONTENT_RELEASE});}
+      if(this.roomPhase==='waiting'){this.options.onStatus?.(`Room ${this.roomId} · waiting for players`);if(!readySent){readySent=true;this.send({type:'ready',protocolVersion:PROTOCOL_VERSION,contentReleaseId:CONTENT_RELEASE,...(this.options.appearance?{appearance:this.options.appearance}:{}),...(this.options.skin?{skin:this.options.skin}:{})});}}
       else this.options.onStatus?.(`Room ${this.roomId}`);
     };
     socket.onclose=event=>{

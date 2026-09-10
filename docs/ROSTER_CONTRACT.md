@@ -7,3 +7,7 @@ Separate editable Pebble/Wisp sources are derived from saved Sprout animation mo
 Palettes recolor cool accent vertices in cloned per-avatar geometry, preserving warm cream, dark outlines and highlights. Geometry is disposed when the avatar population is replaced; original shared geometry is never mutated. Initial palette mapping can also shift cool body/eye accents as a coherent theme. Additional outfit geometry is not claimed.
 
 Concepts: ROSTER_CONCEPTS.md. Evidence: tests/evidence/M3-roster, M3-roster-pebble and M3-roster-wisp. Remaining: online selected cosmetics, more animation pose/deformation review, real phone/performance, audio listening and human playability approval.
+
+## Online selection, 2026-09-09
+
+Version 0.10.0 supersedes the earlier online-selection limitation: optional registered appearance/skin fields travel on the authenticated ready message. The room applies them only to the sender’s seat while waiting, broadcasts roster changes and locks cosmetics at countdown/start. Clients send ready once per connection; reconnect after start retains server state. Avatar population detects cosmetic snapshot changes so an existing host sees later guest choices. No HTTP join/admission or stat/reward fields are accepted from cosmetics. See M3-online-cosmetics evidence for tested scope and limits.

@@ -1,0 +1,121 @@
+{
+  "compatibility": "0.12.5",
+  "readyMs": 1284,
+  "viewport": [
+    639,
+    642
+  ],
+  "devicePixelRatio": 1,
+  "transferBytes": 7497463,
+  "encodedBytes": 7476163,
+  "decodedBytes": 13576551,
+  "resourceCount": 70,
+  "zeroTransferEntries": 0,
+  "prePlayHeap": {
+    "used": 28506527,
+    "total": 45059427,
+    "limit": 4244111360
+  },
+  "cycles": [
+    {
+      "cycle": 1,
+      "atMs": 103487,
+      "heap": {
+        "used": 19684742,
+        "total": 40013174,
+        "limit": 4244111360
+      }
+    },
+    {
+      "cycle": 2,
+      "atMs": 137491,
+      "heap": {
+        "used": 22411216,
+        "total": 54168956,
+        "limit": 4244111360
+      }
+    },
+    {
+      "cycle": 3,
+      "atMs": 209742,
+      "heap": {
+        "used": 22304728,
+        "total": 57579900,
+        "limit": 4244111360
+      }
+    },
+    {
+      "cycle": 4,
+      "atMs": 304989,
+      "heap": {
+        "used": 22769978,
+        "total": 57842822,
+        "limit": 4244111360
+      }
+    },
+    {
+      "cycle": 5,
+      "atMs": 410741,
+      "heap": {
+        "used": 23436054,
+        "total": 58891422,
+        "limit": 4244111360
+      }
+    },
+    {
+      "cycle": 6,
+      "atMs": 442741,
+      "heap": {
+        "used": 19630333,
+        "total": 57579425,
+        "limit": 4244111360
+      }
+    },
+    {
+      "cycle": 7,
+      "atMs": 496991,
+      "heap": {
+        "used": 23035921,
+        "total": 57842969,
+        "limit": 4244111360
+      }
+    },
+    {
+      "cycle": 8,
+      "atMs": 568992,
+      "heap": {
+        "used": 20069717,
+        "total": 79863065,
+        "limit": 4244111360
+      }
+    },
+    {
+      "cycle": 9,
+      "atMs": 608241,
+      "heap": {
+        "used": 32901223,
+        "total": 85368099,
+        "limit": 4244111360
+      }
+    },
+    {
+      "cycle": 10,
+      "atMs": 664493,
+      "heap": {
+        "used": 23593253,
+        "total": 84581661,
+        "limit": 4244111360
+      }
+    }
+  ],
+  "postResultLiveSample": {
+    "atMs": 683238,
+    "heap": {
+      "used": 40187881,
+      "total": 84319517,
+      "limit": 4244111360
+    }
+  },
+  "browserErrors": [],
+  "note": "Approximate Chromium heap, normal GC, no process isolation or forced collection. Loopback speed is not a phone-network measurement."
+}

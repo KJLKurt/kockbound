@@ -8,6 +8,15 @@ import {createMatch} from '../shared/simulation/index.ts';
 import {localConfig,PROTOCOL_VERSION,CONTENT_RELEASE} from '../shared/content/arena.ts';
 
 const ticket='A'.repeat(43);
+test('OnlineSession preserves independent camera aim through authenticated authority',async()=>{
+  const {room,session,tick}=await connected();
+  // Test-only authoritative starting state; commands still pass through the socket and validator.
+  const fixtureWorld=(room as unknown as {world:import('../shared/game-types/index.ts').World}).world;
+  fixtureWorld.config.items=['blaster'];fixtureWorld.items={nextSpawn:9999,serial:0,ground:[]};
+  const owner=fixtureWorld.players[1];owner.x=owner.z=0;owner.facingX=0;owner.facingZ=-1;owner.heldItem={id:'aim-test',kind:'blaster',expiresAt:500};fixtureWorld.players[0].x=-7;
+  session.advance(.05,()=>({participantId:'p2',sequence:1,x:0,z:0,dash:false,useItem:true,aim:{x:1,z:0}}),()=>{});tick();
+  assert.equal(fixtureWorld.items.shots?.[0].dx,1);assert.equal(fixtureWorld.items.shots?.[0].dz,0);assert.equal(owner.x,0);assert.equal(owner.z,0);assert.deepEqual(room.snapshot().players[1].itemAim,{x:1,z:0});session.close();
+});
 function config(){const c=localConfig(3,2);c.matchId='room-ABC123';c.rules.countdownTicks=0;c.roster[0].control='bot';c.roster[1].control='human';return c;}
 class SocketFixture {
   onopen:WebSocket['onopen']=null;onmessage:WebSocket['onmessage']=null;onclose:WebSocket['onclose']=null;onerror:WebSocket['onerror']=null;
@@ -20,9 +29,9 @@ class SocketFixture {
   send(data:string|ArrayBufferLike|Blob|ArrayBufferView){this.room.receive(this.id,data,this.clock());}
   close(code=1000){if(this.readyState===3)return;this.readyState=3;this.room.disconnect(this.id,this.clock());this.onclose?.call(this as unknown as WebSocket,{code} as CloseEvent);}
 }
-async function connected(){
+async function connected(cosmetics:{appearance?:'wisp';skin?:'sunset'}={}){
   let now=0;const room=new RoomAuthority(config(),new Map([[ticket,'p2']]));const sockets:SocketFixture[]=[];
-  const session=await OnlineSession.connect({roomId:'ABC123',participantId:'p2',ticket,protocolVersion:PROTOCOL_VERSION,contentReleaseId:CONTENT_RELEASE},{origin:'http://127.0.0.1:9999',socketFactory:()=>{const socket=new SocketFixture(room,()=>now,`socket-${sockets.length}`);sockets.push(socket);return socket;}});
+  const session=await OnlineSession.connect({roomId:'ABC123',participantId:'p2',ticket,protocolVersion:PROTOCOL_VERSION,contentReleaseId:CONTENT_RELEASE},{...cosmetics,origin:'http://127.0.0.1:9999',socketFactory:()=>{const socket=new SocketFixture(room,()=>now,`socket-${sockets.length}`);sockets.push(socket);return socket;}});
   return {room,session,sockets,tick:(delta=50)=>{now+=delta;room.advance(now);}};
 }
 test('Client rejects malformed snapshots before rendering and accepts the real server envelope',()=>{
@@ -49,6 +58,18 @@ test('Remote interpolation uses a bounded two-tick delay and does not extrapolat
   const buffer=new RemoteBuffer();
   for(let i=0;i<20;i++){const world=createMatch(config());world.tick=i;world.players[0].x=i;buffer.push(world,i*50);}
   assert.equal(buffer.size(),8);assert.equal(buffer.sample(950)!.players[0].x,17);assert.equal(buffer.sample(975)!.players[0].x,17.5);assert.equal(buffer.sample(10000)!.players[0].x,19);
+});
+
+test('remote projectiles follow buffered positions but latest authority controls spawn, hits and removal',()=>{
+ const buffer=new RemoteBuffer();
+ for(let i=0;i<20;i++){
+   const world=createMatch(config());world.tick=i;
+   const shot={id:'moving',kind:'wind' as const,x:i,z:0,dx:1,dz:0,distance:i,owner:'p1',hitTargets:i===19?['p2']:[]};
+   world.items={serial:2,nextSpawn:999,ground:[],shots:[shot,{...shot,id:i===19?'new':'removed',x:100}]};buffer.push(world,i*50);
+ }
+ const shots=buffer.sample(975)!.items!.shots!;
+ assert.equal(shots.length,1);assert.equal(shots[0].x,17.5);assert.equal(shots[0].distance,17.5);assert.deepEqual(shots[0].hitTargets,['p2']);
+ const caughtUp=buffer.sample(10000)!.items!.shots!;assert.equal(caughtUp[1].id,'new');assert.equal(caughtUp[1].x,100);assert.equal(caughtUp[0].x,19);
 });
 
 test('Owner presentation moves between network ticks but snaps to authoritative elimination and large correction',()=>{
@@ -91,4 +112,10 @@ test('A retired completed room preserves its result without a connection-error o
     assert.equal(h.session.failure,null);assert.equal(h.session.connected,false);
     assert.deepEqual(h.session.authoritative.result,result);
   }finally{h.session.close();}
+});
+
+test('online cosmetics update only the admitted seat and lock when the round starts',async()=>{
+ const {session,room}=await connected({appearance:'wisp',skin:'sunset'});
+ assert.equal(session.authoritative.players[1].appearance,'wisp');assert.equal(session.authoritative.players[1].skin,'sunset');assert.equal(session.authoritative.config.roster[1].skin,'sunset');assert.equal(session.authoritative.players[0].appearance,'sprout');
+ assert.equal(room.receive('socket-0',JSON.stringify({type:'ready',protocolVersion:PROTOCOL_VERSION,contentReleaseId:CONTENT_RELEASE,appearance:'pebble',skin:'mint'}),1),false);assert.equal(room.snapshot().players[1].appearance,'wisp');session.close();
 });

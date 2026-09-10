@@ -14,9 +14,8 @@ export class RoomJournal {
     for(const name of files){
       const entry:JournalEntry=JSON.parse(fs.readFileSync(path.join(this.directory,name),'utf8'));
       if(!/^[A-Z0-9]{6}$/.test(entry.roomId) || name!==`${entry.roomId}.json` || !['waiting','finished','cancelled'].includes(entry.state))throw new Error('Invalid local room journal.');
-      if(entry.state==='waiting')entry.state='cancelled';
-      this.entries.set(entry.roomId,entry);
-      if(entry.state==='cancelled')this.write(entry);
+      if(entry.state==='waiting')this.write({...entry,state:'cancelled'});
+      else this.entries.set(entry.roomId,entry);
     }
   }
   state(roomId:string):JournalEntry['state']|undefined{return this.entries.get(roomId)?.state;}

@@ -1,5 +1,28 @@
 # Decisions and unresolved choices
 
+2026-09-09 DEFAULT D62: move projected player labels with CSS transforms rather than per-frame left/top layout changes, preserving screen anchors and visibility. Evidence M3-label-transforms; no FPS improvement inferred from a short diagnostic.
+
+2026-09-09 DEFAULT D61: instance opaque item parts by exact geometry/material identity, retaining source transforms and separate warning halos. Dynamic capacity supports crowded content; tests preserve blinking, rotor motion, colors and placement. M3-item-batches records visual and CPU/GPU diagnostic limits.
+
+2026-09-09 DEFAULT D60: batch each ranged effect kind into persistent instanced meshes, up to3 submissions within the shared64-shot cap. Preserve exact projectile transforms and reduced-motion behavior; trade individual frustum culling for bounded batch draws. See M3-projectile-batches for checks and measurement limits.
+
+2026-09-09 DEFAULT D59: render the21 identical gust arrows in one instanced draw, retaining original positions, direction, warning opacity/color and active height. Expanded synthetic rendering load now includes held/ground items, projectiles, hazard/tile warnings and12 characters. Measure separately from real-device gameplay; see M3-expanded-performance.
+
+2026-09-09 DEFAULT D58: camera first in Settings; individual content choices in native expandable panels with concise use/risk help. Master switches remain visible and existing selection/persistence semantics are preserved. Phone settings evidence M3-settings-help.
+
+2026-09-09 DEFAULT D57: layer reversible chest/right-arm carrying aim after the locomotion mixer; restore before the next mixer update. Limit torso yaw to60 degrees and arm bearing to86 degrees from movement heading, fade for reaction clips. Rendering only; item aim and collision remain authoritative and unchanged. Evidence M3-item-pose. Precise grip contact remains polish.
+
+2026-09-09 DEFAULT D55: item-specific four-second pickup hints, passive benefits described directly, charge/cooldown/stun-aware action feedback. Disable only unavailable actions and preserve Drop during ordinary firing cooldown. UI-only; no protocol or simulation change.
+
+2026-09-09 DEFAULT D54: replicate optional validated Player.itemAim for prop presentation, version 0.12.0; preserve physics and action targeting. Attach props after animation to shared hand/head sockets, orient directed props from aim, turn idle visuals toward aim and use a compact first-person prop placement. Ground transitions restore scale/rotation and keep danger markers on the floor. Dedicated moving aim/grip animation remains polish.
+
+2026-09-09 DEFAULT D53: add optional bounded horizontal aim to ordinary inputs (0.11.0). Close-camera items follow camera-forward independently of movement; full arena uses accepted movement then facing. All directed items share the same helper. Keep dash/physics unchanged and preserve passive items. ITEM_AIM_CONTRACT.md records validation, pod expiry, coalescing and presentation limits.
+
+2026-09-09 DEFAULT D52: batch tile cap, warning-cap and side geometry into three material draws with independent mutable vertex ranges. Preserve source geometry/UVs, warning material, fall timing, reduced-motion removal and shared support. Invisible ranges become degenerate triangles; unchanged/hidden ranges avoid redundant writes. Rendering-only optimization, no protocol or physics version change.
+
+2026-09-09 DEFAULT D51: use authenticated ready message for online appearance/skin choice, version 0.10.0. Validate registered values, bind to sender’s seat, update both world/config roster only while waiting, broadcast and lock at countdown. Send ready once per connection to avoid broadcast feedback; renderer detects cosmetic changes. No new HTTP cosmetic endpoint or competitive stat fields.
+
+
 2026-09-08 DEFAULT D50: add original Pebble and Wisp geometry identities via shared Sprout rig/modules and four cosmetic palettes. Version 0.9.0 introduces validated skin key and expanded appearance registry; no competitive stat changes. Local selection persists; online seat diversity works but chosen cosmetic transmission remains next. Concepts and runtime/source contract in ROSTER_CONCEPTS.md and ROSTER_CONTRACT.md.
 
 
@@ -129,3 +152,50 @@ Hybrid local-online seats, full service-worker offline reload, a social 3D hub, 
 
 
 
+# 2026-09-09 DEFAULT D56: Dash availability feedback
+
+The visible dash action disables during countdown, cooldown, stun, pause, spectating/results or unavailable controls, with a matching accessible status. This is presentation only; keyboard and authoritative dash rules remain unchanged. Phone-size normal-play evidence: tests/evidence/M3-dash-feedback.
+
+2026-09-09 DEFAULT D63: nearby eligible ground items receive a presentation-only ring and action hint within3.25m; closest wins, thrown/armed/expired/grace-blocked items excluded. Bomb text preserves fuse urgency. Authoritative pickup/collision rules unchanged. Evidence M3-pickup-guidance.
+
+2026-09-09 DEFAULT D64: automatic pickup chooses closest eligible item within strict0.85m rather than spawn order; exact ties retain ground-list order. Shared pure candidate helper also drives nearby guidance. Drop/same-tick swap retains charges/lifetime and drop grace. Compatibility0.12.1 prevents old authority behavior from mixing with this client.
+
+2026-09-09 DEFAULT D65: short landscape viewports place aim/pickup hints in lower center between thumb controls; item panel sits above right thumb area. Portrait spacing unchanged. Evidence M3-landscape-hints.
+
+2026-09-09 DEFAULT D66: local room journal startup writes only waiting-to-cancelled transitions. Existing terminal records remain untouched. Required persistence failure still aborts startup and preserves recoverable input. Evidence M2-journal-restart; no network/simulation change.
+
+2026-09-09 DEFAULT D67: local remover target preview uses cyan, distinct from gold committed tile warning; same shared target sampler as authoritative action. Existing behavior preserved, compatibility0.12.1 unchanged. Evidence M3-remover-preview.
+
+2026-09-09 DEFAULT D68: audio readiness reflects actual AudioContext state after loading; browser suspension exposes tap-to-resume status and existing Settings retry. Resume without running state cannot report ready. No sound/mix changes. Evidence M3-audio-state.
+
+2026-09-09 DEFAULT D69: tile batches mark only changed position-component ranges for upload; pinned Three merges adjacent ranges. Preserve geometry, motion, UVs and collision. M3-tile-upload-ranges records structural/visual evidence, no FPS claim.
+
+2026-09-09 DEFAULT D70: high-quality sun shadow map1024x1024 (previous2048), retaining dynamic updates/PCFSoft/frustum/bias. Close desktop/portrait shadows inspected; one quarter texels, shortGPU12.8ms sample but frame target unmet. M3-shadow-resolution records tradeoff and limits.
+
+2026-09-09 DEFAULT D71: bound3D framebuffer to1,536,000pixels, retaining high1.75/low1 DPR limits belowbudget; DOMcontrols native. Large-display mildsoftness reviewed, softshadows preserved. M3-render-budget:1080viewport/1652x929buffer shortp9516.8ms, notnative1080acceptance. Reversible tuning.
+
+2026-09-09 DEFAULT D72: first-person non-hat prop y1.4 andscale*.36 to reveal identifying upperpart above phoneitemHUD without coveringcentral target. Third-personcamera/armposing unchanged after rejectedexperiments. M3-first-person-framing.
+
+2026-09-09 DEFAULT D73: expiry takes precedence over heldbomb toss/drop. Disallow action at/afterexpiresAt, preserve just-beforeexpiry one-secondtoss. Compatibility0.12.2. M3-bomb-expiry-boundary has reproducedfailure/authority+transport evidence.
+
+2026-09-09 DEFAULT D74: expire ordinary held tools before the active tick's hazard/item/movement effects; preserve bomb/pod special expiry. Compatibility 0.12.3. Reproduced Big gust resistance boundary and explicit shovel/hat checks in M3-passive-expiry.
+
+2026-09-09 DEFAULT D75: desktop close-camera Mouse look defaults on, saved per browser. Click arena requests pointer lock, mouse motion turns without dragging, Escape/unlock pauses. Touch remains drag; denied lock falls back to drag with an accurate hint. No authoritative input contract change. User requested easier desktop camera direction control; M3-mouse-look records checks and embedded-browser limitations.
+
+2026-09-09 DEFAULT D76: Mouse look re-enable resets a previous browser denial, disable releases capture immediately; failure hint explicitly identifies capture unavailability. M3-mouse-retry includes failing-before/passing-after regression and Chrome automation fallback evidence. No simulation change.
+
+2026-09-09 DEFAULT D77: J/L provide continuous close-camera yaw at2.4rad/sec, both cancel, pause/blur clears. Mouse/touch remain available; no authority contract change. M3-keyboard-camera includes actual Chrome first/third turning and precise WrongDocumentError capture diagnosis.
+
+2026-09-09 DEFAULT D78: overlapping bomb/pod stuns preserve later recovery, matching existing rock behavior; durations do not add. Reproduced early recovery corrected in shared simulation, compatibility0.12.4. M3-overlapping-stuns records targeted/transport checks.
+
+2026-09-09 DEFAULT D79: random item spawn placement rejects missing/warned tiles and obstacles;16 attempts plus deterministic valid tile-center fallback, otherwise skip scheduled spawn. Compatibility0.12.5; M3-safe-spawns records reproduced lost pickup, deterministic/bounded checks.
+
+2026-09-10 DEFAULT D80: bots coincident with a bomb/pod danger choose an inward movement direction, or +X at arena center, instead of a zero away vector. Existing terrain checks and ordinary simulation movement still apply; no teleport, extra dash or immunity. Compatibility0.12.6 separates changed bot replay behavior. M3-bot-danger-escape records regression and integration evidence.
+
+2026-09-10 DEFAULT D81: a rejected joystick pointer-capture request cancels that gesture and resets its ownership/visual/input state. The next touch can acquire control without a missing pointerup leaving the pad stuck. Normal capture behavior is unchanged; compatibility remains0.12.6. M3-touch-capture-recovery records failing-before/passing-after checks.
+
+2026-09-10 DEFAULT D82: helicopter-hat rotor uses render presentation time at the existing10rad/s speed instead of20Hz authority ticks. Frozen presentation time stops it; reduced motion fixes angle at0. Item lifetime, rescue and simulation state remain authoritative and unchanged. M3-rotor-interpolation records regression and visual review; compatibility0.12.6 unchanged.
+
+2026-09-10 DEFAULT D83: projectile positions/rolling distance interpolate between presentation snapshots. Latest authority controls hit records and removal; buffered online shots enter only when their birth snapshot reaches the display interval, preventing backward spawn jumps. Local new shots display at their current position. No extrapolation or simulation/schema change, compatibility0.12.6. M3-projectile-interpolation records targeted tests, actual WebSocket round and visual fixtures.
+
+2026-09-10 DEFAULT D84: reveal occluded local third-person directed held tools with a cyan translucent silhouette (opacity.28, GreaterDepth, no depth write). Preserve camera/aim/socket pose; follow expiry blink and reduced motion. No cue for other players, ground/passive items, first person or arena view. Client-only0.12.6; M3-held-occlusion records visual review, tests and depth-mask limitations.

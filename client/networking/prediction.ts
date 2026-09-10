@@ -1,5 +1,6 @@
 import type { Input, Player, World } from '../../shared/game-types/index.ts';
 import { step } from '../../shared/simulation/index.ts';
+import {sampleProjectiles} from '../game/projectile-presentation.ts';
 
 /** Predict only the local player's movement; remote collisions and all outcomes remain server-owned. */
 export function predictLocal(authoritative:World, participantId:string, pending:readonly Input[]):World {
@@ -39,6 +40,7 @@ export class RemoteBuffer {
     const alpha=upper.world.tick===lower.world.tick?1:Math.max(0,Math.min(1,(tick-lower.world.tick)/(upper.world.tick-lower.world.tick)));
     const result=structuredClone(last.world);
     for(const p of result.players){const a=lower.world.players.find(q=>q.id===p.id),b=upper.world.players.find(q=>q.id===p.id);if(!a||!b||!p.alive)continue;p.x=a.x+(b.x-a.x)*alpha;p.z=a.z+(b.z-a.z)*alpha;}
+    if(result.items?.shots)result.items.shots=sampleProjectiles(result.items.shots,lower.world.items?.shots??[],upper.world.items?.shots??[],alpha);
     return result;
   }
   size(){return this.frames.length;}

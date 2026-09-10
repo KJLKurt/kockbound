@@ -1,3 +1,5 @@
+import {validAim} from '../game-types/input.ts';
+import {validAppearance,validSkin,type Appearance,type Skin} from '../content/characters.ts';
 import {arenaTiles} from '../content/tiles.ts';
 import {ITEM_DEFINITIONS,isRanged} from '../content/items.ts';
 import { CONTENT_RELEASE, PROTOCOL_VERSION } from '../content/arena.ts';
@@ -8,7 +10,7 @@ export type Admission = {roomId:string;participantId:string;ticket:string;protoc
 
 export const MAX_INPUT_BYTES = 1024;
 export type ClientMessage =
-  | { type: 'ready'; protocolVersion: string; contentReleaseId: string }
+  | { type: 'ready'; protocolVersion: string; contentReleaseId: string;appearance?:Appearance;skin?:Skin }
   | { type: 'input'; protocolVersion: string; command: Input }
   | { type: 'neutral'; protocolVersion: string; sequence: number };
 export type RoomPhase = 'waiting' | 'countdown' | 'active' | 'results' | 'cancelled';
@@ -27,11 +29,12 @@ export function parseClientMessage(raw: unknown): ClientMessage | null {
   let value: unknown;
   try { value = JSON.parse(raw); } catch { return null; }
   if (!record(value) || value.protocolVersion !== PROTOCOL_VERSION) return null;
-  if (value.type === 'ready' && keys(value,['type','protocolVersion','contentReleaseId']) && value.contentReleaseId === CONTENT_RELEASE) return value as ClientMessage;
+  if (value.type === 'ready' && keys(value,['type','protocolVersion','contentReleaseId',...('appearance' in value?['appearance']:[]),...('skin' in value?['skin']:[])]) && (value.appearance===undefined||validAppearance(value.appearance)) && (value.skin===undefined||validSkin(value.skin)) && value.contentReleaseId === CONTENT_RELEASE) return value as ClientMessage;
   if (value.type === 'neutral' && keys(value,['type','protocolVersion','sequence']) && sequence(value.sequence)) return value as ClientMessage;
   if (value.type !== 'input' || !keys(value,['type','protocolVersion','command']) || !record(value.command)) return null;
   const c = value.command;
-  if (!keys(c,['participantId','sequence','x','z','dash',...('useItem' in c?['useItem']:[]),...('dropItem' in c?['dropItem']:[])]) || ('useItem' in c&&typeof c.useItem!=='boolean') || ('dropItem' in c&&typeof c.dropItem!=='boolean') || typeof c.participantId !== 'string' || !/^p\d{1,2}$/.test(c.participantId) || !sequence(c.sequence) || typeof c.dash !== 'boolean') return null;
+  if (!keys(c,['participantId','sequence','x','z','dash',...('useItem' in c?['useItem']:[]),...('dropItem' in c?['dropItem']:[]),...('aim' in c?['aim']:[])]) || ('useItem' in c&&typeof c.useItem!=='boolean') || ('dropItem' in c&&typeof c.dropItem!=='boolean') || typeof c.participantId !== 'string' || !/^p\d{1,2}$/.test(c.participantId) || !sequence(c.sequence) || typeof c.dash !== 'boolean') return null;
+  if ('aim' in c&&!validAim(c.aim))return null;
   if (typeof c.x !== 'number' || typeof c.z !== 'number' || !Number.isFinite(c.x) || !Number.isFinite(c.z) || Math.hypot(c.x,c.z) > 1.000001) return null;
   return value as ClientMessage;
 }
@@ -55,7 +58,7 @@ export function parseServerMessage(raw: unknown): ServerMessage | null {
     if(!Array.isArray(w.players)||w.players.length!==w.config.roster.length||new Set(w.players.map(p=>p.id)).size!==w.players.length)return null;
     const numbers=['x','z','vx','vz','ix','iz','facingX','facingZ','moveX','moveZ','lastInputTick','lastSequence','dashTicks','cooldownTicks','dashId','vulnerability','lastHitTick','hits','knockouts'] as const;
     for(const p of w.players){
-      if(p.heldItem?.kind==='crate')return null;
+      if(p.heldItem?.kind==='crate'||p.itemAim!==undefined&&!validAim(p.itemAim))return null;
       if((p.flattenedUntil!==undefined&&!sequence(p.flattenedUntil))||!held(p.heldItem)||(p.stunnedUntil!==undefined&&!sequence(p.stunnedUntil)))return null;
       const roster=w.config.roster.find(r=>r.id===p.id);
       if(!roster||p.name!==roster.name||p.appearance!==roster.appearance||p.skin!==roster.skin||p.control!==roster.control||typeof p.alive!=='boolean'||!numbers.every(k=>Number.isFinite(p[k])&&Math.abs(p[k])<=1e8)||!(p.eliminatedTick===null||sequence(p.eliminatedTick))||!Array.isArray(p.hitTargets)||p.hitTargets.length>12||p.hitTargets.some(id=>!w.config.roster.some(r=>r.id===id)))return null;

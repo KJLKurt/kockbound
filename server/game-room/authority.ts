@@ -76,10 +76,13 @@ export class RoomAuthority {
     if (!message) return this.reject(seat,'invalid-message',now);
     if (message.type==='ready') {
       if(this.phase!=='waiting') return this.reject(seat,'roster-locked',now);
+      const player=this.world.players.find(p=>p.id===seat.participantId)!,roster=this.world.config.roster.find(p=>p.id===seat.participantId)!;
+      const changed=(message.appearance!==undefined&&message.appearance!==player.appearance)||(message.skin!==undefined&&message.skin!==player.skin);
+      if(message.appearance!==undefined)player.appearance=roster.appearance=message.appearance;if(message.skin!==undefined)player.skin=roster.skin=message.skin;
       seat.ready=true;
       if([...this.seats.values()].every(s=>s.ready && s.peer)) {
         this.phase=this.world.phase==='countdown'?'countdown':'active'; this.lastTime=now; this.accumulator=0; this.broadcast(now);
-      }
+      }else if(changed)this.broadcast(now);
       return true;
     }
     const seq=message.type==='input'?message.command.sequence:message.sequence;

@@ -1,3 +1,4 @@
+import {itemDirection} from './item-aim.ts';
 import {ITEM_DEFINITIONS,isRanged} from '../content/items.ts';
 import type {GameEvent,Input,World} from '../game-types/index.ts';
 import {playerMass,playerRadius} from './item-effects.ts';
@@ -21,7 +22,7 @@ export function stepRanged(w:World,commands:readonly Input[],emit:Emit){
     if(!p.alive||!item||!isRanged(item.kind)||!command?.useItem||command.dropItem||w.activeTick<(p.stunnedUntil??0)||w.activeTick<(item.readyAt??0)||w.activeTick>=item.expiresAt||shots.length>=64)continue;
     const def=ITEM_DEFINITIONS[item.kind];if((item.charges??def.charges)<=0)continue;
     // Aim from this accepted movement command, including the first frame of a turn.
-    const length=Math.hypot(command.x,command.z),dx=length>.01?command.x/length:p.facingX,dz=length>.01?command.z/length:p.facingZ;
+    const {dx,dz}=itemDirection(p,command);
     shots.push({id:`shot-${++state.serial}`,kind:item.kind,x:p.x,z:p.z,dx,dz,distance:0,owner:p.id,hitTargets:[]});
     item.charges=(item.charges??def.charges)-1;item.readyAt=w.activeTick+def.cooldownTicks;
     emit(w,'shot',p.x,p.z,p.id,undefined,item.kind==='blaster'?1:item.kind==='wind'?2:3);

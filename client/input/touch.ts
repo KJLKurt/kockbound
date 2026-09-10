@@ -16,7 +16,8 @@ export class TouchControls {
       if(!this.active||this.pointer!==null)return;
       event.preventDefault();this.pointer=event.pointerId;
       const rect=pad.getBoundingClientRect();this.origin={x:rect.left+rect.width/2,y:rect.top+rect.height/2};
-      pad.setPointerCapture(event.pointerId);this.move(event);
+      try{pad.setPointerCapture(event.pointerId);}catch{this.clear();return;}
+      this.move(event);
     });
     pad.addEventListener('pointermove',event=>{if(event.pointerId===this.pointer)this.move(event);});
     for(const name of ['pointerup','pointercancel','lostpointercapture'])pad.addEventListener(name,event=>{if((event as PointerEvent).pointerId===this.pointer)this.clear();});

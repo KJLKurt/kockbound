@@ -6,6 +6,145 @@ Before visual production or M4 mode/co-op work, review [the full concept gallery
 
 ## Active implementation goal (2026-09-06)
 
+USER STOP — 2026-09-10: user explicitly stopped feature work and requested deployment/phone-testing instructions. Do not resume autonomous feature work until the user asks. No deployment performed. Unfinished touch-hint tweak reverted; prior104-test game baseline retained. Seven camera/touch checks and typecheck passed during the abandoned tweak, but no new feature retained. Isolated browser68597 closed. Cloudflare wrangler.jsonc currently workers_dev=false / ENABLE_ROOMS=false; deployment instructions explain enabling them for limited testing. Worker runtime/public protections remain unverified/incomplete; do not claim only phone testing remains.
+
+Latest2026-09-10: normal390Chrome touch move+look verified in both first/third cameras (M3-touch-close-cameras). Knobheld35px duringdrag/afterlookrelease, finalclear, pointerlockfalse; four before/after screenshots inspected bearing change. No code/build change; full104 still current. Main4179 unchanged, finalconsole/cleanup in evidence. Physicaldevice/outsideplayer gates open; pendingcratequestion unchanged. Goal active.
+
+Latest2026-09-10: normal390Chrome two-contact touch emulation passed joystick+Dash/independent Dash release/finalclear. M3-browser-multitouch. Initial partial touchEnd was invalid test protocol, corrected to touchMove retaining point1; no production bug/change. CDP docs linked; no physical-phone claim. Main4179 unchanged; final console/cleanup in evidence. Next close-camera drag+movement touch integration. User crate question pending, full104 remains current; goal active.
+
+Latest2026-09-10: QA Crate control practice added with production KeyboardInput/ordinaryticks, Escpause/reset. Real D+Space→crateopen/5shotpickup, E→4shots, Q→HUDhidden;390repeat5shots. Desktop/phone inspected, console0; finaltypecheck/cleanup M3-crate-controls. QAonly/no build or gamechange, main4179 unchanged. Distinguish controlled input verification from natural random-spawn/user/phone-touch evidence. User crate question still pending; goal active.
+
+Latest2026-09-10: normal crate playtest remains NOT VERIFIED after three blaster first-spawns, one subsequent elimination (M3-crate-opening-attempts). No game change/errors. Targeted user question about dash-open/collection pending; do not duplicate it. Stop repeated random-opening attempts; independent fixture/interaction review is available. Main4179 unchanged; isolatedbrowser cleanup recorded in evidence. Full104 still current. Goal active.
+
+Latest2026-09-10: FULL104/104 PASS165.47s after current rendering changes (M3-current-render-regression/full-tests.txt). Ten four-client matches14,535,116snapshotbytes, host exclusions, input/authority/rendering/rig checks included. Session59718 terminalexit0. Item contract obsolete current-version/future-work prose corrected from source. Main4179 unchanged; no browser/build needed this turn. Next natural crate and remaining quality/device work; no full rerun without a new reason. Goal active.
+
+Latest2026-09-10: retained local third-person directed-tool occlusion silhouette, D84. Cyan.28 GreaterDepth/no depth write, batched, follows blink/reduced/drop/owner opt-out. Camera/aim/socket unchanged;0.12.6. Sprout blaster and Wisp wind/drop desktop/390 captures inspected;10 targeted tests10.60s. Final typecheck/build/console and cleanup in M3-held-occlusion. Main4179 refresh; goal active. This improves recognition, not all hand poses; next natural crate/remaining quality work.
+
+Latest 2026-09-10: wide carry experiment REJECTED/reverted (M3-wide-carry). Upperout1/forward.2/down.3, lowerforward1/out.7/up.15 still hides blaster behind head/ear in Sprout left-strafe desktop;390 capture partly obscured by QAheader. No retained game/build change. Rig regression final result in evidence. Main4179/QA4181 unchanged; isolated browser cleanup verified below. Next camera/head overlap or revised carry design, not repeated arm-only offsets. Goal active.
+
+Latest 2026-09-10: host settings integration test added (M3-room-selections). Four HTTP-created/four-human WebSocket rooms,400ticks each, verify all-off/item-only/hazard-only/mixed selections and actual spawn/activity exclusions. Final test passes30.02s; final typecheck recorded in evidence. Initial1human/bots fixture timed out, no root-cause claim; idle4human fixture keeps observation alive explicitly. No runtime/build change; main4179 unchanged. Next natural item/held-tool presentation review. Goal active.
+
+Latest 2026-09-10: optional local socket diagnostics added (--multiplayer --network-qa, separate journal). Four normal Chrome pages completed room248497, all observed closes1000 Room ended/no errors. Prior rejection NOT reproduced, not fixed. Five transport tests pass98.38s; final targeted/typecheck recorded in M3-network-diagnostics. Diagnostic4185/session45207 and isolated browser closed; main4179/session35734 untouched. Continue remaining quality work; capture actual rejection if it recurs rather than guessing limits. Prior crate-room-start.png overwritten by this run; old structured failure evidence retained, new screenshot network-room-start.png.
+
+Latest 2026-09-10: four normal Chrome seats exposed UNRESOLVED connection rejection in two background peers. Room7D6DF5 started, p3/p4 rejected near countdown/forfeited, host+p2 completed76s draw. Visible peer text “The room rejected the connection. Please rejoin.” No exact close code/reason captured; do not assume backpressure/grace cause. M3-four-browser-followup records steps/status/screenshots. Next prioritize diagnosing actual background-peer rejection (capture close code/reason) before more natural crate attempts. No production changes; main4179/session35734 unchanged. Cached CLI direct wrapper added output/playwright/Invoke-CachedCLI.ps1, verified0.1.19 entry path, no speed gain claimed. Goal active.
+
+Latest 2026-09-10: projectile interpolation retained (D83), positions/distance only; local previous/current and online RemoteBuffer share pure client sampler. Latest authority removes shots/hit records; online new shots wait for buffered birth to avoid backward jumps.19 final targeted tests12.56s, typecheck34358/build36947 and real WebSocket adapter9027 pass. New QA Projectile motion fixture inspected929/390/reduced; screenshots/evidence M3-projectile-interpolation.0.12.6 unchanged; main4179/session35734 refresh only. Full100 predates rotor/projectile changes. Goal active; no broad rerun without reason.
+
+Latest 2026-09-10: helicopter rotor now follows presentation time between20Hz ticks, same10rad/s. D82, M3-rotor-interpolation. Failing-before regression passes after fix, including frozen time/reduced motion/state unchanged; four rendering/rig tests plus typecheck/build73793 pass. Actual Wisp hat QA frames/reduced inspected. Client only,0.12.6; main4179/session35734 unchanged, refresh loads change. Priorfull100 predates this render-only change. Goal active; remaining poses/natural crate/device gates open.
+
+Latest 2026-09-10: QA pose selectors added in tools/visual-qa.ts (four characters, nine held items, five movement directions). All four left-strafe blaster captures inspected; shared tool occlusion confirmed. Corrected QA-only reused item ID bug discovered by rock/hat inspection; IDs now include kind, corrected phone captures show real rock/hat. M3-pose-review-controls records screenshots and limits. No game/runtime asset change or new dist needed. Main4179/session35734 unchanged. Next use selectors for focused grip/backward-aim review; don't count matrix availability as every combination reviewed. Goal active.
+
+Latest 2026-09-10: FULL100/100 passed97.86s on current0.12.6 after bot escape and joystick recovery. M3-current-100/full-tests.txt includes10four-client WebSocket rounds and input/authority/reconnect checks. Completion review current matrix updated; remaining physical phone, normal crate collection, held-tool/pose polish and outside-test gates still open. No game change or new build needed this turn. Main4179/session35734 unchanged; no test process pending. Next concrete gameplay/presentation work, not another full-suite rerun without changes.
+
+Latest 2026-09-10: fixed rejected joystick capture locking out subsequent touches. Before: uncaught capture error and next touch x0; after: cancel/clear failed gesture, next touch works. D81, M3-touch-capture-recovery.11 targeted touch/camera/aim tests and typecheck pass; build75747 final outcome recorded in evidence. No simulation change, remains0.12.6; main4179/session35734 unchanged. Goal active; physical-phone verification still unavailable, normal crate collection still unproven.
+
+Latest 2026-09-10: normal390x844 crate walkthrough PARTIAL. Selected crate+blaster/hazards off in isolated Chrome, ordinary held keys/dash, pauses for screenshots. Proximity cue verified. First contested crate disappeared but no local pickup; second remained intact when local player was knocked out, spectator/disabledDash correct. M3-natural-crates records screenshots/limits. No hidden-state injection/codechange; do not claim crate collection. CLI commands were slow but polled same handles, not restarted. Main4179/session35734 unchanged. Next establish uncontested normal crate collection or investigate other remaining presentation work; no failure of crate authority inferred from this run.
+
+Latest 2026-09-10: reproduced/fixed bot zero escape direction at coincident bomb/pod center. D80, compatibility0.12.6; 27 targeted tests (10,000-tick replay and20seeded rounds included), typecheck/build88398 and actual WebSocket adapter round44437 pass. Main4179 restarted session35734; old60040 terminal. M3-bot-danger-escape records evidence. No camera/pose changes this turn; side-camera idea deferred because converged view would misalign existing camera-relative aiming. Goal active; continue natural gameplay/presentation review.
+
+Latest 2026-09-10: outward-elbow candidate inspected and REVERTED. Rest-pose hand lateral reach increased .24 to .393, but desktop/390px blaster still mostly hidden by the local character. M3-hold-silhouette has screenshots and exact candidate; do not repeat it as an untested idea. Existing four-rig restoration test passes. No retained game change/build required. Next investigate local-character/tool occlusion treatment or a deliberately redesigned carry silhouette rather than further small arm-angle guesses. Goal active.
+
+Latest 2026-09-10: user answered the pending audio question: “everything sounds good.” M3-user-audio-feedback records positive subjective browser feedback; headphones/speakers unspecified. Completion review updated beyond audibility-only status. No code changes or tests needed; current Mouse look/J/L help and direct Chrome verification confirmed from files. Next held-tool visibility/animation review. Goal remains active; no pending audio question.
+
+Latest2026-09-10: directChrome full180s performance completed10757frames(~59.8FPS), p95frame16.9/GPU10.03ms, hidden/discarded/pending0.1920viewport/1652x929buffer, highquality. M3-direct-performance/rawJSON+screenshot. Strict16.7target STILLmissed, no phone/native1080pass; favicon404onlyconsoleerror. IsolatedCLIclosed, main4179/session60040/in-app37/QA4181unchanged. No codechange; next other concrete quality work, don'trepeatperformance withoutnewjustification. Goal active.
+
+Latest2026-09-10: actual direct Chrome pointer lock VERIFIED in first+third, idgame→mousemove(noheldbutton)→Escape:null/pausedtrue; screenshots in output/playwright, M3-direct-mouse. Console0. Prior CUA WrongDocumentError doesn't imply directChromefailure. CLIisolatedsessionclosed, main4179/session60040/in-app37unchanged. No codechange/buildneeded. Goal active; continue natural controls/poses/audio/device quality.
+
+Latest2026-09-10: normal390Chrome approach→automaticblaster5shots→Fire4shots→DropHUDhidden verified with heldkeyboard/UIbuttons and screenshots in output/playwright. M3-natural-items. No state injection; pauses forinspection, reacquisition afterbotcontact NOTverified. Console0. PlaywrightCLI0.1.19 cached, output/playwright/Invoke-CLI.ps1 pinsNode24PATH; --filename function scripts work, inlinequotingdidn't. TempCLIknockbound-items closed/server28857stopped; CUA39closed/reset. Main4179/session60040/in-app37unchanged. Goalactive; furthernaturalcontrols/art/audio/device checks.
+
+Latest2026-09-10: packaged load+10round heap observation complete.7.15MiBtransfer/1.284sready loopback, resources70unchanged/errors0, settledused25.8MB belowpreplay28.5MB; allocatedcapacitygrew, no exactleakproof/phoneclaim. M3-load-memory. Added tools/load-qa.ts with --load-qa gatedserver injection; typecheck/server testpass. Temp64849/session4758 andtab38closed. Main4179/session60040/in-app37lobby unchanged. Goalactive; next natural item/control, poses, listening/physicaldevice.
+
+Latest2026-09-10: FULL98/98 pass71.87s on0.12.5, plus10consecutive normal UI outcomes/replaycountdowns, warnings/errors0. M3-current-regression results/logs. Localhumanidle, notcontrol/balance/heapapproval. In-app37 retainedlobby; authority4179/session60040 unchanged. Completionreview refreshed. Next remaining V05coldload/heap and natural play/presentation/audio/device gates. Goal active; no verification process pending.
+
+Latest: safe pickup placement fixes reproduced spawn-over-hole loss.16 seeded attempts +valid tile centerfallback, rejects warnings/obstacles; skips ifnone. Compatibility0.12.5.27targeted +final13itemchecks, build19789 pass; M3-safe-spawns records corrected typecheck/transport13621 and previewrestart. Goal active; broader quality/device gates remain.
+
+Latest: overlapping bomb/pod stun now preserves later end; reproduced30-to13 early recovery fixed. Compatibility0.12.4. Thirty targeted checks +realWebSocketadapter round/typecheck/build3898 pass. M3-overlapping-stuns records replacement4179 startup; old71369 stopped after live verification. Existingclients refresh. Goal active; remaining natural gameplay/presentation/audio/device checks.
+
+Latest: J/L keyboard camera turning implemented2.4rad/sec; Chrome first/third actual keypresses visually verified, errors0. Ten targeted checks pass; M3-keyboard-camera has final typecheck/build43903 outcome. Temporary capture diagnostic found WrongDocumentError invalid root document, then removed. No server capture policy. Restored Chrome third/Wisp/Classic/Mouse look off; isolatedtab268509952 cleanup below. Main4179/session71369 unchanged. Goal active; continue broader remaining gameplay/quality/device review.
+
+Latest: Mouse look off/on now retries a denied request; disable releases capture. Reproduced failure then nine targeted passes. M3-mouse-retry has final typecheck/build53285 status. Isolated regular Chrome automation fell back twice, no errors, Escape paused; actual continuous capture unverified. Original Chrome setting Mouse look OFF restored; third/Wisp/Classic preserved, existing user tabs untouched. Main4179/session71369 unchanged. Goal active.
+
+Latest: user reports desktop close-camera turning awkward; Mouse look setting added (continuous captured mouse, touch/denied capture fallback drag). Nine targeted checks pass, settings/fallback visually inspected; embedded browser denies lock, regular-browser capture unverified. M3-mouse-look records final verification. Earlier full93/93 passed174.5s, M3-expiry-integration. Main4179/session71369 unchanged; fresh client reload needed. Goal active.
+
+Latest: ordinary held tools expire before hazard/item/movement processing, fixing reproduced Big gust resistance at expiry. Bomb/pod special handlers preserved. 28 targeted checks + final 10-item rerun with explicit shovel/hat expiry, typecheck/build pass. Compatibility 0.12.3; M3-passive-expiry. Main 4179 NEW session71369, old12168 stopped; existing clients need refresh. Goal active; remaining natural gameplay/presentation/audio/device gates open.
+
+Latest: bombexpiry guard fixed reproducedexpiredToss reset/Drop relocation. Compatibility0.12.2.20items/pods/authoritychecks +WebSocketbrowseradapterround/typecheck/buildpass. M3-bomb-expiry-boundary. Main4179 restartedNEWsession12168 (old37497terminal); previousjournalfixnowloaded. Existingclientsneedrefresh; userChromeuntouched. Goalactive, remainingnaturalinteraction/presentation/device/audio gates open.
+
+Latest: firstperson props y1.4/scale*.36 retained after390px review: tankvisibleaboveHUD,centeredtargetclear. Shoulder camera+raisedarm experiments REVERTED; thirdpersonforwardtool occlusion remains. Eighttests/typecheck/build78062 outcomesin M3-first-person-framing. No batchbug: desktopfirstpropvisible, phoneHUDcoveredprevious. TempQAdiagremoved,QA35closed/reset;main22lastready/4179session37497 unchanged. Goalactive.
+
+Latest: retainedresolutioncap FULL180s completed10772frames/GPU (~59.84FPS), p95frame16.8/GPU11.16677/CPUcallback12.1.1920viewport/1652x929buffer,1024PCFSoft. Hidden/discarded/pending0/errors0. M3-render-budget/sustained.json. Strict16.7targetnarrowlymissed, no phone/native1080pass. Next broadernormal gameplay/animation/audio quality review; don't degradevisuals merely chasing0.1ms timestampjitter. QA34close/reset/main22lastready/4179session37497unchanged. Goalactive.
+
+Latest: retained3Dpixelbudget1,536,000 via render-resolution.ts, resize/highquality handles.1920x1080viewport=>1652x929buffer,30s1799frames,p95frame16.8/GPU11.13, noerrors/invalid. Desktop/390visuals andphone/4Kratioassertions/typecheck/buildpass. M3-render-budget; NOTnative1080/full180sacceptance. Next full-durationretainedcap validation. QA33closed/reset/main22lastready/4179session37497unchanged. Goalactive.
+
+Latest: BasicShadowMap2048 tested/rejected (jaggedground/selfshadow artifacts,30s1568frames/frame33.5/GPU14.24). RestoredPCFSoft1024 exactly, no distchange. M3-shadow-filter. Do not repeat basicfilter/eyecaster experiments; next shadowpass geometry/adaptiveresolution with visualreview, plusbroader gameplay/audio/devicegates. QA32close/reset/main22lastready/4179session37497unchanged. Goalactive.
+
+Latest: eye-meshcast exclusion tested30s1920x1080,1678frames,framep9533.3/GPU13.19ms no usefulgain; REVERTED exactly to allcharacter cast/receive=true. M3-shadow-casters. Next filtering/passcost; retainedsun1024/PCFSoft. QA31close/reset, main22lastready/4179session37497unchanged. No newdistneeded. Goalactive.
+
+Latest: sunshadow1024 retained after close1920/390visualinspection; dynamicPCFSoftunchanged.30s1080p1706frames,p95frame33.2/GPU12.813/submit4.9, noerrors/invalid. M3-shadow-resolution, targetstillmissed. Typecheck/build61742 final evidencebelow. QA30closed/reset,main22lastready/4179session37497unchanged. Goalactive; next cheaper casters/submission preservingquality.
+
+Latest: shadow cost diagnostic stronglead: same1920x1080,off30s1800frames,p95frame16.8/GPU10.44/submit7.7; on1478frames,33.7/15.38/12.3. No errors/hidden/invalid. M3-shadow-cost. Next cheaper shadow strategy (2048sunmap/PCFSoft/character casters), visuallyverify before defaultchange. No gamecodechange thisturn. QA29close/reset, main22lastready/4179session37497unchanged. Goalactive.
+
+Latest: QA percentile sorts deferred until measurementcomplete/cached. Typecheck +full1080p180s checkpass for instrumentation:8,519frames, framep9533.7ms unchanged, callback14.9vs19.8,GPU16.3,hidden/discarded/pending0/errors0. M3-benchmark-reporting. Next isolate GPU/shadow cost/submission; target stillmissed. QA28close/reset; main4179session37497/main22lastready unchanged. Goalactive.
+
+Latest: full1920x1080 high-quality180s benchmark completed8,306frames/GPU, framep9533.7/GPU16.6ms,hidden/pending/discarded0/errors0. M3-1080-baseline. V04target missed. Next reduce growing percentile-report sorting overhead (QA every250ms sorts all arrays), then measure game cost; high-res GPU also matters. Goalactive. QA27willclose/reset; main22lastready/4179session37497unchanged.
+
+Latest: TileBatch partial position upload ranges, unchanged-tile no-upload preserved. Five tests/typecheck/buildpass; falling/reduced fixtures inspected/errors0. M3-tile-upload-ranges, noFPSclaim. QA26closed/reset; main22lastready and4179session37497 unchanged. Goalactive; remaining gameplay/presentation/performance/device gates open.
+
+Latest: browser audio interruption status follows actual context state, exposes resume, avoids false ready after unresolved suspension. Fouraudio tests/typecheck/buildpass; M3-audio-state. No waveform/listening claim. Prior90/90suite predates this change. Main4179session37497 unchanged/main22lastready. Goalactive; continue remaining quality checks.
+
+Latest: FULL90/90 pass70.27s, M3-integration-followup/full-tests.txt. Packaged dist390x844 active play/dash cooldown/spectator/pause/leave/newround smoke checked, logs0. Temp61055session89329stopped,tab25closed/reset. Main4179session37497 untouched. Goal active; next remaining natural interactions/animation/audio/performance, not repeated fullsuite without new justification.
+
+Latest: remover target previews cyan with shared authority sampler, existing behavior/version0.12.1 preserved. Nine tests/typecheck pass; desktop Remove changes same cyan tile to gold warning;390px inspected/errors0. M3-remover-preview. QA24closed/reset; main22lastready. Goal active, remaining natural interaction and quality gates open.
+
+Latest: journal startup no longer rewrites terminal records; only waiting-to-cancelled transition persists. Two filesystem checks plus actual transport restart and typecheck pass. M2-journal-restart records limits; EPERM root cause unknown, required writes still fail safely. Currentauthority37497 unchanged, fix applies on next restart. Main22lastready. Next gameplay/presentation review; goal active.
+
+Latest: landscape hints repositioned away from action/top HUD, item panel above right thumb. Normal844x390 screenshot and667x375 fixture bounds/errors checked, M3-landscape-hints. QA23closed, main22ready lobby, viewport reset, existingsettings preserved. Main authority37497 at4179 remains. Goal active; continue actual gameplay/presentation review.
+
+Latest: closest eligible automatic pickup replaces spawn-order selection, shared helper with guidance. Compatibility0.12.1. Corrected item/nearby8tests/typecheck/build pass; authority/transport including10four-peer rounds pass. M3-closest-pickup evidence records initial assertion correction and preview restart EPERM retry. Main4179 live session37497; old98872stopped; in-app11absent on inspection. Next natural interaction/presentation review. Goal active.
+
+Latest: nearby-item ring/action cue integrated in game and QA; nine targeted tests pass,390/320px inspected/errors0. Evidence M3-pickup-guidance. QA21 closed/reset; main11 retained. Complete build outcome recorded in evidence. Next natural pickup/use and remaining quality gates; no phone retry request. Goal active.
+
+Latest2026-09-09: label transforms replace framewise left/top layout writes; visual/short profile checked (frame p95still33.5ms). FULL85/85 pass in114.75s, M3-label-transforms/full-tests.txt. Normal390px round completedMochi22s/local1hit/0ringouts, home works/errors0. Main11 ready lobby, viewport reset. Goal active; further subjective/phone verification remains unproven, and do not claim these timing samples establish FPS improvement.
+
+Latest2026-09-09: ItemBatches instances opaque model parts, preserving source world transforms/rotor/blink and separate danger halos. Three render tests/typecheck pass; desktop/390px visuals inspected. M3-item-batches profile:1,555frames/GPU,p95submit12.4ms/GPU6.31/frame33.5, no invalid/hidden; suggestive CPU reduction, no FPS claim. Next remaining CPU/layout overhead and normal-play review. QA17 closed/reset after recording; main11 retained. Goal active.
+
+Latest2026-09-09: direct GPU timing complete, M3-cpu-profile/gpu.json.30s paired1,516frames/GPU samples, GPU p956.287ms vs CPU submission14.1ms/frame33.5ms; no invalid/pending/hidden. Focus CPU/driver draw/material/object overhead next, not presumed GPU triangle cost. Optional GpuTimer only instantiated by QA; unit/corrected typecheck pass. QA16 closed/reset after recording; main11 retained. Goal active.
+
+Latest2026-09-09: matrix timing sample complete (1,560frames/30s,p9533.3ms frame,1.8ms matrix,10.5ms inclusive submission). QA backend reports Intel UHD ANGLE D3D11, EXT_disjoint_timer_query_webgl2 available. Next asynchronous GPU timing around renderer submission, not blind matrix optimizations. M3-cpu-profile matrix.json/README. Normal profiling remains off. QA15 closed/reset after recording, main11 retained. Goal active.
+
+Latest2026-09-09:30-second CPU diagnostics complete, M3-cpu-profile. Split p9533.5ms frame,6.3ms scene,14.7ms WebGL submission; percentiles not additive, background compile uncontrolled, not GPU timing/physical-phone pass. Profiling defaults off in normal game. Next isolate submission/driver/GPU cost; no further blind batching assumption. QA14 closed/reset after recording; main11 retained. Goal active.
+
+Projectile benchmark FINAL:8,991frames/p9533.4ms/hidden0, browsererrors0; benchmark.json in M3-projectile-batches. QA13 closed, viewport reset, main11 retained. No material FPS gain vs prior33.4ms. Next investigate actual frame-pacing cost (render CPU/GPU/fixture overhead), plus remaining natural controls/presentation gates. Goal active.
+
+Latest2026-09-09: ProjectileView batches64 maximum shots into3 draw kinds (192 wind arcs capacity). Exact-transform, capacity/expiry and reduced-motion checks pass with ranged rules; final typecheck/build pass. tests/evidence/M3-projectile-batches. Current180s expanded benchmark on retained QA13; finish collecting before closing/resetting. Main11 remains separate. Full goal active; remaining busy-scene bottleneck not resolved merely by fewer draws.
+
+Latest2026-09-09: fixed audio voice priority and replacement overlap. Lower-priority hits cannot steal warning voices; replacement starts after30ms outgoing fade. Four audio tests/typecheck/build pass, M3-audio-priority. No changed waveforms or listening-quality claim. Main11 refreshed ready. Goal active; continue remaining gameplay/presentation/performance work.
+
+Latest2026-09-09: expanded12-character/item/projectile/hazard benchmark completed both180s samples at390×844 low quality. Gust arrows now one instanced draw instead of21; four targeted tests/final corrected typecheck/build pass. Baseline8,659frames/p9533.5ms, optimized8,920/p9533.4ms, bothhidden0: no material FPS improvement claimed. tests/evidence/M3-expanded-performance. Next busy-scene optimization plus remaining natural gameplay/presentation review. Main tab11 retained, QA12 closed and viewport reset. Goal active.
+
+Latest2026-09-09: phone Settings puts camera first, collapses individual content choices with ten item/three hazard explanations. Typecheck/build pass;390/320px UI inspected. tests/evidence/M3-settings-help. Main tab11 replaces absent tab5, ready at4179, viewport reset. Next natural item navigation and remaining presentation review. Goal active.
+
+Latest regression 2026-09-09: full80/80 pass in75.23sec, tests/evidence/M3-item-pose/full-tests.txt. Actual dist build also loads/plays/dashes/displays hazards without logged browser errors on temporary62643. Native workerd/physical-phone remain unverified; full goal active. Continue natural item navigation and precise grip/transition review.
+
+Latest 2026-09-09: ItemPose adds reversible post-mixer chest/arm aim over idle/run; limited reach and reaction fade preserve base animation. All four GLBs restoration regression plus prop drop regression pass, strict typecheck passes; desktop/390px fixtures inspected. tests/evidence/M3-item-pose. Precise grip contact at extremes still needs review. No protocol/source asset changes, remains0.12.0. Full goal active.
+
+Latest 2026-09-09: combined touch/camera integration test passes with independent pointer capture, perpendicular strafe/aim, one-shot use/dash and cancellation/resize/pause cleanup. Four targeted tests; tests/evidence/M3-combined-touch. No runtime change or physical-phone pass. Next moving aim/grip animation and natural item navigation, not repeated unavailable phone access checks. Goal active.
+
+Latest 2026-09-09: normal UI replay/dash checked; dash availability/status now matches countdown, cooldown, stun, pause, spectator/result and disconnected control states. Phone-size countdown/cooldown/pause visually checked; typecheck/build pass, no fresh full suite. tests/evidence/M3-dash-feedback. Main tab5 ready lobby, viewport reset. Next natural item/control walkthrough and moving grip/animation review; physical-phone testing unavailable per user, do not ask repeated connection retries. Goal active.
+
+Phone preview refreshed 2026-09-09: LAN4183 session12992, http://192.168.12.250:4183, page/current0.12.0/config/UI module HTTP200 verified from computer. User replied: phone cannot connect now, suspects router/network; physical-phone testing unavailable, do not repeatedly request retry. User has heard music/SFX in browser/mobile viewport tests, confirming browser audibility only. No physical-phone pass or full mix/listening quality approval claimed. Multiplayer4179 session98872 remains separate.
+
+Latest 2026-09-09: item pickup/action feedback now specific to passive/active items; four-second hints, actual/default shot counts, cooldown/stun-disabled actions, Drop available during ordinary firing cooldown. client/ui/item-feedback.ts reused in main and QA. Phone-size fixture checked five→four shots/0.4s disabled Fire and passive Drop-only. Final typecheck/build pass; tests/evidence/M3-item-feedback. UI-only, stays0.12.0. Next revalidate/restart LAN4183 for actual phone access, then natural controls/audio/animation gates. Multiplayer4179 session98872; QA4181 session24194. Goal active.
+
+Latest 2026-09-09: held prop sockets/bearing, 0.12.0. Player.itemAim copied/validated for remote presentation, no physics effect. Props follow shared hand/head sockets after mixers/interpolation; barrels aim correctly, idle body turns visually, first-person prop fit corrected. Full77 plus separate drop-reset regression, strict typecheck/build pass. tests/evidence/M3-held-props and ITEM_AIM_CONTRACT.md. Multiplayer4179 session98872, QA4181 session24194. QA tab7 closed; viewport reset; main tab5 current ready lobby. Next natural input/item walkthrough, moving upper-body/grip animation, full poses and actual audio/device gates. Full goal active.
+
+Latest 2026-09-09: [camera-directed items](tests/evidence/M4-camera-aim/README.md), 0.11.0. Validated optional aim separates close-camera fire from movement; bomb/pod immediate-turn fallback fixed. Full76/final typecheck/build pass. QA pointer drag→matching shot with stationary player; floor bearing arrow inspected at phone size after offset correction. Room4179 session6961, retained lobby tab5; QA4181 session24194, QA tab6 closed and viewport reset. Next held-prop/upper-body camera aim presentation (current props retain character heading), natural phone multitouch/use/dash and remaining poses/audio gates. Full goal active.
+
+Latest 2026-09-09: batched tile surfaces preserve visuals with 237→46 draw calls in the same warning fixture. Five targeted/typecheck/final build pass; sustained replacement sample complete: 10,799 frames, p95 16.8 ms, zero hidden frames; tests/evidence/M3-tile-performance. Read docs/COMPLETION_REVIEW.md; NEXT fix explicit camera item aim across shared input/authority (stationary close-camera view can differ from shot direction; bomb/pod use old facing before movement). QA 4181 session24194, QA tab closed after completed run; viewport reset. No physics/protocol change for tile batching. Full goal active.
+
+Latest 2026-09-09: [online selected cosmetics](tests/evidence/M3-online-cosmetics/README.md), version 0.10.0. Host/guest selected appearance/skin sent in ready, seat-owned and locked at countdown/start; ready sent once per connection; renderer repopulates changed looks. Full 71 tests/typecheck/build pass. Two-browser 24-second matching result, remote Sunset Wisp visible. Next full requirement/quality review and fixes, phone/performance, poses and actual audio listening. All catalog/character types now implemented, but do not equate presence with full quality/goal completion.
+
+
 Latest: [four characters/palettes](tests/evidence/M3-roster/README.md), version 0.9.0. Pebble/Wisp separate Blender sources, ten inherited clips, source/Khronos/fresh-reimport checks passed. Local four-character/four-palette picker persists; corrected phone layout, Wisp Sunset 68-second terminal round observed. Full 69 tests/typecheck/build pass. NEXT: online host/join must carry selected appearance/skin rather than assigned seat-only cosmetics. Then broader real-phone/audio/performance/pose/feel review. Preserve staged prior art; new originals in character.pebble and character.wisp. Full goal active.
 
 
@@ -81,6 +220,22 @@ Exact physics values, character topology, music and budgets are starting default
 
 Do not treat the proposed mature launch catalog as the first assignment. Local Party is a session configuration, not a separate simulation. King of the Hill and Boss Battle prove extensibility after the first polished slice. Their contracts must influence M1/M2 boundaries without requiring their early implementation.
 
+
+
+
+
+
+
+
+
+
+
+
+Preview follow-up:4179 NEWsession82106 live, HTTP source0.12.4 verified; old71369terminal. M3-overlapping-stuns.
+
+
+
+Preview follow-up:4179 NEWsession60040, source0.12.5HTTPverified; old82106terminal. M3-safe-spawns final checks pass.
 
 
 

@@ -10,4 +10,8 @@ Music stems share tempo and bar structure: lobby, active-round base, escalating 
 
 Prioritize warning → immediate impact → character feedback → music/ambience. Limit simultaneous voices and duck supporting audio rather than stacking every layer at full level. Independent master/music/SFX controls, mute persistence and browser audio unlock are required. No essential information is sound-only.
 
+Current engine enforces20 simultaneously playing effect voices. Lower-priority cues cannot evict higher-priority cues; replacement chooses the oldest lowest eligible priority and starts after the outgoing30ms fade. This is verified by scheduling tests, separately from listening quality (M3-audio-priority evidence).
+
 Keep editable masters and rights records, trim silence, apply fades, test seamless loops and export compatible compressed runtime audio after browser checks. Listen through headphones and ordinary speakers at crowded-match density. Reject clicks, clipping, repeated identical hits and music masking telegraphs. M3 evidence includes an actual listened-to recording and mix notes.
+
+Browser interruption feedback: after buffers load, context state changes update Settings status and expose resume when not running. Unlock reports readiness only from actual running state; successful resume reuses existing layers. M3-audio-state records automated lifecycle evidence, separate from physical-device/listening approval.

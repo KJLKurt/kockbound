@@ -9,7 +9,7 @@ import { RoomJournal } from './journal.ts';
 type Entry = { authority:RoomAuthority;tickets:string[];claimed:number;createdAt:number;finishedAt:number|null;journaled:boolean;peers:Set<WebSocket> };
 import type { Admission } from '../../shared/protocol/messages.ts';
 export type { Admission } from '../../shared/protocol/messages.ts';
-type Options = {journalDirectory:string;clock?:()=>number;automaticTicks?:boolean};
+type Options = {journalDirectory:string;clock?:()=>number;automaticTicks?:boolean;onDiagnostic?:(event:Record<string,string|number>)=>void};
 
 /** Loopback development transport; this is not a replacement for the specified Cloudflare host. */
 export class LocalRoomTransport {
@@ -29,11 +29,14 @@ export class LocalRoomTransport {
       if(!entry || !entry.tickets.slice(0,entry.claimed).includes(ticket)){socket.end('HTTP/1.1 403 Forbidden\r\nConnection: close\r\n\r\n');return;}
       this.wss.handleUpgrade(request,socket,head,ws=>{
         const id=randomUUID();
+        const diagnostic={roomId,participantId:`p${entry.tickets.indexOf(ticket)+1}`,connectionId:id};
+        const close=(code:number,reason:string)=>{options.onDiagnostic?.({...diagnostic,event:'socket-close-requested',code,reason});ws.close(code,reason);};
+        options.onDiagnostic?.({...diagnostic,event:'socket-open'});
         entry.peers.add(ws);
-        ws.on('error',()=>{entry.authority.disconnect(id,this.clock());});
-        ws.on('close',()=>{entry.peers.delete(ws);entry.authority.disconnect(id,this.clock());});
-        ws.on('message',(data,binary)=>{if(binary){ws.close(1003,'Text messages required');return;}entry.authority.receive(id,data.toString(),this.clock());});
-        entry.authority.connect(ticket,{id,get bufferedAmount(){return ws.bufferedAmount;},send:data=>{if(ws.readyState!==WebSocket.OPEN)throw new Error('Socket closed');ws.send(data);},close:(code,reason)=>ws.close(code,reason)},this.clock());
+        ws.on('error',error=>{options.onDiagnostic?.({...diagnostic,event:'socket-error',message:error.message});entry.authority.disconnect(id,this.clock());});
+        ws.on('close',(code,reason)=>{options.onDiagnostic?.({...diagnostic,event:'socket-close',code,reason:reason.toString()});entry.peers.delete(ws);entry.authority.disconnect(id,this.clock());});
+        ws.on('message',(data,binary)=>{if(binary){close(1003,'Text messages required');return;}entry.authority.receive(id,data.toString(),this.clock());});
+        entry.authority.connect(ticket,{id,get bufferedAmount(){return ws.bufferedAmount;},send:data=>{if(ws.readyState!==WebSocket.OPEN)throw new Error('Socket closed');ws.send(data);},close},this.clock());
       });
     });
     if(options.automaticTicks!==false)this.interval=setInterval(()=>this.tick(),25);

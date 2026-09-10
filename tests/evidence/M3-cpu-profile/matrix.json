@@ -1,0 +1,1 @@
+{"sampleSeconds":30,"sampleFrames":1560,"p95Milliseconds":33.30000000000291,"p95RenderCpuMilliseconds":12.800000004470348,"p95SceneCpuMilliseconds":4.700000002980232,"p95SubmitCpuMilliseconds":10.5,"p95MatrixCpuMilliseconds":1.8000000044703484,"p95FixtureCpuMilliseconds":1.5,"p95CallbackCpuMilliseconds":14.200000002980232,"hiddenFrames":0,"viewport":[390,844],"quality":"low"}

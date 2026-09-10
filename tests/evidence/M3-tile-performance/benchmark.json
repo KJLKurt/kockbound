@@ -1,0 +1,22 @@
+{
+  "scene": "stress",
+  "viewport": [
+    390,
+    844
+  ],
+  "drawingBuffer": {
+    "x": 390,
+    "y": 844
+  },
+  "reducedMotion": false,
+  "highQuality": false,
+  "benchmark": "complete",
+  "sampleFrames": 10799,
+  "p95Milliseconds": 16.79999999998836,
+  "hiddenFrames": 0,
+  "maximumParticles": 160,
+  "maximumPulses": 12,
+  "warmupSeconds": 30,
+  "measurementSeconds": 180,
+  "device": "Windows desktop in-app Chromium, phone-size viewport; not physical phone"
+}

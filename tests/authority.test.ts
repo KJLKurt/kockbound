@@ -91,3 +91,9 @@ test('N01/N06: 12-seat backlog is disconnected rather than queued; cancel is ter
   assert.equal(room.connect('ticket-p2',new TestPeer('new'),1001),false);assert.equal(room.receive(peers[1].id,command('p2',1),1002),false);
   for(const peer of peers.slice(1))assert.equal(peer.messages.filter(m=>m.type==='cancelled').length,1);
 });
+
+test('cosmetic ready schema rejects unknown looks and authority fields',()=>{
+ const base={type:'ready',protocolVersion:PROTOCOL_VERSION,contentReleaseId:CONTENT_RELEASE,appearance:'pebble',skin:'mint'};
+ assert.ok(parseClientMessage(JSON.stringify(base)));
+ for(const extra of [{appearance:'unknown'},{skin:'unknown'},{participantId:'p2'},{mass:99}])assert.equal(parseClientMessage(JSON.stringify({...base,...extra})),null);
+});

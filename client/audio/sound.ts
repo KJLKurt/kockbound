@@ -23,14 +23,20 @@ export class Sound {
     try{
       if(!this.context){
         this.context=new AudioContext();this.master=this.context.createGain();this.music=this.context.createGain();this.sfx=this.context.createGain();this.duck=this.context.createGain();
+        this.context.onstatechange=()=>this.reportContextState();
         const limiter=this.context.createDynamicsCompressor();limiter.threshold.value=-8;limiter.knee.value=5;limiter.ratio.value=12;limiter.attack.value=.003;limiter.release.value=.12;
         this.music.connect(this.duck);this.duck.connect(this.master);this.sfx.connect(this.master);this.master.connect(limiter);limiter.connect(this.context.destination);this.applyVolumes();
       }
       await this.context.resume();
       if(!this.loading){this.status='Getting the band ready…';this.prepare();this.loading=this.load();}
       await this.loading;
-      this.retryAvailable=false;this.retryAfter=0;this.status='Sound ready';
+      this.retryAfter=0;this.reportContextState();
     }catch{if(!this.buffers.size){this.loading=null;this.raw=null;}this.retryAfter=Date.now()+3000;this.retryAvailable=true;this.status='Sound unavailable · retry in Settings';}
+  }
+  private reportContextState(){
+    if(!this.context||!this.buffers.size)return;
+    const running=this.context.state==='running';this.retryAvailable=!running;
+    this.status=running?'Sound ready':'Sound paused by browser · tap to resume';
   }
   private async load(){
     const ctx=this.context!,raw=await this.raw!;
@@ -55,9 +61,10 @@ export class Sound {
   cue(name:string,priority=1,gain=1,pan=0){
     const ctx=this.context;if(!ctx||ctx.state!=='running'||!this.buffers.size||this.settings.muted||this.hidden)return;
     const variant=['dash','hit','ringout'].includes(name)?this.variant++%3:0,buffer=this.buffers.get(`${name}-${variant}`);if(!buffer)return;
-    if(this.voices.length>=20){const victim=this.voices.find(v=>v.priority<priority)??(priority>=2?this.voices[0]:null);if(!victim)return;victim.gain.gain.setTargetAtTime(0,ctx.currentTime,.008);victim.source.stop(ctx.currentTime+.03);this.voices.splice(this.voices.indexOf(victim),1);}
+    let startAt=ctx.currentTime;
+    if(this.voices.length>=20){const eligible=this.voices.filter(v=>v.priority<priority||priority>=2&&v.priority===priority);const victim=eligible.reduce<Voice|null>((lowest,voice)=>!lowest||voice.priority<lowest.priority?voice:lowest,null);if(!victim)return;startAt=ctx.currentTime+.03;victim.gain.gain.setTargetAtTime(0,ctx.currentTime,.008);victim.source.stop(startAt);this.voices.splice(this.voices.indexOf(victim),1);}
     const source=ctx.createBufferSource(),node=ctx.createGain(),panner=ctx.createStereoPanner();source.buffer=buffer;source.playbackRate.value=variant?1+(variant-1)*.02:1;node.gain.value=Math.max(0,Math.min(1,gain));panner.pan.value=Math.max(-.65,Math.min(.65,pan));source.connect(node);node.connect(panner);panner.connect(this.sfx);
-    const voice={source,gain:node,priority};this.voices.push(voice);source.onended=()=>{source.disconnect();node.disconnect();panner.disconnect();const index=this.voices.indexOf(voice);if(index>=0)this.voices.splice(index,1);};source.start();
+    const voice={source,gain:node,priority};this.voices.push(voice);source.onended=()=>{source.disconnect();node.disconnect();panner.disconnect();const index=this.voices.indexOf(voice);if(index>=0)this.voices.splice(index,1);};source.start(startAt);
     if(priority>=2){const param=this.duck.gain,now=ctx.currentTime;param.cancelScheduledValues(now);param.setTargetAtTime(priority>=3?.25:.55,now,.012);param.setTargetAtTime(1,now+(priority>=3?.8:.18),.2);}
   }
   update(world:World,playing:boolean,paused:boolean,participantId:string){

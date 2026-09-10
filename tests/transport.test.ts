@@ -39,6 +39,42 @@ async function client(origin:string,admission:Admission){
   await until(m=>m.type==='snapshot');
   return {ws,messages,until,latest:()=>messages.filter(m=>m.type==='snapshot').at(-1)!};
 }
+
+test('Host selections keep disabled items and hazards absent through real room spawn schedules',async()=>{
+  for(const options of [
+    {items:[],hazards:[]},
+    {items:['blaster'],hazards:[]},
+    {items:[],hazards:['gust']},
+    {items:['blaster'],hazards:['gust']},
+  ]){
+    const h=await harness();
+    try{
+      const response=await h.post('/api/rooms',{humanCount:4,...options});assert.equal(response.status,201);
+      const admission=await response.json() as Admission,c=await client(h.origin,admission);
+      const peers=[c];
+      for(let i=1;i<4;i++)peers.push(await client(h.origin,await (await h.post(`/api/rooms/${admission.roomId}/join`,{})).json() as Admission));
+      assert.deepEqual(c.latest().world.config.items??[],options.items);
+      assert.deepEqual(c.latest().world.config.hazards??[],options.hazards);
+      peers.forEach(peer=>peer.ws.send(ready));await c.until(m=>m.type==='snapshot'&&m.roomPhase==='countdown');
+      let sawItem=false,sawGust=false;
+      // Includes the first two item attempts and the first hazard warning/active interval.
+      for(let tick=1;tick<=400;tick++){
+        assert.equal(c.latest().world.result,null,'Idle test seats must remain in play through the observation interval');
+        h.advance();await c.until(m=>m.type==='snapshot'&&m.world.tick>=tick);
+        const world=c.latest().world;
+        if(!options.items.length)assert.equal(world.items,undefined);
+        else{
+          sawItem ||= (world.items?.serial??0)>0;
+          for(const item of world.items?.ground??[])assert.equal(item.kind,'blaster');
+          for(const player of world.players)if(player.heldItem)assert.equal(player.heldItem.kind,'blaster');
+        }
+        if(!options.hazards.length)assert.equal(world.hazards,undefined);
+        else{assert.equal(world.hazards?.rocks.length??0,0);sawGust ||= !!world.hazards?.gust;}
+      }
+      assert.equal(sawItem,options.items.length>0);assert.equal(sawGust,options.hazards.length>0);
+    }finally{await h.close();}
+  }
+});
 test('N01 real loopback WebSockets: four clients complete ten matches with identical results',async()=>{
   const h=await harness();let snapshotBytes=0;
   try{
@@ -114,7 +150,7 @@ test('The browser OnlineSession adapter completes a round through real WebSocket
   const h=await harness();let session:OnlineSession|undefined;
   try{
     const admission=await (await h.post('/api/rooms',{humanCount:1,items:['bomb','shovel','big','helicopter','blaster','wind','rock','remover','crate','pod'],hazards:['tiles','skyrock','gust']})).json() as Admission;
-    session=await OnlineSession.connect(admission,{origin:h.origin,socketFactory:url=>new WebSocket(url,{origin:h.origin}) as unknown as Socket});
+    session=await OnlineSession.connect(admission,{appearance:'wisp',skin:'mint',origin:h.origin,socketFactory:url=>new WebSocket(url,{origin:h.origin}) as unknown as Socket});
     for(let attempts=0;attempts<200&&session.roomPhase==='waiting';attempts++)await new Promise(r=>setTimeout(r,5));
     assert.equal(session.roomPhase,'countdown');
     let tick=0,sawBomb=false;
@@ -124,7 +160,7 @@ test('The browser OnlineSession adapter completes a round through real WebSocket
       for(let attempts=0;attempts<200&&session.authoritative.tick<tick&&!session.failure;attempts++)await new Promise(r=>setTimeout(r,5));
       sawBomb ||= (session.authoritative.items?.serial??0)>0;assert.equal(session.failure,null);assert.equal(session.authoritative.tick,tick);
     }
-    assert.deepEqual(session.authoritative.config.hazards,['tiles','skyrock','gust']);assert.equal(sawBomb,true);assert.deepEqual(session.authoritative.config.items,['bomb','shovel','big','helicopter','blaster','wind','rock','remover','crate','pod']);assert.ok(session.authoritative.result);assert.equal(session.participantId,'p1');
+    assert.deepEqual(session.authoritative.config.hazards,['tiles','skyrock','gust']);assert.equal(session.authoritative.players[0].appearance,'wisp');assert.equal(session.authoritative.players[0].skin,'mint');assert.equal(sawBomb,true);assert.deepEqual(session.authoritative.config.items,['bomb','shovel','big','helicopter','blaster','wind','rock','remover','crate','pod']);assert.ok(session.authoritative.result);assert.equal(session.participantId,'p1');
     assert.ok(session.authoritative.players.find(p=>p.id==='p1')!.lastSequence>=0);
   }finally{session?.close();await h.close();}
 });

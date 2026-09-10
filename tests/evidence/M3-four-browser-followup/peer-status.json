@@ -1,0 +1,11 @@
+{
+  "room": "7D6DF5",
+  "source": "Visible DOM text from four isolated Chrome pages",
+  "host": {"participant": "p1", "result": "draw", "roundSeconds": 76, "timer": "0:14", "hits": 0, "ringOuts": 0},
+  "peerPage1": {"participant": "p4", "countdown": "1", "message": "The room rejected the connection. Please rejoin."},
+  "peerPage2": {"participant": "p3", "countdown": "1", "message": "The room rejected the connection. Please rejoin."},
+  "peerPage3": {"participant": "p2", "result": "draw", "roundSeconds": 76, "timer": "0:14", "hits": 0, "ringOuts": 0},
+  "exactCloseCode": null,
+  "exactCloseReason": null,
+  "rootCause": "unverified"
+}

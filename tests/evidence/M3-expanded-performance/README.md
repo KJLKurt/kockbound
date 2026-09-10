@@ -1,0 +1,15 @@
+# Expanded rendering stress and gust batching
+
+Milestone/criteria: partial V04 and hazard presentation. Date/tester: 2026-09-09, Codex, Windows desktop in-app Chromium. Node24.19.0, Three0.180.0; protocol0.12.0 unchanged. This is desktop phone-size evidence, not a physical-phone pass.
+
+Fixture: seed31, twelve character rigs moving in circles with repeated hit/dash effects; twelve held items across all nine holdable kinds, five ground items, eighteen circulating projectiles, sky-rock/red-circle warning, gust arrows, warned outer blocks and one missing interior block. This is a synthetic rendering load, not a simulation/physics or balance run. Active simulation tick remains100 to sustain warnings; projectiles/characters move through fixture animation. The missing block falls during warmup, not repeatedly throughout measurement. No runtime audio capture/load. Default full-arena camera,390×844 drawing buffer, low quality, reduced motion off. QA toolbar occupies the upper viewport.
+
+Method:30seconds warmup then180seconds frame deltas from requestAnimationFrame, with hidden-frame and particle/pulse maxima. Baseline tab12 completed8,659 samples,p95=33.5ms,hiddenFrames=0,max particles160,max pulses12 (baseline.json). Draw-call counts in the output are instantaneous, fluctuate with effects/culling, and are not a phase-matched comparison. Desktop background work was not controlled; neither sample alone proves actual phone performance.
+
+Optimization: replace21 separate gust arrow meshes with one InstancedMesh using the same geometry/material, exact21 positions and the same group direction/height/color/opacity animation. This removes20 gust draw submissions without changing triangle coverage or authoritative effects. Combined-scene screenshot inspected after change; arrows still readable. The regression checks21 unique placements, circular footprint, wind direction, warning-to-active height and hiding when the gust ends. Test passed; an omitted third argument in the test initially failed typecheck and was corrected. Final check tracked below.
+
+Optimized benchmark is running on retained tab12 at4181/qa; do not reload or toggle while it is measuring. Final results will be appended only after observed completion. Main tab11 remains separate. No full-suite rerun required for this isolated rendering change; prior80-test evidence remains historical.
+
+Final code checks: four targeted hazard simulation/rendering tests pass (2.45s), corrected strict typecheck exits0, and static build passes. No runtime edits after the optimized sample started; the intervening correction changed only the test call signature.
+
+Optimized sample completed:8,920frames,p95=33.4ms,hiddenFrames=0,max particles160/max pulses12 (optimized.json); browser error log empty. The0.1ms p95 difference is too small for a reliable performance-improvement claim, especially with uncontrolled desktop workload. The guaranteed savings are20 gust draw calls. V04 physical-phone target is not established. Further busy-scene optimization remains warranted. Both three-minute samples completed; temporary QA tab closed and viewport reset afterward.

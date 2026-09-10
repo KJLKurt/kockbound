@@ -4,6 +4,24 @@ import { createHash } from 'node:crypto';
 import { localConfig } from '../shared/content/arena.ts';
 import { createMatch, step } from '../shared/simulation/index.ts';
 import { botInputs } from '../shared/simulation/bots.ts';
+
+test('bots escape a coincident bomb or arming pod using ordinary deterministic movement',()=>{
+  for(const kind of ['bomb','pod'] as const)for(const x of [0,3]){
+    const config=localConfig(19,2);config.rules.countdownTicks=0;config.obstacles=[];
+    const w=createMatch(config),bot=w.players.find(p=>p.control==='bot')!;
+    bot.x=x;bot.z=0;bot.heldItem={id:'full',kind:'shovel',expiresAt:400};
+    const human=w.players.find(p=>p.control==='human')!;human.x=-6;human.z=-4;
+    w.items={serial:1,nextSpawn:9999,ground:[{id:'danger',kind,x,z:0,vx:0,vz:0,expiresAt:20,thrown:false,owner:null,blockedId:null,blockedUntil:0,...(kind==='pod'?{armedAt:10}:{})}]};
+    const replay=structuredClone(w),command=botInputs(w);
+    assert.deepEqual(command,botInputs(replay));
+    const escape=command.find(input=>input.participantId===bot.id)!;
+    assert.ok(Math.hypot(escape.x,escape.z)>.99,`${kind} at ${x}: bot must choose an escape direction`);
+    assert.equal(escape.dash,false);
+    if(x>0)assert.ok(escape.x<0,'escape from coincidence points toward arena center');
+    step(w,command);step(replay,command);assert.deepEqual(w,replay);
+    assert.ok(Math.hypot(bot.x-x,bot.z)>0,'ordinary simulation input moves the bot away');
+  }
+});
 import { LocalSession } from '../client/game/local-session.ts';
 import type { Input, World } from '../shared/game-types/index.ts';
 

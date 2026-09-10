@@ -1,0 +1,9 @@
+# Acceptance evidence
+
+Date:2026-09-10. Build: current working tree0.12.6 after rotor/projectile interpolation, host-selection coverage, optional socket diagnostics and D84 held-tool occlusion. Environment: Windows, pinned Node24.19.0. Scope: complete package.json default test suite,104 tests.
+
+Result:104/104 PASS, no skipped/cancelled tests,165.47seconds. [Full output](full-tests.txt). Includes10,000-tick deterministic replay,20 seeded bot rounds, item/hazard rules, touch/camera controls, item rendering/rig restoration, prediction/latency/reconnect, four host-selection rooms and ten four-client real WebSocket matches. Ten-match snapshot bytes14,535,116. Worker tests in this suite are contract mocks; this is not native workerd or deployed-host proof.
+
+Command: parse package.json scripts.test into its existing argument list and run it with the pinned Node executable; capture stdout/stderr to full-tests.txt. Session59718 completed exit0. Polled the same live handle throughout; no retry/restart. No new runtime code this increment. Corrected stale ITEM_CONTRACT.md references that called implemented items/hazards future work or old versions current, and documented current explicit-aim precedence from itemDirection.
+
+Previous turn classification: progress via retained visibility cue and reviewed rendering evidence. This broad run is justified because the prior full100-test run preceded rotor/projectile/occlusion changes. It does not certify physical-device controls/performance, headset/speaker coverage, all animation poses, natural crate collection or resolve the earlier intermittent browser rejection. V07 outside-player evidence remains missing. Main4179 unchanged; no browser opened. Next return to those concrete quality gaps; do not repeat this full suite without new changes or failures.

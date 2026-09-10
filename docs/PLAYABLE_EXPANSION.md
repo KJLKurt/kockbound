@@ -37,3 +37,7 @@ Progress 2026-09-08: requirement 13 optional hazards implemented in 0.7.0, all t
 Progress 2026-09-08: requirement 12 additional danger now implemented as Spring pod (0.8.0), 67 tests and corrected phone fixture. All requested item/hazard types and cameras/tile shrink have initial implementations. Requirement 15 additional character identities plus skins/colors remains unimplemented; full physical-phone, human playability and presentation/audio evidence remains incomplete. Do not mark the goal complete from catalog presence alone.
 
 Progress 2026-09-08: requirement 15 now has two additional geometric identities (Pebble/Wisp) plus four local palettes, 0.9.0 and 69 tests. Online selected cosmetics remain next; final hardware/human/presentation evidence remains incomplete.
+
+Progress 2026-09-09: selected character/palette now propagates for online host/guest in 0.10.0. Full 71 tests and a two-browser matching result pass. All numbered capabilities have implementations; full quality acceptance still requires audit, broad playability/presentation checks, real-device performance and audio listening evidence.
+
+Progress 2026-09-09: camera-directed item input fixed in 0.11.0 with independent validated aim, 76 tests and stationary drag/fire browser evidence. Full natural phone/presentation/audio acceptance remains incomplete.

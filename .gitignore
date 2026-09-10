@@ -16,3 +16,5 @@ __pycache__/
 tests/evidence/asset-pipeline/session-recovery.blend
 .DS_Store
 Thumbs.db
+
+.playwright-cli/

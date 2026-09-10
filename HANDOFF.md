@@ -1,5 +1,7 @@
 # Start here: Knockbound implementation handoff
 
+Latest 2026-09-10: user requested solo GitHub Actions/Pages preparation for a repository subdirectory. Workflow and [deployment guide](docs/DEPLOYMENT.md) added; root/project static checks and browser round pass. No deployment, Cloudflare enablement, or resumed gameplay feature work. See M3-pages evidence and latest STATUS entry. User's next step is enabling Pages with GitHub Actions and pushing the files.
+
 Read AGENTS.md, docs/STATUS.md, docs/DECISIONS.md, then the canonical specification documents linked from README.md. Consult docs/SOURCE_COVERAGE.md when tracing prior design. All 89 foundation sections were read; later local-play, modes, content-platform and production-quality discussions are incorporated.
 
 Before visual production or M4 mode/co-op work, review [the full concept gallery](docs/CONCEPT_ART_GALLERY.md) and [branch design addendum](docs/BRANCH_DESIGN_ADDENDUM.md). Both Sprout and Lumi are recovered character explorations. Boss attack names, objective illustrations and phone UI details have explicit interpretations; image labels do not silently override written rules or milestone scope.

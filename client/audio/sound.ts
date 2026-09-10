@@ -16,7 +16,7 @@ export class Sound {
   private raw:Promise<ArrayBuffer[]>|null=null;private loading:Promise<void>|null=null;private mode='';private desired='lobby';private epoch=0;
   private matchId='';private serial=0;private countdown=-1;private variant=0;private hidden=false;
   constructor(){let stored=null;try{stored=localStorage.getItem('knockbound.audio');}catch{}this.settings=readVolumes(stored);}
-  prepare(){this.raw??=Promise.all(names.map(async name=>{const response=await fetch(`/assets/runtime/audio.sky-ring/r001/${name}.wav`);if(!response.ok)throw new Error('Sound download failed');return response.arrayBuffer();}));void this.raw.catch(()=>{this.retryAvailable=true;this.status='Sound unavailable · retry in Settings';});}
+  prepare(){this.raw??=Promise.all(names.map(async name=>{const response=await fetch(new URL(`../../assets/runtime/audio.sky-ring/r001/${name}.wav`,import.meta.url));if(!response.ok)throw new Error('Sound download failed');return response.arrayBuffer();}));void this.raw.catch(()=>{this.retryAvailable=true;this.status='Sound unavailable · retry in Settings';});}
   async unlock(retry=false){
     if(!retry&&Date.now()<this.retryAfter)return;
     if(retry&&this.retryAvailable&&!this.loading)this.raw=null;

@@ -1,5 +1,11 @@
 # Project status
 
+## Solo GitHub Pages deployment preparation — 2026-09-10
+
+User requested GitHub Actions publishing under the repository-name subdirectory for phone testing. Added `.github/workflows/pages.yml`, deployment guide, validated `BASE_PATH` static build option, and module-relative model/audio URLs. Static output keeps multiplayer disabled; root builds and Cloudflare config remain supported. No gameplay feature work resumed and no deployment executed.
+
+Direct installed TypeScript check passed (exit 0); two static-build tests passed for root/project paths and invalid-path rejection. In-app Chromium loaded `/KnockBound/`, started a four-character solo round and rendered the arena; screenshot inspected, warning/error log empty. Local pnpm launcher failed its automatic dependency check; direct Node tools were used without reinstalling dependencies. [Evidence](../tests/evidence/M3-pages/README.md). Next: user enables Pages → GitHub Actions, pushes to main (or adjusts release branch), then tests the deployed HTTPS URL on a physical phone. Live Actions and phone checks remain unrun.
+
 ## Development stopped at user request — 2026-09-10
 
 User requested deployment and phone-test instructions and stopped feature work. No deployment executed. Unfinished input-aware hint tweak reverted; existing104-test game baseline retained. Public Cloudflare URL/rooms remain disabled in config until user changes them. Solo is ready for deployed playtesting; multiplayer still needs live Worker validation and public deployment safeguards. See server/worker/README.md for known limitations. Do not continue feature work without a new user request.

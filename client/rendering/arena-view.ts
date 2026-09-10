@@ -72,7 +72,7 @@ export class ArenaView {
   async load() {
     const loader=new GLTFLoader();
     for(const [id,path] of Object.entries(CHARACTERS).map(([id,c])=>[id,c.path])) {
-      const gltf=await loader.loadAsync(`/assets/runtime/${path}/sprout-prototype.glb`);
+      const gltf=await loader.loadAsync(new URL(`../../assets/runtime/${path}/sprout-prototype.glb`,import.meta.url).href);
       gltf.scene.traverse(o=>{if(o instanceof THREE.Mesh){o.castShadow=true;o.receiveShadow=true;}});
       this.templates.set(id,{scene:gltf.scene,animations:gltf.animations});
     }

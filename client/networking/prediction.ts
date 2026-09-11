@@ -7,6 +7,8 @@ export function predictLocal(authoritative:World, participantId:string, pending:
   const output=structuredClone(authoritative),original=output.players.find(p=>p.id===participantId);
   if(!original?.alive || authoritative.phase!=='active')return output;
   const prediction=structuredClone(authoritative);prediction.players=[structuredClone(original)];prediction.events=[];prediction.config.items=[];delete prediction.items;prediction.config.hazards=[];delete prediction.hazards;
+  // Boss mechanics and team outcomes are authoritative, never predicted.
+  prediction.config.modeId='arena';delete prediction.boss;
   // The server coalesces queued movement per tick. An unacknowledged packet is
   // therefore not necessarily another simulation tick, especially with jitter.
   // Bound speculation to 100 ms and retain an unacknowledged dash edge.

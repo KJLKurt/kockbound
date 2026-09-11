@@ -1,0 +1,36 @@
+Boss bot completion cloud-king 4 748
+Boss bot completion cloud-king 12 1393
+Boss bot completion tempest 4 1294
+Boss bot completion tempest 12 1994
+✔ Team and co-op victories use the victory cue, including eliminated winning teammates (102.9742ms)
+✔ Team layouts include 2v2v2 and every equal split of twelve with two or more per team (52.0863ms)
+✔ Allied dash and shovel contacts separate bodies without hits; enemy contacts still launch (16.9337ms)
+✔ Friendly projectiles and bombs spare allies while retaining enemy and self interactions (82.3056ms)
+✔ Team victory waits for the last team, includes surviving allies, and simultaneous wipes draw (10.5276ms)
+✔ Both authored boss variants replay and complete with ordinary allied bot inputs (43944.8553ms)
+✔ Boss telegraphs precede strikes; safe ground avoids them; wipe and timeout lose (24.2801ms)
+✔ Boss state and team identity are validated; prediction cannot advance objectives or boss attacks (19.1805ms)
+✔ Complete team and boss rounds match local and online authority tick for tick (2342.8683ms)
+P01 replay digest: a2ebfcf9cc9dde5120cbeefcd94919931a847de0db62761c8e1fc2520d27d9a7
+Duel tuning comparison: {"old":{"powers":[7,7,7,7],"travel":[2.0230167308582137,2.0230167308582137,2.0230167308582137,2.0230167308582137]},"current":{"powers":[8.5,11.05,13.600000000000001,16.15],"travel":[2.3922346017564284,3.0199049822833155,3.647575362810233,4.318917618337141]}}
+P06 seeded round results: [{"seed":1,"ticks":1310,"outcome":"winner","winner":"p4","hits":80},{"seed":2,"ticks":1377,"outcome":"winner","winner":"p1","hits":118},{"seed":3,"ticks":300,"outcome":"winner","winner":"p1","hits":38},{"seed":4,"ticks":1369,"outcome":"winner","winner":"p3","hits":72},{"seed":5,"ticks":565,"outcome":"winner","winner":"p2","hits":29},{"seed":6,"ticks":547,"outcome":"winner","winner":"p3","hits":37},{"seed":7,"ticks":536,"outcome":"winner","winner":"p1","hits":50},{"seed":8,"ticks":608,"outcome":"winner","winner":"p1","hits":54},{"seed":9,"ticks":229,"outcome":"winner","winner":"p1","hits":15},{"seed":10,"ticks":534,"outcome":"winner","winner":"p3","hits":44},{"seed":11,"ticks":344,"outcome":"winner","winner":"p1","hits":38},{"seed":12,"ticks":985,"outcome":"winner","winner":"p4","hits":103},{"seed":13,"ticks":1277,"outcome":"winner","winner":"p2","hits":77},{"seed":14,"ticks":843,"outcome":"winner","winner":"p4","hits":51},{"seed":15,"ticks":907,"outcome":"winner","winner":"p2","hits":68},{"seed":16,"ticks":543,"outcome":"winner","winner":"p1","hits":52},{"seed":17,"ticks":298,"outcome":"winner","winner":"p1","hits":25},{"seed":18,"ticks":1247,"outcome":"winner","winner":"p4","hits":62},{"seed":19,"ticks":1339,"outcome":"winner","winner":"p1","hits":73},{"seed":20,"ticks":896,"outcome":"winner","winner":"p2","hits":89}]
+✔ bots escape a coincident bomb or arming pod using ordinary deterministic movement (214.7698ms)
+✔ P01: 10,000 recorded ticks replay identically, including bot RNG/events and restored state (27686.2573ms)
+✔ P01: 30, 60 and 144 Hz presentation produce the same authority state (1634.5267ms)
+✔ P02: cardinal/diagonal speed, hostile numbers, duplicate sequence and stale controls (53.6304ms)
+✔ P03: single-hit dash, cooldown and vulnerability recovery (159.4007ms)
+✔ P04: coincident centers settle; simultaneous head-on dashes hit both (2.0088ms)
+✔ P03: later dash increases impulse from previous vulnerability; vulnerability is capped (2.4558ms)
+✔ P03: four-second duel exchanges retain buildup and push farther than the previous tuning (1834.5052ms)
+✔ P04: maximum supported impulse/dash cannot tunnel through a 2 cm wall (60.8746ms)
+✔ P05: simultaneous final falls draw, terminal events are once-only, restart is clean (278.8255ms)
+✔ P06: keyboard-like input + three normal-rule bots finish 20 seeded rounds (8317.3009ms)
+✔ Config rejects incompatible releases, unsupported capacities and unsafe physics (1.2609ms)
+ℹ tests 21
+ℹ suites 0
+ℹ pass 21
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 49089.7001

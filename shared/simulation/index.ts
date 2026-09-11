@@ -4,7 +4,8 @@ import {supported,shrinkTiles,rescuePoint} from '../content/tiles.ts';
 import {playerMass,playerRadius} from './item-effects.ts';
 import type { GameEvent, Input, MatchConfig, Player, World } from '../game-types/index.ts';
 import { validateConfig } from '../content/arena.ts';
-import { arenaMode } from './arena-mode.ts';
+import { MODES } from './modes.ts';
+import {teammates} from '../content/party.ts';
 import {stepItems,openCrates} from './items.ts';
 
 export const PLAYER_RADIUS = .45;
@@ -27,7 +28,8 @@ export function createMatch(config: MatchConfig): World {
       moveX: 0, moveZ: 0, lastInputTick: -100, lastSequence: -1, dashTicks: 0, cooldownTicks: 0,
       dashId: 0, hitTargets: [], vulnerability: 0, lastHitTick: -100, alive: true, eliminatedTick: null, hits: 0, knockouts: 0, lastHitBy: null };
   });
-  arenaMode.determineOutcome(w); return w;
+  MODES[c.modeId].initialize?.(w);
+  MODES[c.modeId].determineOutcome(w); return w;
 }
 function emit(w: World, type: GameEvent['type'], x = 0, z = 0, source?: string, target?: string, strength?: number) {
   w.events.push({ id: `${w.config.matchId}:${++w.eventSerial}`, tick: w.tick, type, x, z, source, target, strength });
@@ -72,7 +74,7 @@ export function step(w: World, inputs: readonly Input[], forfeitedIds: readonly 
   // Bombs and pods retain their explicit explosion/arming expiry handlers.
   for(const player of w.players){const item=player.heldItem;if(item&&w.activeTick>=item.expiresAt&&item.kind!=='bomb'&&item.kind!=='pod')player.heldItem=null;}
   const r = w.config.rules, dt = r.tickSeconds;
-  if (w.activeTick === r.durationTicks-r.suddenDeathTicks-40) emit(w,'warning');
+  if (MODES[w.config.modeId].shrinks!==false&&w.activeTick === r.durationTicks-r.suddenDeathTicks-40) emit(w,'warning');
   const dashRequests = new Set<string>();
   const accepted:Input[]=[];
   for (const input of inputs) {
@@ -86,7 +88,8 @@ export function step(w: World, inputs: readonly Input[], forfeitedIds: readonly 
     [p.moveX,p.moveZ] = cap(input.x,input.z,1);
     if (input.dash) dashRequests.add(p.id);
   }
-  arenaMode.update(w);shrinkTiles(w);
+  MODES[w.config.modeId].update(w);if(MODES[w.config.modeId].shrinks!==false)shrinkTiles(w);
+  MODES[w.config.modeId].beforeStep?.(w);
   stepHazards(w,random,emit);
   stepItems(w,accepted,random,emit);
   for (const p of w.players) {
@@ -107,6 +110,7 @@ export function step(w: World, inputs: readonly Input[], forfeitedIds: readonly 
   const live = w.players.filter(p=>p.alive),unsupported=new Set<string>();
   for (let sub = 0; sub < SUBSTEPS; sub++) {
     for (const p of live) { p.x += (p.vx+p.ix)*dt/SUBSTEPS; p.z += (p.vz+p.iz)*dt/SUBSTEPS; obstacleContact(p,w);if(!supported(w,p.x,p.z))unsupported.add(p.id); }
+    MODES[w.config.modeId].substep?.(w,dt/SUBSTEPS);
     openCrates(w,random,emit);
     // Gather every simultaneous contact before changing impulses or vulnerability.
     const contacts: {a: Player;b: Player;nx:number;nz:number;depth:number}[] = [];
@@ -118,12 +122,12 @@ export function step(w: World, inputs: readonly Input[], forfeitedIds: readonly 
     for (const {a,b,nx,nz,depth} of contacts) {
       const total=playerMass(a)+playerMass(b),aShare=playerMass(b)/total,bShare=playerMass(a)/total;a.x -= nx*depth*aShare; a.z -= nz*depth*aShare; b.x += nx*depth*bShare; b.z += nz*depth*bShare;
       for (const [source,target,sign] of [[a,b,1],[b,a,-1]] as const) {
-        if (source.dashTicks > 0 && !source.hitTargets.includes(target.id)) {
+        if (!teammates(source,target)&&source.dashTicks > 0 && !source.hitTargets.includes(target.id)) {
           source.hitTargets.push(target.id); hits.push({source,target,nx:nx*sign,nz:nz*sign,power:r.hitImpulse*(1+target.vulnerability)/playerMass(target)});
         }
       }
     }
-    for(const source of live)if(source.heldItem?.kind==='shovel'&&source.dashTicks>0)for(const target of live){if(source===target||source.hitTargets.includes(target.id))continue;const dx=target.x-source.x,dz=target.z-source.z,d=Math.hypot(dx,dz);if(d>0&&d<1.5+playerRadius(target)&&(dx*source.facingX+dz*source.facingZ)/d>.35){source.hitTargets.push(target.id);hits.push({source,target,nx:dx/d,nz:dz/d,power:r.hitImpulse*(1+target.vulnerability)/playerMass(target)});}}
+    for(const source of live)if(source.heldItem?.kind==='shovel'&&source.dashTicks>0)for(const target of live){if(source===target||teammates(source,target)||source.hitTargets.includes(target.id))continue;const dx=target.x-source.x,dz=target.z-source.z,d=Math.hypot(dx,dz);if(d>0&&d<1.5+playerRadius(target)&&(dx*source.facingX+dz*source.facingZ)/d>.35){source.hitTargets.push(target.id);hits.push({source,target,nx:dx/d,nz:dz/d,power:r.hitImpulse*(1+target.vulnerability)/playerMass(target)});}}
     for (const {source,target,nx,nz,power} of hits) {
       target.ix += nx*power; target.iz += nz*power;
       target.vulnerability = Math.min(r.vulnerabilityCap,target.vulnerability+r.vulnerabilityGain);
@@ -132,7 +136,7 @@ export function step(w: World, inputs: readonly Input[], forfeitedIds: readonly 
     }
     for (const p of live) { [p.ix,p.iz] = cap(p.ix,p.iz,r.impulseCap); obstacleContact(p,w); }
   }
-  arenaMode.update(w);
+  MODES[w.config.modeId].update(w);
   for (const p of live) {
     p.dashTicks = Math.max(0,p.dashTicks-1);
     const damping = Math.exp(-r.impulseDamping*dt); p.ix *= damping; p.iz *= damping;
@@ -145,7 +149,7 @@ export function step(w: World, inputs: readonly Input[], forfeitedIds: readonly 
       emit(w,'ringout',p.x,p.z,p.lastHitBy??undefined,p.id);
     }
   }
-  arenaMode.determineOutcome(w);
+  MODES[w.config.modeId].determineOutcome(w);
   if (w.result) emit(w,'result');
   return w;
 }

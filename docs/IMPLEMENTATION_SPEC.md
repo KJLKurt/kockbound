@@ -30,9 +30,9 @@ Implement these as small TypeScript interfaces and pure functions when M1 begins
 | Acceleration | 35 units/s² |
 | Input release deceleration | 25 units/s² |
 | Dash speed / duration / cooldown | 14 units/s / 0.15 s / 1.2 s |
-| Base knockback impulse | 7 units/s |
-| Vulnerability increase / cap | +0.2 per qualifying dash hit / 2.0 |
-| Vulnerability recovery | 0.1/s after 2 seconds without a hit |
+| Base knockback impulse | 8.5 units/s (D86 playtest candidate) |
+| Vulnerability increase / cap | +0.3 per qualifying hit / 2.0 (D86) |
+| Vulnerability recovery | 0.05/s after 6 seconds without a hit (D86) |
 | Impulse speed cap | 22 units/s |
 | Input timeout | 250 ms before neutral movement |
 | Standard round / sudden death | 180 s / last 30 s; local M1 preset now 90 s / last 30 s (D25) |
@@ -53,6 +53,8 @@ M3 Sky Ring mutation: visibly telegraph edge removal for at least 1 s before los
 
 King of the Hill proof: fixed central zone, 1 point per uncontested second, first to 60 or highest score at 180 s; equal scores draw. Respawn after 3 s at safe spawns. Bots contest the zone. These are M4 proof defaults.
 Boss proof: one original boss with two phases, visible telegraph/recovery, at least one cooperative switch/push-object objective, win after objective completion and lose on team wipe or configured timeout. No loot/purchases required. A second configured encounter variant proves composability.
+
+Implemented 0.13.0: [party-mode contract](PARTY_MODE_CONTRACT.md) specifies multi-team Arena, Cloud King/Tempest co-op profiles, shared rune/core objectives, membership/result validation and current limits. User-requested team and boss work is now active; this does not imply the other M4 gates have passed.
 
 M1 bots perceive current public world state and output ordinary controls. Start with safe-ground steering, target choice and dash when aligned; add reaction delay (250 ms normal) and bounded aim error. No future input knowledge. Later objective/co-op policies share navigation and interaction primitives.
 

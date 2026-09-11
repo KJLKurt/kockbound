@@ -68,19 +68,21 @@ test('P02: cardinal/diagonal speed, hostile numbers, duplicate sequence and stal
 test('P03: single-hit dash, cooldown and vulnerability recovery',()=>{
   const w=fixture(2),[a,b]=w.players;a.x=-.5;a.z=0;b.x=.5;b.z=0;
   step(w,[input('p1',1,0,true,0)]);
-  assert.equal(a.hits,1);assert.equal(b.vulnerability,.2);
+  assert.equal(a.hits,1);assert.equal(b.vulnerability,w.config.rules.vulnerabilityGain);
   for(let i=1;i<12;i++) {b.x=a.x+.7;b.z=a.z;step(w,[input('p1',1,0,true,i)]);}
   assert.equal(a.dashId,1);assert.equal(a.hits,1);
   a.x=-1;a.z=0;b.x=1;b.z=0;a.ix=a.iz=b.ix=b.iz=a.vx=a.vz=b.vx=b.vz=0;
-  for(let i=12;i<60;i++)step(w,[input('p1',0,0,false,i)]);
-  assert.ok(b.vulnerability<.2);
+  for(let i=12;i<=w.config.rules.recoveryDelayTicks;i++)step(w,[input('p1',0,0,false,i)]);
+  assert.equal(b.vulnerability,w.config.rules.vulnerabilityGain,'buildup persists through the recovery delay');
+  for(let i=0;i<20;i++)step(w,[]);
+  assert.ok(b.vulnerability<w.config.rules.vulnerabilityGain);
 });
 test('P04: coincident centers settle; simultaneous head-on dashes hit both',()=>{
   const w=fixture(2),[a,b]=w.players;a.x=b.x=a.z=b.z=0;
   step(w,[]);assert.ok(Math.hypot(a.x-b.x,a.z-b.z)>=.9-1e-8);
   a.x=-.5;b.x=.5;a.z=b.z=0;
   step(w,[input('p1',1,0,true,0),input('p2',-1,0,true,0)]);
-  assert.equal(a.hits,1);assert.equal(b.hits,1);assert.equal(a.vulnerability,.2);assert.equal(b.vulnerability,.2);
+  assert.equal(a.hits,1);assert.equal(b.hits,1);assert.equal(a.vulnerability,w.config.rules.vulnerabilityGain);assert.equal(b.vulnerability,w.config.rules.vulnerabilityGain);
   assert.ok(a.ix<0 && b.ix>0);
 });
 test('P03: later dash increases impulse from previous vulnerability; vulnerability is capped',()=>{
@@ -90,10 +92,35 @@ test('P03: later dash increases impulse from previous vulnerability; vulnerabili
     a.cooldownTicks=0;a.dashTicks=0;
     const before=b.vulnerability;
     step(w,[input('p1',1,0,true,sequence++)]);
-    assert.equal(w.events.find(e=>e.type==='hit')?.strength,7*(1+before));
-    assert.equal(b.vulnerability,Math.min(2,before+.2));
+    assert.equal(w.events.find(e=>e.type==='hit')?.strength,w.config.rules.hitImpulse*(1+before));
+    assert.equal(b.vulnerability,Math.min(w.config.rules.vulnerabilityCap,before+w.config.rules.vulnerabilityGain));
   }
   assert.equal(b.vulnerability,2);
+});
+
+test('P03: four-second duel exchanges retain buildup and push farther than the previous tuning',()=>{
+  function exchanges(previous=false){
+    const config=localConfig(71,2);config.rules.countdownTicks=0;config.items=[];config.hazards=[];
+    if(previous)Object.assign(config.rules,{hitImpulse:7,vulnerabilityGain:.2,recoveryDelayTicks:40,recoveryPerSecond:.1});
+    const w=createMatch(config),[a,b]=w.players,powers:number[]=[],travel:number[]=[];
+    for(let hit=0;hit<4;hit++){
+      // Re-stage the contact to isolate the effect of retained vulnerability.
+      for(const p of [a,b]){p.z=p.vx=p.vz=p.ix=p.iz=p.moveX=p.moveZ=0;p.dashTicks=0;}
+      a.x=-.5;b.x=.5;
+      step(w,[input('p1',1,0,true,hit)]);
+      powers.push(w.events.find(e=>e.type==='hit'&&e.target===b.id)!.strength!);
+      a.x=-6;a.z=-6;a.vx=a.vz=a.ix=a.iz=a.moveX=a.moveZ=0;a.dashTicks=0;
+      for(let tick=1;tick<80;tick++)step(w,[]);
+      assert.equal(w.phase,'active');
+      travel.push(b.x-.5);
+    }
+    return {powers,travel};
+  }
+  const old=exchanges(true),current=exchanges();
+  assert.ok(current.travel[0]>old.travel[0]*1.15,'fresh hits move a neutral target noticeably farther');
+  assert.ok(current.powers[3]>current.powers[0]*1.8,'spaced duel hits build rather than reset');
+  assert.ok(current.travel[3]>old.travel[3]*1.8,'fourth exchange translates buildup into displacement');
+  console.log('Duel tuning comparison:',JSON.stringify({old,current}));
 });
 test('P04: maximum supported impulse/dash cannot tunnel through a 2 cm wall',()=>{
   const c=localConfig(1,1);c.rules.countdownTicks=0;c.obstacles=[{id:'thin',x:0,z:0,halfX:.01,halfZ:5}];

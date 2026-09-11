@@ -1,3 +1,4 @@
+import {configureParty} from '../../shared/content/party.ts';
 import {validRoomOptions} from '../../shared/content/items.ts';
 import type { IncomingMessage, Server, ServerResponse } from 'node:http';
 import { randomBytes, randomUUID } from 'node:crypto';
@@ -63,7 +64,8 @@ export class LocalRoomTransport {
         if(!validRoomOptions(body)){respond(400,{error:'Choose 1–12 human seats'});return true;}
         if(this.rooms.size>=8){respond(429,{error:'Local room capacity reached; finish an existing round'});return true;}
         let roomId:string;do{roomId=randomBytes(3).toString('hex').toUpperCase();}while(this.journal.state(roomId));
-        const humans=body.humanCount as number,config=localConfig(randomBytes(4).readUInt32LE(),Math.max(4,humans));config.matchId=`room-${roomId}`;if(body.items?.length)config.items=body.items;if(body.hazards?.length)config.hazards=body.hazards;
+        const humans=body.humanCount as number,config=localConfig(randomBytes(4).readUInt32LE(),body.totalCount??Math.max(4,humans));config.matchId=`room-${roomId}`;if(body.items?.length)config.items=body.items;if(body.hazards?.length)config.hazards=body.hazards;
+        configureParty(config,body);
         config.roster.forEach((p,i)=>{p.control=i<humans?'human':'bot';p.name=i<humans?`Player ${i+1}`:p.name;});
         const tickets=Array.from({length:humans},()=>randomBytes(32).toString('base64url'));
         const authority=new RoomAuthority(config,new Map(tickets.map((ticket,i)=>[ticket,config.roster[i].id])),this.clock());

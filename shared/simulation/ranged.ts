@@ -1,3 +1,4 @@
+import {friendlySource} from '../content/party.ts';
 import {itemDirection} from './item-aim.ts';
 import {ITEM_DEFINITIONS,isRanged} from '../content/items.ts';
 import type {GameEvent,Input,World} from '../game-types/index.ts';
@@ -30,7 +31,7 @@ export function stepRanged(w:World,commands:readonly Input[],emit:Emit){
   }
   for(let i=shots.length-1;i>=0;i--){const shot=shots[i],def=ITEM_DEFINITIONS[shot.kind];let travel=Math.min(def.speed*w.config.rules.tickSeconds,def.range-shot.distance),blocked=false;
     for(const o of w.config.obstacles){const distance=box(shot.x,shot.z,shot.dx,shot.dz,o.x,o.z,o.halfX+def.radius,o.halfZ+def.radius);if(distance<=travel){travel=distance;blocked=true;}}
-    const hits=w.players.filter(p=>p.alive&&p.id!==shot.owner&&!shot.hitTargets.includes(p.id)).map(p=>({p,d:circle(shot.x,shot.z,shot.dx,shot.dz,p.x,p.z,def.radius+playerRadius(p))})).filter(h=>h.d<travel).sort((a,b)=>a.d-b.d||a.p.id.localeCompare(b.p.id,'en'));
+    const hits=w.players.filter(p=>p.alive&&p.id!==shot.owner&&!friendlySource(w,shot.owner,p)&&!shot.hitTargets.includes(p.id)).map(p=>({p,d:circle(shot.x,shot.z,shot.dx,shot.dz,p.x,p.z,def.radius+playerRadius(p))})).filter(h=>h.d<travel).sort((a,b)=>a.d-b.d||a.p.id.localeCompare(b.p.id,'en'));
     for(const {p,d}of hits){const distance=shot.distance+d,base=shot.kind==='wind'?Math.max(w.config.rules.hitImpulse,def.push-(def.push-w.config.rules.hitImpulse)*distance/def.range):def.push,power=base*(1+p.vulnerability)/playerMass(p);
       p.ix+=shot.dx*power;p.iz+=shot.dz*power;p.lastHitTick=w.tick;p.lastHitBy=shot.owner;p.vulnerability=Math.min(w.config.rules.vulnerabilityCap,p.vulnerability+w.config.rules.vulnerabilityGain);
       if(shot.kind==='rock'){p.stunnedUntil=Math.max(p.stunnedUntil??0,w.activeTick+20);p.flattenedUntil=w.activeTick+20;p.dashTicks=0;p.vx=p.vz=0;}

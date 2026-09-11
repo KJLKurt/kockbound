@@ -82,7 +82,10 @@ export class Sound {
       if(event.type==='warning')this.cue('warning',3,.9);
       if(event.type==='podarm')this.cue('ui',2,.8,pan);if(event.type==='hazardwarning')this.cue('go',3,.7);if(event.type==='skyimpact')this.cue('ringout',3,.7,pan);if(event.type==='crateopen')this.cue('ui',2,.85,pan);if(event.type==='tilewarning')this.cue('go',3,.7);if(event.type==='shot')this.cue('dash',1,event.strength===1?.45:.85,pan);if(event.type==='rescue')this.cue('go',3,.7);if(event.type==='pickup')this.cue('ui',1,.7);if(event.type==='throw')this.cue('dash',1,.7,pan);if(event.type==='blast')this.cue('ringout',3,.9,pan);
       if(event.type==='go')this.cue('go',3,.8);
-      if(event.type==='result')this.cue(world.result?.winnerId===participantId?'victory':'defeat',3,.8);
+      if(event.type==='result'){
+        const player=world.players.find(p=>p.id===participantId),result=world.result;
+        this.cue(result?.winnerId===participantId||result?.winnerTeamId!==undefined&&result.winnerTeamId===player?.teamId?'victory':'defeat',3,.8);
+      }
     }
   }
   metrics(){return {state:this.context?.state??'locked',buffers:this.buffers.size,voices:this.voices.length,mode:this.mode,status:this.status};}

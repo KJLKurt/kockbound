@@ -1,6 +1,8 @@
 import {supported,tileAt,rescuePoint} from '../content/tiles.ts';
 import type { Input, World } from '../game-types/index.ts';
 import { random } from './index.ts';
+import {teammates} from '../content/party.ts';
+import {MODES} from './modes.ts';
 
 export function botInputs(w: World): Input[] {
   if (w.phase !== 'active') return [];
@@ -11,7 +13,7 @@ export function botInputs(w: World): Input[] {
     let dash = false;
     if (w.tick >= mem.nextTick) {
       mem.nextTick = w.tick+5;
-      const target = w.players.filter(q=>q.alive && q.id!==p.id).sort((a,b)=>Math.hypot(a.x-p.x,a.z-p.z)-Math.hypot(b.x-p.x,b.z-p.z))[0];
+      const target = w.players.filter(q=>q.alive && q.id!==p.id&&!teammates(p,q)).sort((a,b)=>Math.hypot(a.x-p.x,a.z-p.z)-Math.hypot(b.x-p.x,b.z-p.z))[0];
       const distanceToEdge = w.radius-Math.hypot(p.x,p.z);
       if (distanceToEdge < 2.2 || !target) { mem.x = -p.x; mem.z = -p.z; }
       else {
@@ -20,13 +22,15 @@ export function botInputs(w: World): Input[] {
         const endX = p.x+mem.x/Math.max(.001,d)*3, endZ = p.z+mem.z/Math.max(.001,d)*3;
         dash = d > .9 && d < 3.2 && Math.hypot(endX,endZ) < w.radius-.8 && random(w) > .18;
       }
+      const modeIntent=MODES[w.config.modeId].botIntent;
+      if(modeIntent){const intent=modeIntent(w,p);mem.x=intent.x;mem.z=intent.z;dash=intent.dash;}
       const danger=w.items?.ground.find(i=>((i.kind==='bomb'&&i.expiresAt-w.activeTick<25)||(i.kind==='pod'&&i.armedAt!==undefined))&&Math.hypot(i.x-p.x,i.z-p.z)<4);
       const loot=!p.heldItem?w.items?.ground.find(i=>i.armedAt===undefined&&!i.thrown&&i.expiresAt-w.activeTick>40&&Math.hypot(i.x-p.x,i.z-p.z)<4):undefined;
       if(danger){
         mem.x=p.x-danger.x;mem.z=p.z-danger.z;dash=false;
         // Coincident centers have no away vector; choose a stable inward escape.
         if(Math.hypot(mem.x,mem.z)<.01){mem.x=-p.x;mem.z=-p.z;if(Math.hypot(mem.x,mem.z)<.01){mem.x=1;mem.z=0;}}
-      }else if(loot&&distanceToEdge>2.2){mem.x=loot.x-p.x;mem.z=loot.z-p.z;dash=loot.kind==='crate'&&Math.hypot(mem.x,mem.z)<3;}
+      }else if(loot&&distanceToEdge>2.2&&!modeIntent){mem.x=loot.x-p.x;mem.z=loot.z-p.z;dash=loot.kind==='crate'&&Math.hypot(mem.x,mem.z)<3;}
       const strike=w.hazards?.rocks.find(r=>r.at>=w.activeTick&&Math.hypot(r.x-p.x,r.z-p.z)<2.6);if(strike){mem.x=p.x-strike.x;mem.z=p.z-strike.z;if(Math.hypot(mem.x,mem.z)<.01){mem.x=1;mem.z=0;}dash=false;}
       const here=tileAt(w,p.x,p.z),lenBefore=Math.hypot(mem.x,mem.z),nx=mem.x/Math.max(.001,lenBefore),nz=mem.z/Math.max(.001,lenBefore);
       if((here&&w.tiles?.[here])||![.5,1,2].every(d=>supported(w,p.x+nx*d,p.z+nz*d))){const safe=rescuePoint(w,p.x,p.z);mem.x=safe.x-p.x;mem.z=safe.z-p.z;dash=false;}

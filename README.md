@@ -9,6 +9,8 @@ The canonical specification is the set of documents indexed below; archived conv
 
 ## Play locally
 
+Use **Match setup** to choose free-for-all, teams (including2v2v2 and3v3v3v3), or boss co-op, with up to12 participants. Solo uses one human plus bots. For co-op, charge the three gold runes and dash the energy core into the north target. [Party rules and online limits](docs/PARTY_MODE_CONTRACT.md).
+
 For a hosted solo demo and phone testing, follow the [GitHub Actions / GitHub Pages deployment guide](docs/DEPLOYMENT.md). The included workflow builds for your repository subdirectory and publishes pushes to `main` after you enable Pages with GitHub Actions.
 
 Use Node **24.19.0** and pnpm **11.19.0**. No cloud account or credentials are needed.

@@ -1,3 +1,5 @@
+import {BossView} from './boss-view.ts';
+import {TEAM_COLORS,TEAM_NAMES} from '../../shared/content/party.ts';
 import {CHARACTERS} from '../../shared/content/characters.ts';
 import {applySkin,disposeSkin} from './character-skins.ts';
 import {HazardView} from './hazard-view.ts';
@@ -21,6 +23,7 @@ export const COLORS = [0xffd17b,0x65d1ed,0xf2939c,0xb4cb85,0xc3a1e5,0xf9aa68,0x8
 export class ArenaView {
   renderer:THREE.WebGLRenderer;
   scene=new THREE.Scene();
+  bossView=new BossView(this.scene);
   itemView=new ItemView(this.scene);
   tileView=new TileView(this.scene);
   removerPreview=new RemoverPreview(this.scene);
@@ -44,7 +47,7 @@ export class ArenaView {
   private highQuality=true;
   profiling=false;timings={sceneCpuMilliseconds:0,submitCpuMilliseconds:0,matrixCpuMilliseconds:0};
   private cameraReady=false;private appearanceKey='';
-  private rosterLook(w:World){return w.players.map(p=>p.id+':'+p.appearance+':'+(p.skin??'classic')).join('|');}
+  private rosterLook(w:World){return w.players.map(p=>p.id+':'+p.appearance+':'+(p.skin??'classic')+':'+p.teamId).join('|');}
   dustGeometry=new THREE.IcosahedronGeometry(.09,0);
   dustMaterials=[new THREE.MeshBasicMaterial({color:0xffde8d}),new THREE.MeshBasicMaterial({color:0xfffbdf}),new THREE.MeshBasicMaterial({color:0x8ce5e9})];
   dustBatches:THREE.InstancedMesh[]=[];
@@ -88,9 +91,9 @@ export class ArenaView {
       const mixer=new THREE.AnimationMixer(model),actions=new Map<string,THREE.AnimationAction>();
       for(const clip of template.animations)actions.set(clip.name.toLowerCase(),mixer.clipAction(clip));
       const localIndex=w.players.findIndex(player=>player.id===this.localParticipantId);
-      const ring=new THREE.Mesh(new THREE.RingGeometry(.51,.59,40),new THREE.MeshBasicMaterial({color:COLORS[i===localIndex?0:i===0?localIndex:i],side:THREE.DoubleSide,transparent:true,opacity:.9}));ring.rotation.x=-Math.PI/2;ring.position.y=.025;root.add(ring);
+      const ring=new THREE.Mesh(new THREE.RingGeometry(.51,.59,40),new THREE.MeshBasicMaterial({color:p.teamId===undefined?COLORS[i===localIndex?0:i===0?localIndex:i]:TEAM_COLORS[p.teamId],side:THREE.DoubleSide,transparent:true,opacity:.9}));ring.rotation.x=-Math.PI/2;ring.position.y=.025;root.add(ring);
       const trail=new THREE.Group(),ribbon=new THREE.Mesh(this.ribbonGeometry,this.ribbonMaterial);ribbon.rotation.x=-Math.PI/2;ribbon.position.set(0,.055,-1.1);trail.add(ribbon);trail.visible=false;root.add(trail);
-      const label=document.createElement('div');label.className=`player-label${p.id===this.localParticipantId?' you':''}`;label.style.left=label.style.top='0';label.style.willChange='transform';label.textContent=p.id===this.localParticipantId?'YOU':p.name;document.querySelector('#labels')!.append(label);
+      const label=document.createElement('div');label.className=`player-label${p.id===this.localParticipantId?' you':''}`;label.style.left=label.style.top='0';label.style.willChange='transform';label.textContent=(p.id===this.localParticipantId?'YOU':p.name)+(p.teamId===undefined?'':` · ${TEAM_NAMES[p.teamId]}`);document.querySelector('#labels')!.append(label);
       const hand=model.getObjectByName(THREE.PropertyBinding.sanitizeNodeName('socket.hand.R')),head=model.getObjectByName(THREE.PropertyBinding.sanitizeNodeName('socket.head'));
       if(!hand||!head)throw new Error('Character is missing the shared item sockets.');
       const avatar={root,model,itemPose:new ItemPose(model),hand,head,mixer,actions,clip:'',ring,trail,label,hitTime:0,dashTime:0,fallTime:0};this.avatars.push(avatar);this.animate(avatar,'idle');
@@ -105,9 +108,10 @@ export class ArenaView {
     if(this.appearanceKey!==this.rosterLook(w))this.populate(w);
     this.elapsed+=dt;this.emoteTime=Math.max(0,this.emoteTime-dt);
     const compact=this.width<580, narrow=this.width<1000;
-    const distance=Math.max(29,25/this.camera.aspect);
+    const distance=Math.max(w.boss&&!this.lobby?33:29,25/this.camera.aspect);
     const desiredPosition=new THREE.Vector3(this.lobby&&!narrow?-9:0,this.lobby?18:distance*.76,this.lobby?24:distance*.9);
     const desiredTarget=new THREE.Vector3(this.lobby&&!narrow?-4.5:0,this.lobby?-1:0,0);
+    if(w.boss&&!this.lobby)desiredTarget.set(0,1,-1.5);
     const owner=w.players.find(p=>p.id===this.localParticipantId),closeView=!this.lobby&&owner?.alive&&!w.result&&this.cameraMode!=='arena';
     this.removerPreview.update(w,owner,{dx:closeView?Math.sin(this.cameraYaw):owner?.facingX??0,dz:closeView?-Math.cos(this.cameraYaw):owner?.facingZ??-1},!this.lobby);
     const nearby=this.lobby?null:nearbyItem(w,this.localParticipantId);this.pickupRing.visible=!!nearby;
@@ -122,7 +126,7 @@ export class ArenaView {
     const fog=this.scene.fog as THREE.Fog;fog.near=Math.max(45,this.camera.position.distanceTo(desiredTarget)+12);fog.far=fog.near+65;
     this.camera.fov=this.lobby?38:closeView?this.cameraMode==='first'?75:64:42;this.camera.updateProjectionMatrix();
     this.arena.visible=this.lobby;this.arena.scale.setScalar(1);this.tileView.update(w,this.lobby,this.reducedMotion,dt);this.hazardView.update(w,this.lobby,this.reducedMotion);
-    const warning=w.phase==='active'&&w.activeTick>=w.config.rules.durationTicks-w.config.rules.suddenDeathTicks-40;
+    const warning=!w.boss&&w.phase==='active'&&w.activeTick>=w.config.rules.durationTicks-w.config.rules.suddenDeathTicks-40;
     (this.rim.material as THREE.MeshStandardMaterial).color.setHex(warning?0xf07f57:0xd9a857);
     this.warningBand.visible=warning;(this.warningBand.material as THREE.MeshBasicMaterial).opacity=this.reducedMotion?.65:.45+Math.sin(this.elapsed*7)*.15;
     this.clouds.rotation.y=this.reducedMotion?0:Math.sin(this.elapsed*.02)*.035;
@@ -138,7 +142,7 @@ export class ArenaView {
         a.fallTime=p.alive?0:a.fallTime+dt;
         const fall=a.fallTime;
         if(!p.alive){a.root.position.y=-fall*fall*8;a.model.rotation.z=fall*2;a.root.visible=fall<1.6;this.animate(a,fall<.85?'falling':'eliminated');}
-        else {a.model.rotation.z=0;this.animate(a,w.result?.winnerId===p.id?'victory':a.hitTime>0?'hit':p.dashTicks>0||a.dashTime>0?'dash':(w.activeTick<(p.stunnedUntil??0)||Math.hypot(p.ix,p.iz)>8)?'stunned':Math.hypot(p.vx,p.vz)>.3?'run':'idle');}
+        else {a.model.rotation.z=0;this.animate(a,(w.result?.winnerId===p.id||w.result?.winnerTeamId!==undefined&&w.result.winnerTeamId===p.teamId)?'victory':a.hitTime>0?'hit':p.dashTicks>0||a.dashTime>0?'dash':(w.activeTick<(p.stunnedUntil??0)||Math.hypot(p.ix,p.iz)>8)?'stunned':Math.hypot(p.vx,p.vz)>.3?'run':'idle');}
         if(a.hitTime>0){a.hitTime=Math.max(0,a.hitTime-dt);if(!this.reducedMotion)a.model.scale.set(size*(1+a.hitTime*.45),size*(1-a.hitTime*.45),size*(1+a.hitTime*.45));}
         if(p.alive&&w.activeTick<(p.flattenedUntil??0))a.model.scale.set(size*1.3,size*.4,size*1.3);
         const point=new THREE.Vector3(a.root.position.x,p.heldItem?.kind==='big'?3.15:2.25,a.root.position.z).project(this.camera);a.label.style.transform=`translate3d(${(point.x*.5+.5)*this.width}px,${(-point.y*.5+.5)*this.height}px,0) translate(-50%,-100%)`;
@@ -158,6 +162,7 @@ export class ArenaView {
         heldPoses.set(p.heldItem.id,pose);
       }
     }
+    this.bossView.update(w,previous,alpha,this.lobby,this.reducedMotion,this.elapsed);
     this.itemView.update(w,this.lobby,this.reducedMotion,heldPoses,this.elapsed,previous,alpha);
     for(let i=this.particles.length-1;i>=0;i--){const p=this.particles[i];p.life-=dt;if(p.life<=0){this.particles.splice(i,1);continue;}p.vy-=dt*10;p.x+=p.vx*dt;p.y+=p.vy*dt;p.z+=p.vz*dt;}
     for(const batch of this.dustBatches)batch.count=0;

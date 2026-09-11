@@ -10,10 +10,24 @@ import {LocalRoomTransport} from '../server/game-room/local-transport.ts';
 import type {Admission} from '../server/game-room/local-transport.ts';
 import {PROTOCOL_VERSION,CONTENT_RELEASE} from '../shared/content/arena.ts';
 import type {ServerMessage} from '../shared/protocol/messages.ts';
+import {parseServerMessage} from '../shared/protocol/messages.ts';
 import {OnlineSession} from '../client/networking/online-session.ts';
 import type {Socket} from '../client/networking/online-session.ts';
 
 const ready=JSON.stringify({type:'ready',protocolVersion:PROTOCOL_VERSION,contentReleaseId:CONTENT_RELEASE});
+
+test('Twelve real human sockets receive 3v3v3v3 teams and co-op state from the same room contract',async()=>{
+  for(const options of [{modeId:'teams',teamSize:3},{modeId:'boss',bossVariant:'tempest'}]){
+    const h=await harness();try{
+      const response=await h.post('/api/rooms',{humanCount:12,totalCount:12,...options,items:[],hazards:[]});assert.equal(response.status,201);
+      const admission=await response.json() as Admission,peers=[await client(h.origin,admission)];
+      for(let i=1;i<12;i++)peers.push(await client(h.origin,await(await h.post(`/api/rooms/${admission.roomId}/join`,{})).json() as Admission));
+      peers.forEach(p=>p.ws.send(ready));await peers[0].until(m=>m.type==='snapshot'&&m.roomPhase==='countdown');
+      for(let tick=1;tick<=110;tick++){h.advance();await peers[0].until(m=>m.type==='snapshot'&&m.world.tick>=tick);}
+      for(const p of peers){await p.until(m=>m.type==='snapshot'&&m.world.tick===110);const m=p.latest();assert.ok(parseServerMessage(JSON.stringify(m)));assert.equal(m.world.players.length,12);assert.equal(new Set(m.world.players.map(p=>p.teamId)).size,options.modeId==='teams'?4:1);assert.equal(!!m.world.boss,options.modeId==='boss');assert.deepEqual(m.world,peers[0].latest().world);p.ws.close();}
+    }finally{await h.close();}
+  }
+});
 async function harness(directory?:string){
   const journal=directory??await fs.mkdtemp(path.join(os.tmpdir(),'knockbound-transport-'));
   let now=0;

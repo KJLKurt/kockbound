@@ -1,3 +1,5 @@
+import {partyOptions,setupParty,updatePartyHud} from '../ui/party-setup.ts';
+import {TEAM_COLORS,TEAM_NAMES} from '../../shared/content/party.ts';
 import {ITEM_HELP,pickupHint,updateItemHud} from '../ui/item-feedback.ts';
 import {nearbyItem} from './nearby-item.ts';
 import {SKINS,validAppearance,validSkin,type Appearance,type Skin} from '../../shared/content/characters.ts';
@@ -30,7 +32,7 @@ function closeSettings(){el('settings').hidden=true;if(playing&&!session.world.r
 function enter(next:LocalSession|OnlineSession){
   if(session instanceof OnlineSession)session.close();session=next;
   input.sequence=0;input.clear();const owner=session.world.players.find(p=>p.id===playerId())!;input.facingX=owner.facingX;input.facingZ=owner.facingZ;
-  input.enabled=true;playing=true;resultShown=false;view.lobby=false;view.localParticipantId=playerId();view.populate(session.world);
+  document.body.classList.toggle('boss-play',!!session.world.boss);input.enabled=true;playing=true;resultShown=false;view.lobby=false;view.localParticipantId=playerId();view.populate(session.world);
   el('lobby').hidden=el('character-picker').hidden=el('lobby-footer').hidden=true;el('result').hidden=el('pause-panel').hidden=el('room-panel').hidden=true;el('hud').hidden=false;
   el('network-bar').hidden=!(session instanceof OnlineSession);el('again').textContent=session instanceof OnlineSession?'Back to room setup':'One more round →';
   if(session instanceof OnlineSession)el<HTMLAnchorElement>('another-player').href=`/?room=${session.roomId}`;
@@ -38,14 +40,14 @@ function enter(next:LocalSession|OnlineSession){
 }
 const selectedItems=():ItemId[]=>el<HTMLInputElement>('items-enabled').checked?(Object.keys(ITEM_DEFINITIONS) as ItemId[]).filter(id=>el<HTMLInputElement>(id+'-enabled').checked):[];
 const selectedHazards=():HazardId[]=>el<HTMLInputElement>('hazards-enabled').checked?(Object.keys(HAZARD_DEFINITIONS) as HazardId[]).filter(id=>el<HTMLInputElement>('hazard-'+id).checked):[];
-function start(){joinGeneration++;seed++;enter(new LocalSession(seed,4,appearance,selectedItems(),selectedHazards(),skin));}
-function home(){el('room-message').textContent='';joinGeneration++;if(session instanceof OnlineSession)session.close();playing=false;input.enabled=false;input.clear();session=new LocalSession(seed,4,appearance,[],[],skin);view.localParticipantId='p1';view.populate(session.world);view.lobby=true;el('lobby').hidden=el('character-picker').hidden=el('lobby-footer').hidden=false;el('hud').hidden=el('result').hidden=el('pause-panel').hidden=el('network-bar').hidden=el('error').hidden=el('room-panel').hidden=true;el('announcement').textContent='';el('toast').textContent='';document.body.classList.remove('playing','network-play');}
+function start(){joinGeneration++;seed++;enter(new LocalSession(seed,partyOptions().totalCount,appearance,selectedItems(),selectedHazards(),skin,partyOptions()));}
+function home(){el('room-message').textContent='';joinGeneration++;if(session instanceof OnlineSession)session.close();playing=false;input.enabled=false;input.clear();session=new LocalSession(seed,4,appearance,[],[],skin);view.localParticipantId='p1';view.populate(session.world);view.lobby=true;el('lobby').hidden=el('character-picker').hidden=el('lobby-footer').hidden=false;el('hud').hidden=el('result').hidden=el('pause-panel').hidden=el('network-bar').hidden=el('error').hidden=el('room-panel').hidden=true;el('announcement').textContent='';el('toast').textContent='';document.body.classList.remove('playing','network-play','boss-play');}
 async function joinRoom(create:boolean){
   const generation=++joinGeneration,code=el<HTMLInputElement>('room-code').value.trim().toUpperCase();
   if(!create&&!/^[A-Z0-9]{6}$/.test(code)){el('room-message').textContent='Enter the six-character room code.';return;}
   el<HTMLButtonElement>('create-room').disabled=el<HTMLButtonElement>('join-room').disabled=true;el('room-message').textContent='Connecting to the island…';
   try{
-    const response=await fetch(create?'/api/rooms':`/api/rooms/${code}/join`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(create?{humanCount:Number(el<HTMLSelectElement>('human-count').value),items:selectedItems(),hazards:selectedHazards()}:{})});
+    const response=await fetch(create?'/api/rooms':`/api/rooms/${code}/join`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(create?{...partyOptions(),humanCount:Number(el<HTMLSelectElement>('human-count').value),items:selectedItems(),hazards:selectedHazards()}:{})});
     const data=await response.json();if(!response.ok)throw new Error(typeof data.error==='string'?data.error:'The room could not be reached.');
     if(generation!==joinGeneration)return;
     const connected=await OnlineSession.connect(data as Admission,{appearance,skin,onStatus:message=>{if(generation===joinGeneration)el('network-status').textContent=message;}});
@@ -57,9 +59,9 @@ function updateHud(){const w=session.world,p=w.players.find(p=>p.id===playerId()
   updateItemHud(p,w.activeTick,w.phase,session.paused);
   el('alive').textContent=`${w.players.filter(p=>p.alive).length} standing`;
   const remaining=Math.max(0,Math.ceil((w.config.rules.durationTicks-w.activeTick)*.05));el('timer').textContent=`${Math.floor(remaining/60)}:${String(remaining%60).padStart(2,'0')}`;el('timer').classList.toggle('danger',remaining<=30);
-  const signature=JSON.stringify([w.config.matchId,playerId(),w.players.map(p=>[p.id,p.name,p.control,p.alive])]);
+  const signature=JSON.stringify([w.config.matchId,playerId(),w.players.map(p=>[p.id,p.name,p.control,p.alive,p.teamId])]);
   if(signature!==rosterSignature){rosterSignature=signature;
-  el('roster').replaceChildren(...w.players.map((p,i)=>{const row=document.createElement('div');row.className=`roster-row${p.alive?'':' out'}`;const dot=document.createElement('i');dot.style.background=`#${COLORS[i===localIndex?0:i===0?localIndex:i].toString(16)}`;const name=document.createElement('span');name.textContent=p.id===playerId()?'You':p.name;const kind=document.createElement('small');kind.textContent=p.id===playerId()?'YOU':p.control==='bot'?'CPU':'PLAYER';row.append(dot,name,kind);return row;}));
+  el('roster').replaceChildren(...w.players.map((p,i)=>{const row=document.createElement('div');row.className=`roster-row${p.alive?'':' out'}`;const dot=document.createElement('i');dot.style.background=`#${(p.teamId===undefined?COLORS[i===localIndex?0:i===0?localIndex:i]:TEAM_COLORS[p.teamId]).toString(16)}`;const name=document.createElement('span');name.textContent=(p.id===playerId()?'You':p.name)+(p.teamId===undefined?'':` · ${TEAM_NAMES[p.teamId]}`);const kind=document.createElement('small');kind.textContent=p.id===playerId()?'YOU':p.control==='bot'?'CPU':'PLAYER';row.append(dot,name,kind);return row;}));
   }
   el('dash-fill').style.transform=`scaleY(${1-p.cooldownTicks/w.config.rules.cooldownTicks})`;el('vulnerability').textContent=!p.alive?'Watching the remaining players':p.vulnerability>.1?`${Math.round(p.vulnerability*100)}% extra knockback`:'Keep your footing';
   if(session instanceof OnlineSession&&session.roomPhase==='waiting')el('announcement').innerHTML='Ready?<small>Waiting for everyone to join</small>';
@@ -68,6 +70,7 @@ function updateHud(){const w=session.world,p=w.players.find(p=>p.id===playerId()
   else el('announcement').textContent='';
   if(session instanceof OnlineSession)el('another-player').hidden=session.roomPhase!=='waiting';
   if(w.result&&!resultShown){resultShown=true;input.enabled=false;const winner=w.players.find(p=>p.id===w.result?.winnerId);const won=winner?.id===p.id;el('result-title').textContent=won?'Little legend. Big win.':winner?`${winner.name} takes the crown!`:'Too close to call.';el('result-copy').textContent=won?'You kept your footing when it mattered.':winner?'A good dash can turn the next round around.':'A sky-high draw. Settle it in the next round.';el('result-stats').innerHTML=`<div><strong>${p.hits}</strong><small>Hits landed</small></div><div><strong>${p.knockouts}</strong><small>Ring-outs</small></div><div><strong>${Math.round(w.activeTick*.05)}s</strong><small>Round time</small></div>`;setTimeout(()=>{if(playing&&session.world.config.matchId===w.config.matchId&&session.world.result)el('result').hidden=false;},900);}
+  updatePartyHud(w,playerId());
 }
 el('emote-wave').onclick=()=>view?.playEmote('emote_01');el('emote-dance').onclick=()=>view?.playEmote('emote_02');
 el('item-use').onpointerdown=e=>{e.preventDefault();if(input.enabled)input.pendingUse=true;};el('item-drop').onclick=()=>{if(input.enabled)input.pendingDrop=true;};
@@ -80,7 +83,7 @@ document.querySelectorAll<HTMLButtonElement>('[data-character]').forEach(button=
 window.addEventListener('blur',()=>{if(playing&&!session.paused&&!session.world.result)togglePause(true);});
 document.addEventListener('visibilitychange',()=>{if(document.hidden&&playing&&!session.paused&&!session.world.result)togglePause(true);});
 async function boot(){try{
-  sound.prepare();
+  setupParty();sound.prepare();
   const palette=el<HTMLSelectElement>('skin-choice');for(const [id,option]of Object.entries(SKINS)){const element=document.createElement('option');element.value=id;element.textContent=option.name;palette.append(element);}palette.onchange=()=>{skin=palette.value as Skin;try{localStorage.setItem('knockbound.skin',skin);}catch{}session=new LocalSession(seed,4,appearance,[],[],skin);view.populate(session.world);};
   for(const [id,definition] of Object.entries(ITEM_DEFINITIONS)){const label=document.createElement('label');label.className='toggle';const text=document.createElement('span');text.textContent=definition.name;const help=document.createElement('small');help.textContent=ITEM_HELP[id as ItemId];text.append(help);const checkbox=document.createElement('input');checkbox.type='checkbox';checkbox.id=id+'-enabled';label.append(text,checkbox);el('item-options').append(label);}
   for(const id of ['items-enabled',...Object.keys(ITEM_DEFINITIONS).map(id=>id+'-enabled')]){const toggle=el<HTMLInputElement>(id);toggle.checked=readSetting('knockbound.'+id,true);toggle.onchange=()=>saveSetting('knockbound.'+id,toggle.checked);}
@@ -123,7 +126,7 @@ async function boot(){try{
     el('dash-label').textContent=dashStatus;
     el<HTMLButtonElement>('dash-button').disabled=!playing||!!session.world.result||dashStatus!=='Dash ready';
     el('dash-button').setAttribute('aria-label',dashStatus==='Dash ready'?'Dash':dashStatus);
-    if(playing)alpha=session.advance(dt,()=>cameraRelative(input.sample(),view.cameraMode==='arena'?0:look.yaw,view.cameraMode!=='arena'),w=>{sound.update(w,playing,session.paused,playerId());view.events(w);for(const e of w.events){if(e.type==='pickup'&&e.source===playerId())toast(pickupHint(w.players.find(p=>p.id===playerId())?.heldItem?.kind),4000);if(e.type==='ringout'&&e.target===playerId())toast('You’re out! Watch the round, or pause to leave.');if(e.type==='podarm')toast('Spring pod arming! Step outside the marked area.');if(e.type==='hazardwarning')toast(e.strength===3?'Wind is coming! Watch the arrows.':e.strength===2?'Look out! Move clear of the red circles.':'A tile is falling! Move off the gold block.');if(e.type==='crateopen'&&e.source===playerId())toast('Crate opened! Walk near the revealed item to pick it up.');if(e.type==='tilewarning')toast('A marked tile is falling! Step clear.');if(e.type==='warning')toast('The edge is about to shrink. Head inward!');}updateHud();});
+    if(playing)alpha=session.advance(dt,()=>cameraRelative(input.sample(),view.cameraMode==='arena'?0:look.yaw,view.cameraMode!=='arena'),w=>{sound.update(w,playing,session.paused,playerId());view.events(w);for(const e of w.events){if(e.type==='pickup'&&e.source===playerId())toast(pickupHint(w.players.find(p=>p.id===playerId())?.heldItem?.kind),4000);if(e.type==='ringout'&&e.target===playerId())toast('You’re out! Watch the round, or pause to leave.');if(e.type==='podarm')toast('Spring pod arming! Step outside the marked area.');if(e.type==='hazardwarning')toast(e.strength===3?'Wind is coming! Watch the arrows.':e.strength===2?'Look out! Move clear of the red circles.':'A tile is falling! Move off the gold block.');if(e.type==='crateopen'&&e.source===playerId())toast('Crate opened! Walk near the revealed item to pick it up.');if(e.type==='tilewarning')toast('A marked tile is falling! Step clear.');if(e.type==='warning'&&!w.boss)toast('The edge is about to shrink. Head inward!');}updateHud();});
     sound.update(session.world,playing,session.paused,playerId());el('audio-status').textContent=sound.status;el('retry-audio').hidden=!sound.retryAvailable;
     if(time>toastUntil)el('toast').textContent='';view.render(session.world,session.previous,alpha,session.paused&&!(session instanceof OnlineSession)?0:dt);requestAnimationFrame(frame);};requestAnimationFrame(frame);
   // Read-only QA snapshot; no state mutation or outcome injection.

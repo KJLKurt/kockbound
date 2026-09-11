@@ -1,3 +1,4 @@
+import {friendlySource} from '../content/party.ts';
 import {itemDirection} from './item-aim.ts';
 import {closestGroundItem} from '../content/item-pickup.ts';
 import {stepPods} from './pods.ts';
@@ -26,7 +27,7 @@ export function stepItems(w:World,commands:readonly Input[],random:(w:World)=>nu
   stepRanged(w,commands,emit);
   for(let i=state.ground.length-1;i>=0;i--){const item=state.ground[i];if(!item.thrown&&!supported(w,item.x,item.z)){state.ground.splice(i,1);continue;}item.x+=item.vx*.05;item.z+=item.vz*.05;if(now>=item.expiresAt){if(item.kind==='bomb')explosions.push(item);state.ground.splice(i,1);}}
   for(const p of w.players)if(p.alive&&p.heldItem&&now>=p.heldItem.expiresAt){const bomb=p.heldItem.kind==='bomb';p.heldItem=null;if(bomb)explosions.push({x:p.x,z:p.z,owner:p.id});}
-  for(const explosion of explosions){const definition=explosion.pod?ITEM_DEFINITIONS.pod:ITEM_DEFINITIONS.bomb;emit(w,'blast',explosion.x,explosion.z,explosion.owner??undefined,undefined,definition.blastRadius);for(const p of w.players){if(!p.alive)continue;const dx=p.x-explosion.x,dz=p.z-explosion.z,d=Math.hypot(dx,dz);if(d>definition.blastRadius)continue;const power=definition.push*(1-.35*d/definition.blastRadius)*(1+p.vulnerability)/playerMass(p);p.ix+=(d?dx/d:p.facingX)*power;p.iz+=(d?dz/d:p.facingZ)*power;p.stunnedUntil=Math.max(p.stunnedUntil??0,now+definition.stunTicks);p.dashTicks=0;p.vx=p.vz=0;p.lastHitTick=w.tick;p.lastHitBy=explosion.owner===p.id?null:explosion.owner;p.vulnerability=Math.min(w.config.rules.vulnerabilityCap,p.vulnerability+w.config.rules.vulnerabilityGain);if(p.lastHitBy){const source=w.players.find(q=>q.id===p.lastHitBy);if(source)source.hits++;}emit(w,'hit',p.x,p.z,explosion.owner??undefined,p.id,power);}}
+  for(const explosion of explosions){const definition=explosion.pod?ITEM_DEFINITIONS.pod:ITEM_DEFINITIONS.bomb;emit(w,'blast',explosion.x,explosion.z,explosion.owner??undefined,undefined,definition.blastRadius);for(const p of w.players){if(!p.alive||friendlySource(w,explosion.owner,p))continue;const dx=p.x-explosion.x,dz=p.z-explosion.z,d=Math.hypot(dx,dz);if(d>definition.blastRadius)continue;const power=definition.push*(1-.35*d/definition.blastRadius)*(1+p.vulnerability)/playerMass(p);p.ix+=(d?dx/d:p.facingX)*power;p.iz+=(d?dz/d:p.facingZ)*power;p.stunnedUntil=Math.max(p.stunnedUntil??0,now+definition.stunTicks);p.dashTicks=0;p.vx=p.vz=0;p.lastHitTick=w.tick;p.lastHitBy=explosion.owner===p.id?null:explosion.owner;p.vulnerability=Math.min(w.config.rules.vulnerabilityCap,p.vulnerability+w.config.rules.vulnerabilityGain);if(p.lastHitBy){const source=w.players.find(q=>q.id===p.lastHitBy);if(source)source.hits++;}emit(w,'hit',p.x,p.z,explosion.owner??undefined,p.id,power);}}
 }
 
 

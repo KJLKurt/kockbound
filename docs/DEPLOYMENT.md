@@ -2,6 +2,8 @@
 
 The solo game and bots run entirely in the browser. GitHub Pages serves the compiled files; no Cloudflare account, room server, database, or API key is required. Room play stays hidden in the static build.
 
+Version0.13.0 adds **Match setup → Free-for-all / Team Arena / Boss co-op**, participant count up to12, valid equal team sizes and Cloud King/Tempest encounters. Pages still has one human; bots fill the other seats. Team/boss gameplay works locally in the browser. The online room UI supports up to12 human seats when served by the backend; publishing to Pages does not connect separate phones together. See [party rules](PARTY_MODE_CONTRACT.md).
+
 ## One-time setup
 
 1. Push this project, including `.github/workflows/pages.yml` and `pnpm-lock.yaml`, to your GitHub repository. Do not commit `node_modules` or `dist`.

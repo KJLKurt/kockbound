@@ -1,3 +1,4 @@
+import {configureParty} from '../../shared/content/party.ts';
 import {validRoomOptions} from '../../shared/content/items.ts';
 import {localConfig,PROTOCOL_VERSION,CONTENT_RELEASE} from '../../shared/content/arena.ts';
 import {RoomAuthority} from '../game-room/authority.ts';
@@ -75,7 +76,8 @@ export class GameRoom {
       if(this.record)return json(409,{error:'Room identity already used'});
       const options=await request.json();if(!validRoomOptions(options))return json(400,{error:'Invalid room options'});const {humanCount}=options;
       if(!Number.isInteger(humanCount)||humanCount<1||humanCount>12)return json(400,{error:'Invalid human count'});
-      const config=localConfig(crypto.getRandomValues(new Uint32Array(1))[0],Math.max(4,humanCount));config.matchId=`room-${create[1]}`;if(options.items?.length)config.items=options.items;if(options.hazards?.length)config.hazards=options.hazards;
+      const config=localConfig(crypto.getRandomValues(new Uint32Array(1))[0],options.totalCount??Math.max(4,humanCount));config.matchId=`room-${create[1]}`;if(options.items?.length)config.items=options.items;if(options.hazards?.length)config.hazards=options.hazards;
+      configureParty(config,options);
       config.roster.forEach((p,i)=>{p.control=i<humanCount?'human':'bot';if(i<humanCount)p.name=`Player ${i+1}`;});
       this.record={roomId:create[1],status:'unfinished'};await this.state.storage.put('room',this.record);
       this.tickets=Array.from({length:humanCount},ticket);this.claimed=1;this.createdAt=Date.now();

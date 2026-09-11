@@ -14,6 +14,10 @@ test('static builds resolve entrypoints, models and audio at root and project pa
       await fs.access(`dist/${file}`);
     }
     assert.ok(html.includes(`href="${base}"`));
+    const profileURL=new URL('../../content/bosses/cloud-king.js',`https://example.test${base}shared/content/party.js`);
+    assert.equal(profileURL.pathname,`${base}content/bosses/cloud-king.js`);
+    await fs.access('dist/content/bosses/cloud-king.js');
+    assert.ok((await fs.readFile('dist/shared/content/party.js','utf8')).includes('../../content/bosses/cloud-king.js'));
     for (const [module,relative] of [
       ['client/audio/sound.js','../../assets/runtime/audio.sky-ring/r001/'],
       ['client/rendering/arena-view.js','../../assets/runtime/'],

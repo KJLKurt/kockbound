@@ -1,6 +1,14 @@
-import type { World } from '../game-types/index.ts';
+import type { World,Player } from '../game-types/index.ts';
 
-export interface ModeHandler { update(world: World): void; determineOutcome(world: World): void }
+export interface ModeHandler {
+  initialize?(world:World):void;
+  beforeStep?(world:World):void;
+  substep?(world:World,seconds:number):void;
+  botIntent?(world:World,player:Player):{x:number;z:number;dash:boolean};
+  shrinks?:boolean;
+  update(world: World): void;
+  determineOutcome(world: World): void;
+}
 export const arenaMode: ModeHandler = {
   update(w) {
     const r = w.config.rules;

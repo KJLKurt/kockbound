@@ -1,5 +1,27 @@
 # Project status
 
+## Multi-team Arena and cooperative Cloud King — 2026-09-10
+
+Explicit user implementation request completed as a playable 0.13.0 candidate. Match setup selects free-for-all, Team Arena or Boss co-op and 2–12 participants. Team size supports every valid equal split with 2–6 members and at least two teams, including 2v2v2 and 3v3v3v3. Team IDs, bot targeting, friendly attack immunity, team outcomes, HUD and victory audio use the shared contract. Rooms expose up to 12 human seats; Pages remains one human with bot fill.
+
+Cloud King and the authored Tempest variant have two phases, three chargeable runes, a dash-pushed core, boulder/sweep telegraphs, scaled objective counts, recovery, victory and wipe/timeout defeat. Bots complete objectives with ordinary inputs. Boss floors stay intact; other chosen falling content remains. The procedural crown/cloud/face/hands/core visual follows the original concept vocabulary; it is an encounter candidate, not a finished Blender reproduction. [Contract](PARTY_MODE_CONTRACT.md) records exact rules and limits.
+
+Final full suite: **115/115 passed**, 383.259s, including twelve-human socket checks, complete team/boss local-authority parity, deterministic bot completion of both boss variants at 4 and 12 participants, reconnect/restart, and existing gameplay checks. Typecheck exit 0. Worker dry-run passed with pinned Node 24 outside the sandbox after a directory-access error and an initial retry selecting system Node 18; no deployment/resources created. Desktop 3v3v3v3, 390px 2v2v2 setup, boss phone layout and corrected desktop boss framing visually inspected. Normal browser co-op with falling content completed in 34s with an idle human and three bot allies. [Evidence](../tests/evidence/M4-party-modes/README.md) records final build and browser checks.
+
+Next: user publishes through Pages Actions and playtests team/boss feel on physical phones. Existing dev servers need restarting for the new `content/` module route and 0.13.0 server rules. No deployment performed, no physical 12-player performance claim, and no completion claim for all M4: controller/local-human seats, Hill, second map and remaining device/public-hosting gates are still open. The earlier mode-priority question is superseded by the explicit implementation request.
+
+Final integration cleanup routes boss lifecycle and bot behavior through ModeHandler hooks. After that refactor, party/simulation checks passed 21/21, typecheck and root build passed; the 115-test full suite and Worker dry-run preceded the refactor. Root/project-subdirectory static checks passed 2/2. Final browser warning/error console was empty, viewport reset, temporary tab/server closed; existing port 4179 server untouched.
+
+## Party-mode feedback and scope clarification — 2026-09-10
+
+User reports falling content is popular and requests more participants, teams with selectable sizes, and original-concept boss co-op. Inspected current implementation: Pages is fixed1human+3bots FFA; room menu max4humans; shared config supports up to12 but teams/boss/local multi-human seats are unimplemented. [Party-mode plan](PARTY_MODE_PLAN.md) records proposed increments and acceptance work. User priority question pending: Pages modes with bots or friends on separate phones first. No gameplay changes or tests in this feedback/planning increment; no deployment. D86 modifications remain preserved.
+
+## Stronger pushes and persistent duel buildup — 2026-09-10
+
+User relayed positive player feedback and requested more impact in difficult 1v1 finishes. D86 playtest candidate raises base dash/shovel impulse7→8.5 and per-hit vulnerability.2→.3; recovery begins after6 seconds (was2), at.05/s (was.1). Movement/dash timing, vulnerability cap2 and impulse speed cap22 are unchanged. Shared local/online/human/bot rules remain identical; item-hit buildup shares the tuning and wind's existing falloff floor follows the dash baseline. Compatibility0.12.7. HUD already displays extra knockback percentage.
+
+Controlled four-second exchanges: old pushes remained7 on all four hits; new8.5/11.05/13.6/16.15. Measured target displacement2.023 each old hit versus2.392/3.020/3.648/4.319 units. Direct typecheck and root static build passed. Final simulation12/12 passed, including10,000-tick replay and20 seeded rounds; other40 targeted authority/network/item tests passed. Browser solo round completed (Clover winner,17s, idle human); screenshot inspected and console warning/error list empty. This is functional verification, not player approval of the new feel. [Evidence](../tests/evidence/M3-duel-knockback/README.md) records full-suite outcome and limitations. Next: publish through the existing Pages workflow and gather player feedback on this candidate; no deployment performed. Scope remains this feedback adjustment, not autonomous milestone work.
+
 ## Solo GitHub Pages deployment preparation — 2026-09-10
 
 User requested GitHub Actions publishing under the repository-name subdirectory for phone testing. Added `.github/workflows/pages.yml`, deployment guide, validated `BASE_PATH` static build option, and module-relative model/audio URLs. Static output keeps multiplayer disabled; root builds and Cloudflare config remain supported. No gameplay feature work resumed and no deployment executed.
@@ -484,3 +506,5 @@ Branch recovery validation is recorded separately in [M0 branch recovery evidenc
 
 
 
+
+2026-09-10 D86 final verification: FULL105/105 PASS110.635s on0.12.7, including10 real four-client WebSocket rounds and OnlineSession round. M3-duel-knockback/full-tests.txt records output. Temporary4193/tab closed; root build complete. Candidate awaits player feedback; no deployment.

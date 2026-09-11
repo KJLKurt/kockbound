@@ -58,3 +58,16 @@
   #pickup-hint,#pickup-hint.with-item{bottom:70px;max-width:calc(100% - 340px)}
   #item-hud{right:max(18px,env(safe-area-inset-right));bottom:155px}
 }
+/* Party setup keeps the lobby compact; detailed controls live in a scrollable modal. */
+#party-open{display:block;margin:5px auto 0;font-size:12px;padding:8px;min-height:40px}
+#party-summary{max-width:260px;white-space:normal;line-height:1.4}
+#party-panel .modal{max-height:90dvh;overflow:auto}
+#party-help,#room-format{font-size:13px;line-height:1.6}
+#objective-hud{position:fixed;top:94px;left:50%;transform:translateX(-50%);width:min(440px,90vw);background:#fff9edee;border:1px solid #dfcfa5;border-radius:14px;padding:10px 15px;text-align:center;z-index:4;pointer-events:none;color:#193e54}
+#objective-hud strong,#objective-hud span,#objective-hud b{display:block;font-size:12px;line-height:1.5}
+#objective-hud b{color:#b23e2a;min-height:18px}
+@media(max-width:580px){#party-summary{max-width:210px;font-size:10px}#objective-hud{top:116px;padding:6px 10px}#objective-hud strong,#objective-hud span,#objective-hud b{font-size:10px}.roster{max-height:34vh;overflow:auto}}
+@media(max-height:500px){#objective-hud{top:60px;max-width:340px;padding:4px 10px}#party-open{padding:4px;min-height:32px}}
+@media(min-width:851px){#objective-hud{top:110px;left:auto;right:20px;transform:none;width:270px}}
+@media(max-width:580px){.boss-play .roster{display:none}#objective-hud{top:145px}}
+@media(min-width:581px) and (max-width:850px){#objective-hud{top:105px;left:auto;right:10px;transform:none;width:190px;padding:7px}#objective-hud strong,#objective-hud span,#objective-hud b{font-size:10px}}

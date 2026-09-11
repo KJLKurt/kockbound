@@ -1,5 +1,11 @@
 # Start here: Knockbound implementation handoff
 
+Latest 2026-09-10: explicit user request for multi-team layouts and boss co-op implemented as 0.13.0. Match setup supports 2–12 participants, equal teams including 2v2v2 and 3v3v3v3, and two-phase Cloud King/Tempest co-op with ordinary-input bot allies. Online room UI supports up to 12 human seats. Final 115/115 tests, typecheck and Worker dry-run passed; desktop/390px visuals inspected. See docs/PARTY_MODE_CONTRACT.md and tests/evidence/M4-party-modes. No deployment. Other M4 requirements and physical-phone/Cloudflare runtime gates remain open. Restart existing development servers to load the new content route and server rules; old 0.12.x clients/rooms are incompatible.
+
+Final 0.13.0 integration cleanup moved boss behavior behind ModeHandler hooks: subsequent party/simulation checks 21/21, typecheck and root build passed. Full 115-test suite and Worker dry-run preceded that refactor. Static root/subdirectory checks passed 2/2. Browser console clean; temporary playtest tab/server closed.
+
+Latest2026-09-10: user requested stronger pushes/accumulated vulnerability after positive player feedback and difficult1v1 finishes. D86 tuning candidate0.12.7 implemented in shared rules. See latest STATUS and M3-duel-knockback evidence. User playtest of new feel pending; no deployment or broader milestone resumption.
+
 Latest 2026-09-10: user requested solo GitHub Actions/Pages preparation for a repository subdirectory. Workflow and [deployment guide](docs/DEPLOYMENT.md) added; root/project static checks and browser round pass. No deployment, Cloudflare enablement, or resumed gameplay feature work. See M3-pages evidence and latest STATUS entry. User's next step is enabling Pages with GitHub Actions and pushing the files.
 
 Read AGENTS.md, docs/STATUS.md, docs/DECISIONS.md, then the canonical specification documents linked from README.md. Consult docs/SOURCE_COVERAGE.md when tracing prior design. All 89 foundation sections were read; later local-play, modes, content-platform and production-quality discussions are incorporated.

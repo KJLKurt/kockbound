@@ -29,11 +29,11 @@ export const server = http.createServer(async (req,res) => {
     }
     let relative = pathname === '/' ? 'index.html' : pathname.slice(1);
     if (!isBuild && relative.startsWith('three/')) relative = 'node_modules/three/'+relative.slice(6);
-    if (!/^(index\.html|client\/|shared\/|assets\/runtime\/|node_modules\/three\/|three\/)/.test(relative)) { res.writeHead(404).end(); return; }
+    if (!/^(index\.html|client\/|shared\/|content\/|assets\/runtime\/|node_modules\/three\/|three\/)/.test(relative)) { res.writeHead(404).end(); return; }
     const file = path.resolve(root,relative);
     if (!file.startsWith(root+path.sep)) { res.writeHead(403).end(); return; }
     const canonical = path.relative(root,file).split(path.sep).join('/');
-    if (!/^(index\.html$|client\/|shared\/|assets\/runtime\/|node_modules\/three\/|three\/)/.test(canonical)) { res.writeHead(403).end(); return; }
+    if (!/^(index\.html$|client\/|shared\/|content\/|assets\/runtime\/|node_modules\/three\/|three\/)/.test(canonical)) { res.writeHead(403).end(); return; }
     let data = await fs.readFile(file);
     if (canonical==='index.html' && transport) data=Buffer.from(data.toString().replace('data-multiplayer="false"','data-multiplayer="true"'));
     if(canonical==='index.html'&&loadQA)data=Buffer.from(data.toString().replace('</body>','<script type="module" src="/qa-load.js"></script></body>'));

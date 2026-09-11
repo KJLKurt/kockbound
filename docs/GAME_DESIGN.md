@@ -26,13 +26,16 @@ Round lifecycle: lobby → matchmaking/assignment → content loading → 5-seco
 
 | Experience | Role | Planned stage |
 |---|---|---|
-| Arena | Free-for-all last survivor; future team variant | M1–M3 |
+| Arena | Free-for-all last survivor; see Team Arena below | M1–M3 |
+| Team Arena | Equal teams including2v2v2 and3v3v3v3; last surviving team wins | Implemented0.13.0; player testing pending |
 | King of the Hill | Hold a zone; contested zone earns no score | M4 |
 | Boss Battle | Co-op objectives, telegraphed pushes and vulnerable phases | M4 |
 | Local Party | 2–4 same-device humans plus bots using supported modes | M4; solo bots in M1 |
 | Team Knockout, Crown Chase, Treasure Grab, Hot Potato | Later competitive variety | Future catalog |
 | Survival Waves, Boss Rush, Raid Escape, Protect the VIP | Later structured cooperation | Future catalog |
 | Race, Infection, Payload Push, Relic Hold, Bounty Hunt, Zone Collapse, Capture the Creature | Experiments using shared interactions | Future catalog |
+
+Current team and boss implementation details, limits and authored variants: [party-mode contract](PARTY_MODE_CONTRACT.md).
 
 Co-op can target 5–10-minute sessions; it does not replace short standard rounds. Bosses reuse pushing, switches, hazards and objective objects rather than introducing unrelated RPG combat. Example encounter: dodge shockwaves, activate switches, expose boss, push energy objects into weak points, transition phase. Names Cloud King and Sky Titan are exploratory alternatives, not two committed encounters.
 

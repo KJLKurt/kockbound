@@ -19,7 +19,7 @@ async function copyTree(relative, destination=relative) {
     }
   }
 }
-await copyTree('client'); await copyTree('shared'); await copyTree('assets/runtime');
+await copyTree('client'); await copyTree('shared'); await copyTree('content'); await copyTree('assets/runtime');
 await copyTree('node_modules/three/build','three/build'); await copyTree('node_modules/three/examples/jsm','three/examples/jsm');
 await fs.copyFile(path.join(root,'node_modules/three/LICENSE'),path.join(out,'three/LICENSE'));
 await fs.writeFile(path.join(out,'index.html'),(await fs.readFile(path.join(root,'index.html'),'utf8')).replaceAll('.ts"','.js"').replaceAll('"/','"'+basePath));

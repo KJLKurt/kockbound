@@ -5,6 +5,7 @@ import {ITEM_DEFINITIONS,isRanged} from '../content/items.ts';
 import { CONTENT_RELEASE, PROTOCOL_VERSION } from '../content/arena.ts';
 import type { Input, World } from '../game-types/index.ts';
 import { validateConfig } from '../content/arena.ts';
+import {validPartyState} from './party-validation.ts';
 
 export type Admission = {roomId:string;participantId:string;ticket:string;protocolVersion:string;contentReleaseId:string};
 
@@ -65,8 +66,9 @@ export function parseServerMessage(raw: unknown): ServerMessage | null {
     }
     if(!Array.isArray(w.events)||w.events.length>512)return null;
     for(const e of w.events)if(!e||typeof e.id!=='string'||e.id.length>160||!sequence(e.tick)||e.tick>w.tick||!['go','dash','hit','ringout','result','warning','pickup','throw','drop','blast','rescue','shot','tilewarning','crateopen','hazardwarning','skyimpact','podarm'].includes(e.type)||!Number.isFinite(e.x)||!Number.isFinite(e.z))return null;
-    if(w.result!==null && (!record(w.result)||w.result.matchId!==w.config.matchId||!['winner','draw','cancelled'].includes(w.result.outcome)||!sequence(w.result.tick)||w.result.origin!=='local-practice'||(w.result.winnerId!==null&&!w.players.some(p=>p.id===w.result!.winnerId))))return null;
+    if(w.result!==null && (!record(w.result)||w.result.matchId!==w.config.matchId||!['winner','draw','cancelled','defeat'].includes(w.result.outcome)||!sequence(w.result.tick)||w.result.origin!=='local-practice'||(w.result.winnerId!==null&&!w.players.some(p=>p.id===w.result!.winnerId))))return null;
     if((w.phase==='results')!==(w.result!==null))return null;
+    if(!validPartyState(w))return null;
     return m as ServerMessage;
   }catch{return null;}
 }

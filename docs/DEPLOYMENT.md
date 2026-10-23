@@ -12,7 +12,7 @@ Version0.13.0 adds **Match setup → Free-for-all / Team Arena / Boss co-op**, p
 4. Open **Actions → Deploy solo demo to GitHub Pages → Run workflow**, or push a change to the configured branch. Manual runs become available once the workflow is on the default branch.
 5. Open the URL shown in the successful deployment, normally `https://YOURNAME.github.io/REPOSITORY_NAME/`. Open the same URL on your phone. Your computer can be off and the phone need not share its Wi-Fi.
 
-The workflow installs Node 24.19.0 and pnpm 11.19.0, installs locked dependencies, runs typecheck, builds the solo game, uploads only `dist`, and deploys it using GitHub's Pages actions. Repository name and capitalization are picked up automatically. GitHub's built-in workflow token handles publishing; no personal token is needed.
+The workflow installs Node 24.22.1 and pnpm 11.19.0, installs locked dependencies, runs typecheck, builds the solo game, uploads only `dist`, and deploys it using GitHub's Pages actions. Repository name and capitalization are picked up automatically. GitHub's built-in workflow token handles publishing; no personal token is needed.
 
 This workflow targets a project site under the repository name. For a root site or custom domain, change its build command to plain `pnpm build` instead of setting `BASE_PATH`.
 

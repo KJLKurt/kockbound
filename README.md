@@ -13,7 +13,7 @@ Use **Match setup** to choose free-for-all, teams (including2v2v2 and3v3v3v3), o
 
 For a hosted solo demo and phone testing, follow the [GitHub Actions / GitHub Pages deployment guide](docs/DEPLOYMENT.md). The included workflow builds for your repository subdirectory and publishes pushes to `main` after you enable Pages with GitHub Actions.
 
-Use Node **24.19.0** and pnpm **11.19.0**. No cloud account or credentials are needed.
+Use Node **24.22.1** and pnpm **11.19.0**. No cloud account or credentials are needed.
 
 ```powershell
 pnpm install --frozen-lockfile --ignore-scripts

@@ -2,7 +2,7 @@
 
 Start with [the character contract](../../docs/CHARACTER_ASSET_CONTRACT.md) and [r002 evidence/limitations](../../tests/evidence/asset-pipeline-r002/README.md). One Sprout-derived prototype exists; no finished catalog or game runtime is implied.
 
-Pinned tools: Blender 5.2.1 LTS, build `9e2066aef7ef`, bundled Khronos glTF Blender I/O v5.2.40; Node 24.19.0; pnpm 11.19.0; Three.js 0.180.0; gltf-validator 2.0.0-dev.3.10. pnpm-lock.yaml records package integrity. Only two tooling dependencies; no client framework.
+Pinned tools: Blender 5.2.1 LTS, build `9e2066aef7ef`, bundled Khronos glTF Blender I/O v5.2.40; Node 24.22.1; pnpm 11.19.0; Three.js 0.180.0; gltf-validator 2.0.0-dev.3.10. pnpm-lock.yaml records package integrity. Only two tooling dependencies; no client framework.
 
 ## Commands from repository root (PowerShell)
 
